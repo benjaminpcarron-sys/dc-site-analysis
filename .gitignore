@@ -1,0 +1,13 @@
+# Data cache (large parquet + geojson files)
+data/cache/
+data/downloads/
+data/geocode_cache.json
+
+# Python
+__pycache__/
+*.pyc
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

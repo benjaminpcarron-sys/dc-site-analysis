@@ -1,0 +1,142 @@
+# Data Center Site Pre-Feasibility Report
+**Address:** Houston, TX
+**Coordinates:** 29.758938 N, -95.367697 W
+**State:** TX | **County:** Harris County
+**Report Date:** 2026-03-30
+**Target Capacity:** 500 MW
+
+---
+
+## Executive Summary
+**Overall Site Rating: 3.1 / 5.0 (Moderate)**
+
+Highest voltage line: 345.0 kV (345) at 9.7 km, owned by CENTERPOINT ENERGY HOUSTON ELECTRIC, LLC. Estimated grid capacity without major upgrades: ~600 MW. Connecting substations: WHITE OAK to NOT AVAILABLE. Nearest substation (Downtown) is 0.7 km away, which reduces interconnection cost.
+ Utility service territory: **SAN BERNARD ELECTRIC COOP, INC** (SAN BERNARD ELECTRIC COOP, INC).
+
+## 1. Power Infrastructure
+
+### Transmission Lines (within 30 km)
+| Class | Voltage | Dist (km) | Owner | Substations |
+| --- | --- | --- | --- | --- |
+| 345 | 345 kV | 9.7 | CENTERPOINT ENERGY HOUSTON ELECTRIC | WHITE OAK |
+| 100-161 | 138 kV | 0.5 | CENTERPOINT ENERGY HOUSTON ELECTRIC | DOWNTOWN - POLK |
+| UNDER 100 | 69 kV | 1.4 | CENTERPOINT ENERGY HOUSTON ELECTRIC | DOWNTOWN - HYDE PARK |
+| NOT AVAILABLE | NOT AVAILABLE | 14.3 | CENTERPOINT ENERGY HOUSTON ELECTRIC |  |
+
+### Substations (within 30 km)
+| Name | Type | Dist (km) | Max Voltage |
+| --- | --- | --- | --- |
+| Downtown | Existing | 0.7 | 138.00 kV |
+| Hyde Park | Existing | 2.0 | 69.00 kV |
+| Bellaire | Existing | 8.9 | 345.00 kV |
+| White Oak | Existing | 9.0 | 345.00 kV |
+| Jeanetta | Existing | 16.9 | 345.00 kV |
+
+### Grid Adequacy Assessment
+- **Estimated Capacity:** 600 MW
+- **Upgrade Required:** No
+- **Confidence:** medium
+- **Score:** [++++-] (4/5)
+
+## 2. Utility & Rates
+- **Utility:** SAN BERNARD ELECTRIC COOP, INC
+- **Control Area / ISO:** ERCO
+- **Holding Company:** SAN BERNARD ELECTRIC COOP, INC
+- **Customers Served:** 31,775
+- **Industrial Rate:** Not available
+
+## 3. DC Tariff Provisions
+_No DC-specific tariff identified for this state (TX)._
+
+## 4. State Tax Incentives (TX)
+- **Sales Tax Exemption:** Yes
+- **Property Tax Abatement:** Yes
+- **Income Tax Credit:** No
+- **Investment Threshold:** $200M
+- **Job Requirement:** 20
+- **Duration:** 10 years
+- **Summary:** Ch. 313/Ch. 403 property tax abatement. Sales tax exemption on equipment. No state income tax.
+
+## 5. Environmental & Regulatory Risk
+
+### Air Quality NonAttainment Zones
+**WARNING: Site is in one or more EPA nonattainment areas.**
+Backup generators and cooling systems may require stricter permitting (BACT/LAER, emission offsets).
+
+| Pollutant | Area | Classification | Status |
+| --- | --- | --- | --- |
+| Ozone (8-hr, 2015) | Houston-Galveston-Brazoria | Serious | Nonattainment |
+
+### Flood Zone: Data not available
+FEMA NFHL query returned no results for this location.
+
+### Environmental Justice: **Disadvantaged Community (Justice40)**
+Site is in a federally designated disadvantaged community. Regulatory agencies may require additional EJ analysis and community engagement.
+- **Census Tract:** 48201100000
+- **Diesel PM Percentile:** 0.31
+- **PM2.5 Percentile:** 0.9
+- **Low Income Percentile:** 0.6
+- **Housing Burden Percentile:** 0.21
+
+### Seismic Hazard: **SDC A** (Low)
+- **Peak Ground Acceleration:** 0.043g
+- **Ss (short-period):** 0.081g | **S1 (1-sec):** 0.044g
+- Standard construction practices adequate.
+
+### Climate & Land Cost
+- **Cooling Degree Days:** 2,738 (Hot (significant cooling costs))
+- **Avg Farmland Value:** $3,000/acre (USDA state average; DC-zoned land typically 3-10x)
+- **Est. Land Cost (150 acres at ~5x farmland):** $2M
+
+## 6. Gas Infrastructure
+_No gas pipelines found within 50 km._
+
+## 7. Water Resources
+_No water facilities found within 30 km._
+
+## 8. Transportation Access
+_No interstate/US highways found within 30 km._
+
+## 9. Telecommunications
+_No fiber routes found within 30 km._
+
+## 10. Interconnection Queue (TX)
+| Technology | Stage | Projects | Total MW |
+| --- | --- | --- | --- |
+| gas_ct | under_construction | 3 | 1,549 |
+| gas_cc | speculative | 2 | 1,392 |
+| gas_cc | contracted | 2 | 1,323 |
+| nuclear | contracted | 1 | 900 |
+| solar | early_development | 3 | 737 |
+| nuclear | early_development | 1 | 628 |
+| gas_ct | progressing | 1 | 544 |
+| gas_ct | speculative | 1 | 516 |
+| wind | early_development | 2 | 493 |
+| solar | progressing | 1 | 479 |
+
+
+## 11. Nearby Data Center Activity (within 50 km)
+| Project | Owner | MW | Utility | Dist (km) |
+| --- | --- | --- | --- | --- |
+| TRG Houston | TRG Datacenters #lik | 24 | CenterPoint Energy | 1.0 |
+
+
+**1 facilities** totaling **24 MW** within 50 km.
+
+## 12. Site Suitability Score
+| Factor | Score | Value | Weight |
+| --- | --- | --- | --- |
+| Grid Access | [++++-] | 4/5 | 20% |
+| Utility Rate | [+++--] | 3/5 | 15% |
+| Environmental | [+++--] | 3/5 | 15% |
+| Fiber/Telecom | [++---] | 2/5 | 10% |
+| Water | [++---] | 2/5 | 5% |
+| Transportation | [++---] | 2/5 | 5% |
+| Tax Incentives | [++++-] | 4/5 | 15% |
+| DC Tariff Risk | [+++--] | 3/5 | 15% |
+
+
+**Weighted Total: 3.1 / 5.0**
+
+---
+*Generated by dc-site-analysis. Data sources: HIFLD, NTAD, EPA, OSM, EIA-861, demand_ledger.*
