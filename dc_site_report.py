@@ -202,10 +202,12 @@ def main():
 
     # Step 4: Reference data
     from reference_data import get_dc_tariffs, get_state_incentives, get_cooling_degree_days, get_land_value
+    from research_links import generate_research_links
     dc_tariffs = get_dc_tariffs(state, utility_name) if state else []
     tax_incentives = get_state_incentives(state) if state else None
     cooling_dd = get_cooling_degree_days(state) if state else None
     land_value = get_land_value(state) if state else None
+    research_links = generate_research_links(state, geo.get("county", ""), utility_name, args.address) if state else []
 
     # Step 5: Grid assessment
     from grid_assessment import assess_grid
@@ -243,6 +245,7 @@ def main():
         "osm_landuse": osm_landuse,
         "cooling_degree_days": cooling_dd,
         "land_value_per_acre": land_value,
+        "research_links": research_links,
     }
 
     # Step 7: Score

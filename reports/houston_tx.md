@@ -2,7 +2,7 @@
 **Address:** Houston, TX
 **Coordinates:** 29.758938 N, -95.367697 W
 **State:** TX | **County:** Harris County
-**Report Date:** 2026-04-01
+**Report Date:** 2026-04-02
 **Target Capacity:** 500 MW
 
 ---
@@ -131,7 +131,33 @@ _No fiber routes found within 30 km._
 
 **1 facilities** totaling **24 MW** within 50 km.
 
-## 13. Site Suitability Score
+## 13. Research Links
+Pre-built search links for deeper due diligence:
+
+**Federal:**
+- [FERC eLibrary](https://elibrary.ferc.gov/eLibrary/search?q=%22SAN%20BERNARD%20ELECTRIC%20COOP%2C%20INC%22%20%22large%20load%22) -- Federal interconnection filings, tariff amendments, large load agreements
+  - Search: `"SAN BERNARD ELECTRIC COOP, INC" "large load"`
+**Interconnection:**
+- [ERCOT Interconnection Queue](https://www.ercot.com/gridinfo/generation) -- Generator and large load interconnection requests in ERCOT
+  - Search: `Harris County`
+**Regulatory:**
+- [Public Utility Commission of Texas](https://interchange.puc.texas.gov/search/filings/) -- Utility rate cases, large load tariff filings, service agreements
+  - Search: `SAN BERNARD ELECTRIC COOP, INC large load`
+**Environmental:**
+- [TCEQ](https://www2.tceq.texas.gov/oce/eer/index.cfm) -- Air construction permits, NPDES permits, environmental reviews
+  - Search: `Harris County data center`
+**Local:**
+- [Harris County Building Permits](https://www.google.com/search?q=Harris%20County%20TX%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans
+  - Search: `Harris County TX building permit data center`
+- [Harris County Zoning / GIS](https://www.google.com/search?q=Harris%20County%20TX%20zoning%20map%20GIS) -- County zoning maps, land use plans, parcel viewer
+  - Search: `Harris County TX zoning map GIS`
+- [Harris County Planning Commission](https://www.google.com/search?q=Harris%20County%20TX%20planning%20commission%20agenda%20data%20center) -- Planning commission meeting agendas, CUP applications, public hearings
+  - Search: `Harris County TX planning commission agenda data center`
+**Incentives:**
+- [TX Economic Development](https://www.google.com/search?q=TX%20economic%20development%20data%20center%20incentive%20application) -- State incentive programs, enterprise zones, tax abatement applications
+  - Search: `TX economic development data center incentive application`
+
+## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [++++-] | 4/5 | 20% |

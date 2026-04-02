@@ -2,7 +2,7 @@
 **Address:** 1435 Hwy 54 W, Fayetteville, GA 30214
 **Coordinates:** 33.445354 N, -84.525482 W
 **State:** GA | **County:** Fayette County
-**Report Date:** 2026-04-01
+**Report Date:** 2026-04-02
 **Target Capacity:** 500 MW
 
 ---
@@ -128,7 +128,33 @@ _No interconnection queue data available._
 
 **18 facilities** totaling **506 MW** within 50 km.
 
-## 13. Site Suitability Score
+## 13. Research Links
+Pre-built search links for deeper due diligence:
+
+**Federal:**
+- [FERC eLibrary](https://elibrary.ferc.gov/eLibrary/search?q=%22GA%22%20%22data%20center%22%20%22interconnection%22) -- Federal interconnection filings, tariff amendments, large load agreements
+  - Search: `"GA" "data center" "interconnection"`
+**Interconnection:**
+- [Southern/SOCO Interconnection Queue](https://www.oasis.oati.com/woa/docs/SPC/SPCdocs/SouthernCompaniesLargeLoad.html) -- Generator and large load interconnection requests in Southern/SOCO
+  - Search: `Fayette County`
+**Regulatory:**
+- [Georgia Public Service Commission](https://psc.ga.gov/search/) -- Utility rate cases, large load tariff filings, service agreements
+  - Search: `data center large load`
+**Environmental:**
+- [Georgia EPD](https://epd.georgia.gov/air/permit-search) -- Air construction permits, NPDES permits, environmental reviews
+  - Search: `Fayette County data center`
+**Local:**
+- [Fayette County Building Permits](https://www.google.com/search?q=Fayette%20County%20GA%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans
+  - Search: `Fayette County GA building permit data center`
+- [Fayette County Zoning / GIS](https://www.google.com/search?q=Fayette%20County%20GA%20zoning%20map%20GIS) -- County zoning maps, land use plans, parcel viewer
+  - Search: `Fayette County GA zoning map GIS`
+- [Fayette County Planning Commission](https://www.google.com/search?q=Fayette%20County%20GA%20planning%20commission%20agenda%20data%20center) -- Planning commission meeting agendas, CUP applications, public hearings
+  - Search: `Fayette County GA planning commission agenda data center`
+**Incentives:**
+- [GA Economic Development](https://www.google.com/search?q=GA%20economic%20development%20data%20center%20incentive%20application) -- State incentive programs, enterprise zones, tax abatement applications
+  - Search: `GA economic development data center incentive application`
+
+## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [+++++] | 5/5 | 20% |

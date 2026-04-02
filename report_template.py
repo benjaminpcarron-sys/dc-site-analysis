@@ -442,8 +442,25 @@ def generate_report(d):
         lines.append("_No data center projects found within 50 km._")
     lines.append("")
 
-    # 11. Scoring Summary
-    lines.append("## 13. Site Suitability Score")
+    # 13. Research Links
+    links = d.get("research_links", [])
+    if links:
+        lines.append("## 13. Research Links")
+        lines.append("Pre-built search links for deeper due diligence:")
+        lines.append("")
+        current_cat = None
+        for link in links:
+            cat = link.get("category", "")
+            if cat != current_cat:
+                current_cat = cat
+                lines.append(f"**{cat}:**")
+            lines.append(f"- [{link['name']}]({link['url']}) -- {link['description']}")
+            if link.get("search_terms"):
+                lines.append(f"  - Search: `{link['search_terms']}`")
+        lines.append("")
+
+    # 14. Scoring Summary
+    lines.append("## 14. Site Suitability Score")
     scores = d.get("scores", {})
     score_rows = []
     weights = {

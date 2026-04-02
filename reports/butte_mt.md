@@ -2,7 +2,7 @@
 **Address:** Butte, MT
 **Coordinates:** 46.013151 N, -112.536508 W
 **State:** MT | **County:** Silver Bow County
-**Report Date:** 2026-04-01
+**Report Date:** 2026-04-02
 **Target Capacity:** 500 MW
 
 ---
@@ -116,7 +116,33 @@ _No interconnection queue data available._
 
 **1 facilities** totaling **150 MW** within 50 km.
 
-## 13. Site Suitability Score
+## 13. Research Links
+Pre-built search links for deeper due diligence:
+
+**Federal:**
+- [FERC eLibrary](https://elibrary.ferc.gov/eLibrary/search?q=%22NORTHWESTERN%20ENERGY%20LLC%20-%20%28MT%29%22%20%22large%20load%22) -- Federal interconnection filings, tariff amendments, large load agreements
+  - Search: `"NORTHWESTERN ENERGY LLC - (MT)" "large load"`
+**Interconnection:**
+- [NWMT Interconnection Queue](https://www.northwesternenergy.com/transmission) -- Generator and large load interconnection requests in NWMT
+  - Search: `Silver Bow County`
+**Regulatory:**
+- [Montana Public Service Commission](https://dataportal.mt.gov/t/DOAPSC/views/PSCDashboard/) -- Utility rate cases, large load tariff filings, service agreements
+  - Search: `NORTHWESTERN ENERGY LLC - (MT) large load`
+**Environmental:**
+- [Montana DEQ](https://deq.mt.gov/air/airpermits) -- Air construction permits, NPDES permits, environmental reviews
+  - Search: `Silver Bow County data center`
+**Local:**
+- [Silver Bow County Building Permits](https://www.google.com/search?q=Silver%20Bow%20County%20MT%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans
+  - Search: `Silver Bow County MT building permit data center`
+- [Silver Bow County Zoning / GIS](https://www.google.com/search?q=Silver%20Bow%20County%20MT%20zoning%20map%20GIS) -- County zoning maps, land use plans, parcel viewer
+  - Search: `Silver Bow County MT zoning map GIS`
+- [Silver Bow County Planning Commission](https://www.google.com/search?q=Silver%20Bow%20County%20MT%20planning%20commission%20agenda%20data%20center) -- Planning commission meeting agendas, CUP applications, public hearings
+  - Search: `Silver Bow County MT planning commission agenda data center`
+**Incentives:**
+- [MT Economic Development](https://www.google.com/search?q=MT%20economic%20development%20data%20center%20incentive%20application) -- State incentive programs, enterprise zones, tax abatement applications
+  - Search: `MT economic development data center incentive application`
+
+## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [+----] | 1/5 | 20% |

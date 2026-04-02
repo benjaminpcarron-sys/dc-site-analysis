@@ -2,7 +2,7 @@
 **Address:** 5502 Spinks Rd, Abilene, TX 79601
 **Coordinates:** 32.494232 N, -99.800907 W
 **State:** TX | **County:** Taylor County
-**Report Date:** 2026-04-01
+**Report Date:** 2026-04-02
 **Target Capacity:** 500 MW
 
 ---
@@ -119,7 +119,33 @@ _No fiber routes found within 30 km._
 
 **2 facilities** totaling **295 MW** within 50 km.
 
-## 13. Site Suitability Score
+## 13. Research Links
+Pre-built search links for deeper due diligence:
+
+**Federal:**
+- [FERC eLibrary](https://elibrary.ferc.gov/eLibrary/search?q=%22AEP%20TEXAS%20NORTH%20COMPANY%22%20%22large%20load%22) -- Federal interconnection filings, tariff amendments, large load agreements
+  - Search: `"AEP TEXAS NORTH COMPANY" "large load"`
+**Interconnection:**
+- [ERCOT Interconnection Queue](https://www.ercot.com/gridinfo/generation) -- Generator and large load interconnection requests in ERCOT
+  - Search: `Taylor County`
+**Regulatory:**
+- [Public Utility Commission of Texas](https://interchange.puc.texas.gov/search/filings/) -- Utility rate cases, large load tariff filings, service agreements
+  - Search: `AEP TEXAS NORTH COMPANY large load`
+**Environmental:**
+- [TCEQ](https://www2.tceq.texas.gov/oce/eer/index.cfm) -- Air construction permits, NPDES permits, environmental reviews
+  - Search: `Taylor County data center`
+**Local:**
+- [Taylor County Building Permits](https://www.google.com/search?q=Taylor%20County%20TX%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans
+  - Search: `Taylor County TX building permit data center`
+- [Taylor County Zoning / GIS](https://www.google.com/search?q=Taylor%20County%20TX%20zoning%20map%20GIS) -- County zoning maps, land use plans, parcel viewer
+  - Search: `Taylor County TX zoning map GIS`
+- [Taylor County Planning Commission](https://www.google.com/search?q=Taylor%20County%20TX%20planning%20commission%20agenda%20data%20center) -- Planning commission meeting agendas, CUP applications, public hearings
+  - Search: `Taylor County TX planning commission agenda data center`
+**Incentives:**
+- [TX Economic Development](https://www.google.com/search?q=TX%20economic%20development%20data%20center%20incentive%20application) -- State incentive programs, enterprise zones, tax abatement applications
+  - Search: `TX economic development data center incentive application`
+
+## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [++++-] | 4/5 | 20% |

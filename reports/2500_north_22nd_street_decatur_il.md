@@ -2,7 +2,7 @@
 **Address:** 2500 North 22nd Street, Decatur, IL
 **Coordinates:** 39.873057 N, -88.926192 W
 **State:** IL | **County:** Macon County
-**Report Date:** 2026-04-01
+**Report Date:** 2026-04-02
 **Target Capacity:** 500 MW
 
 ---
@@ -58,8 +58,7 @@ _No DC-specific tariff identified for this state (IL)._
 ### Land Cover: **Developed, Medium Intensity** (NLCD 23)
 - Good -- developed area, medium intensity. May be zoned commercial or mixed-use.
 
-### OSM Zoning: **Industrial**
-- OpenStreetMap confirms industrial/commercial land use at or near this location.
+_No OpenStreetMap landuse data mapped for this immediate area._
 
 ## 6. Environmental & Regulatory Risk
 
@@ -117,7 +116,33 @@ _No fiber routes found within 30 km._
 ## 12. Nearby Data Center Activity (within 50 km)
 _No data center projects found within 50 km._
 
-## 13. Site Suitability Score
+## 13. Research Links
+Pre-built search links for deeper due diligence:
+
+**Federal:**
+- [FERC eLibrary](https://elibrary.ferc.gov/eLibrary/search?q=%22SHELBY%20ELECTRIC%20COOP%2C%20INC%22%20%22large%20load%22) -- Federal interconnection filings, tariff amendments, large load agreements
+  - Search: `"SHELBY ELECTRIC COOP, INC" "large load"`
+**Interconnection:**
+- [MISO/PJM Interconnection Queue](https://www.misoenergy.org/planning/generator-interconnection/GI_Queue/gi-interactive-queue/) -- Generator and large load interconnection requests in MISO/PJM
+  - Search: `Macon County`
+**Regulatory:**
+- [Illinois Commerce Commission](https://www.icc.illinois.gov/docket/search) -- Utility rate cases, large load tariff filings, service agreements
+  - Search: `SHELBY ELECTRIC COOP, INC large load`
+**Environmental:**
+- [Illinois EPA](https://external.epa.illinois.gov/EPASearch/) -- Air construction permits, NPDES permits, environmental reviews
+  - Search: `Macon County data center`
+**Local:**
+- [Macon County Building Permits](https://www.google.com/search?q=Macon%20County%20IL%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans
+  - Search: `Macon County IL building permit data center`
+- [Macon County Zoning / GIS](https://www.google.com/search?q=Macon%20County%20IL%20zoning%20map%20GIS) -- County zoning maps, land use plans, parcel viewer
+  - Search: `Macon County IL zoning map GIS`
+- [Macon County Planning Commission](https://www.google.com/search?q=Macon%20County%20IL%20planning%20commission%20agenda%20data%20center) -- Planning commission meeting agendas, CUP applications, public hearings
+  - Search: `Macon County IL planning commission agenda data center`
+**Incentives:**
+- [IL Economic Development](https://www.google.com/search?q=IL%20economic%20development%20data%20center%20incentive%20application) -- State incentive programs, enterprise zones, tax abatement applications
+  - Search: `IL economic development data center incentive application`
+
+## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [++++-] | 4/5 | 20% |
