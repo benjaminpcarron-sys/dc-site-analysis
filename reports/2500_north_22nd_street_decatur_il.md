@@ -2,7 +2,7 @@
 **Address:** 2500 North 22nd Street, Decatur, IL
 **Coordinates:** 39.873057 N, -88.926192 W
 **State:** IL | **County:** Macon County
-**Report Date:** 2026-03-30
+**Report Date:** 2026-04-01
 **Target Capacity:** 500 MW
 
 ---
@@ -53,7 +53,15 @@ _No DC-specific tariff identified for this state (IL)._
 - **Duration:** 20 years
 - **Summary:** EDGE tax credit. Enterprise zone sales tax exemption. Local property tax abatement for qualifying DCs.
 
-## 5. Environmental & Regulatory Risk
+## 5. Land Use & Zoning
+
+### Land Cover: **Developed, Medium Intensity** (NLCD 23)
+- Good -- developed area, medium intensity. May be zoned commercial or mixed-use.
+
+### OSM Zoning: **Industrial**
+- OpenStreetMap confirms industrial/commercial land use at or near this location.
+
+## 6. Environmental & Regulatory Risk
 
 ### Air Quality: **Attainment Zone**
 Site is not in any EPA nonattainment area. Standard air permitting applies for backup generators.
@@ -79,19 +87,19 @@ Site is in a federally designated disadvantaged community. Regulatory agencies m
 - **Avg Farmland Value:** $9,200/acre (USDA state average; DC-zoned land typically 3-10x)
 - **Est. Land Cost (150 acres at ~5x farmland):** $7M
 
-## 6. Gas Infrastructure
+## 7. Gas Infrastructure
 _No gas pipelines found within 50 km._
 
-## 7. Water Resources
+## 8. Water Resources
 _No water facilities found within 30 km._
 
-## 8. Transportation Access
+## 9. Transportation Access
 _No interstate/US highways found within 30 km._
 
-## 9. Telecommunications
+## 10. Telecommunications
 _No fiber routes found within 30 km._
 
-## 10. Interconnection Queue (IL)
+## 11. Interconnection Queue (IL)
 | Technology | Stage | Projects | Total MW |
 | --- | --- | --- | --- |
 | nuclear | speculative | 3 | 2,811 |
@@ -106,10 +114,10 @@ _No fiber routes found within 30 km._
 | gas_ct | under_construction | 2 | 609 |
 
 
-## 11. Nearby Data Center Activity (within 50 km)
+## 12. Nearby Data Center Activity (within 50 km)
 _No data center projects found within 50 km._
 
-## 12. Site Suitability Score
+## 13. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [++++-] | 4/5 | 20% |

@@ -2,7 +2,7 @@
 **Address:** 1435 Hwy 54 W, Fayetteville, GA 30214
 **Coordinates:** 33.445354 N, -84.525482 W
 **State:** GA | **County:** Fayette County
-**Report Date:** 2026-03-30
+**Report Date:** 2026-04-01
 **Target Capacity:** 500 MW
 
 ---
@@ -57,7 +57,15 @@ _No service territory match found._
 - **Duration:** 20 years
 - **Summary:** Sales tax exemption on DC equipment (>$100M investment). Investment tax credit. County-level property tax abatements.
 
-## 5. Environmental & Regulatory Risk
+## 5. Land Use & Zoning
+
+### Land Cover: **Developed, Medium Intensity** (NLCD 23)
+- Good -- developed area, medium intensity. May be zoned commercial or mixed-use.
+
+### OSM Zoning: **Commercial**
+- OpenStreetMap confirms industrial/commercial land use at or near this location.
+
+## 6. Environmental & Regulatory Risk
 
 ### Air Quality: **Attainment Zone**
 Site is not in any EPA nonattainment area. Standard air permitting applies for backup generators.
@@ -83,22 +91,22 @@ Site is in a federally designated disadvantaged community. Regulatory agencies m
 - **Avg Farmland Value:** $5,400/acre (USDA state average; DC-zoned land typically 3-10x)
 - **Est. Land Cost (150 acres at ~5x farmland):** $4M
 
-## 6. Gas Infrastructure
+## 7. Gas Infrastructure
 _No gas pipelines found within 50 km._
 
-## 7. Water Resources
+## 8. Water Resources
 _No water facilities found within 30 km._
 
-## 8. Transportation Access
+## 9. Transportation Access
 _No interstate/US highways found within 30 km._
 
-## 9. Telecommunications
+## 10. Telecommunications
 _No fiber routes found within 30 km._
 
-## 10. Interconnection Queue (GA)
+## 11. Interconnection Queue (GA)
 _No interconnection queue data available._
 
-## 11. Nearby Data Center Activity (within 50 km)
+## 12. Nearby Data Center Activity (within 50 km)
 | Project | Owner | MW | Utility | Dist (km) |
 | --- | --- | --- | --- | --- |
 | Microsoft Fairwater Atlanta | Microsoft #confident | 506 | Georgia Power | 0.5 |
@@ -120,7 +128,7 @@ _No interconnection queue data available._
 
 **18 facilities** totaling **506 MW** within 50 km.
 
-## 12. Site Suitability Score
+## 13. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [+++++] | 5/5 | 20% |

@@ -185,6 +185,8 @@ def main():
     flood_zones = sq.check_flood_zone(lat, lon)
     justice40 = sq.check_justice40(lat, lon)
     seismic = sq.check_seismic_hazard(lat, lon)
+    land_cover = sq.check_land_cover(lat, lon)
+    osm_landuse = sq.check_osm_landuse(lat, lon)
     print("done")
 
     # Step 3: Data queries
@@ -237,6 +239,8 @@ def main():
         "flood_zones": flood_zones,
         "justice40": justice40,
         "seismic": seismic,
+        "land_cover": land_cover,
+        "osm_landuse": osm_landuse,
         "cooling_degree_days": cooling_dd,
         "land_value_per_acre": land_value,
     }

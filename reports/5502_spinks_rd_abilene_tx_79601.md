@@ -2,7 +2,7 @@
 **Address:** 5502 Spinks Rd, Abilene, TX 79601
 **Coordinates:** 32.494232 N, -99.800907 W
 **State:** TX | **County:** Taylor County
-**Report Date:** 2026-03-30
+**Report Date:** 2026-04-01
 **Target Capacity:** 500 MW
 
 ---
@@ -50,7 +50,14 @@ _No DC-specific tariff identified for this state (TX)._
 - **Duration:** 10 years
 - **Summary:** Ch. 313/Ch. 403 property tax abatement. Sales tax exemption on equipment. No state income tax.
 
-## 5. Environmental & Regulatory Risk
+## 5. Land Use & Zoning
+
+### Land Cover: **Developed, Open Space** (NLCD 21)
+- Moderate -- developed but low-intensity (parking, parks, large-lot residential). Rezoning may be needed.
+
+### OSM Landuse: construction
+
+## 6. Environmental & Regulatory Risk
 
 ### Air Quality: **Attainment Zone**
 Site is not in any EPA nonattainment area. Standard air permitting applies for backup generators.
@@ -76,19 +83,19 @@ Site is in a federally designated disadvantaged community. Regulatory agencies m
 - **Avg Farmland Value:** $3,000/acre (USDA state average; DC-zoned land typically 3-10x)
 - **Est. Land Cost (150 acres at ~5x farmland):** $2M
 
-## 6. Gas Infrastructure
+## 7. Gas Infrastructure
 _No gas pipelines found within 50 km._
 
-## 7. Water Resources
+## 8. Water Resources
 _No water facilities found within 30 km._
 
-## 8. Transportation Access
+## 9. Transportation Access
 _No interstate/US highways found within 30 km._
 
-## 9. Telecommunications
+## 10. Telecommunications
 _No fiber routes found within 30 km._
 
-## 10. Interconnection Queue (TX)
+## 11. Interconnection Queue (TX)
 | Technology | Stage | Projects | Total MW |
 | --- | --- | --- | --- |
 | gas_ct | under_construction | 3 | 1,549 |
@@ -103,7 +110,7 @@ _No fiber routes found within 30 km._
 | solar | progressing | 1 | 479 |
 
 
-## 11. Nearby Data Center Activity (within 50 km)
+## 12. Nearby Data Center Activity (within 50 km)
 | Project | Owner | MW | Utility | Dist (km) |
 | --- | --- | --- | --- | --- |
 | OpenAI Stargate Abilene | Oracle #confident | 295 | American Electric Power | 1.7 |
@@ -112,7 +119,7 @@ _No fiber routes found within 30 km._
 
 **2 facilities** totaling **295 MW** within 50 km.
 
-## 12. Site Suitability Score
+## 13. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [++++-] | 4/5 | 20% |

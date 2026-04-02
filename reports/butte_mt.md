@@ -2,7 +2,7 @@
 **Address:** Butte, MT
 **Coordinates:** 46.013151 N, -112.536508 W
 **State:** MT | **County:** Silver Bow County
-**Report Date:** 2026-03-30
+**Report Date:** 2026-04-01
 **Target Capacity:** 500 MW
 
 ---
@@ -55,7 +55,14 @@ _No data available._
 ## 4. State Tax Incentives (MT)
 _No DC-specific state tax incentive data available._
 
-## 5. Environmental & Regulatory Risk
+## 5. Land Use & Zoning
+
+### Land Cover: **Developed, High Intensity** (NLCD 24)
+- Excellent -- already developed, high-intensity land use. Likely zoned industrial/commercial.
+
+_No OpenStreetMap landuse data mapped for this immediate area._
+
+## 6. Environmental & Regulatory Risk
 
 ### Air Quality NonAttainment Zones
 **WARNING: Site is in one or more EPA nonattainment areas.**
@@ -86,22 +93,22 @@ Site is in a federally designated disadvantaged community. Regulatory agencies m
 - **Avg Farmland Value:** $1,100/acre (USDA state average; DC-zoned land typically 3-10x)
 - **Est. Land Cost (150 acres at ~5x farmland):** $1M
 
-## 6. Gas Infrastructure
+## 7. Gas Infrastructure
 _No gas pipelines found within 50 km._
 
-## 7. Water Resources
+## 8. Water Resources
 _No water facilities found within 30 km._
 
-## 8. Transportation Access
+## 9. Transportation Access
 _No interstate/US highways found within 30 km._
 
-## 9. Telecommunications
+## 10. Telecommunications
 _No fiber routes found within 30 km._
 
-## 10. Interconnection Queue (MT)
+## 11. Interconnection Queue (MT)
 _No interconnection queue data available._
 
-## 11. Nearby Data Center Activity (within 50 km)
+## 12. Nearby Data Center Activity (within 50 km)
 | Project | Owner | MW | Utility | Dist (km) |
 | --- | --- | --- | --- | --- |
 | Atlas Power Butte | Atlas Power Group #l | 150 | NorthWestern Energy | 1.5 |
@@ -109,7 +116,7 @@ _No interconnection queue data available._
 
 **1 facilities** totaling **150 MW** within 50 km.
 
-## 12. Site Suitability Score
+## 13. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
 | Grid Access | [+----] | 1/5 | 20% |

@@ -201,8 +201,58 @@ def generate_report(d):
         lines.append("_No DC-specific state tax incentive data available._")
     lines.append("")
 
-    # 5. Environmental & Regulatory Risk
-    lines.append("## 5. Environmental & Regulatory Risk")
+    # 5. Land Use & Zoning
+    lines.append("## 5. Land Use & Zoning")
+    lines.append("")
+
+    lc = d.get("land_cover")
+    osm = d.get("osm_landuse", [])
+
+    if lc:
+        cat = lc.get("category", "")
+        code = lc.get("nlcd_code", 0)
+        label = lc.get("nlcd_label", "Unknown")
+
+        if cat == "developed_high":
+            suitability = "Excellent -- already developed, high-intensity land use. Likely zoned industrial/commercial."
+        elif cat == "developed_med":
+            suitability = "Good -- developed area, medium intensity. May be zoned commercial or mixed-use."
+        elif cat == "developed_low":
+            suitability = "Moderate -- developed but low-intensity (parking, parks, large-lot residential). Rezoning may be needed."
+        elif cat in ("agriculture", "grassland", "scrub", "barren"):
+            suitability = "Greenfield -- undeveloped land. Will require rezoning to industrial/commercial. Check county zoning map."
+        elif cat == "forest":
+            suitability = "Greenfield (forested) -- clearing + rezoning required. Environmental review likely."
+        elif cat == "wetland":
+            suitability = "Constrained -- wetland area. Section 404 permit required. Significant permitting risk."
+        elif cat == "water":
+            suitability = "Not suitable -- open water."
+        else:
+            suitability = "Review required."
+
+        lines.append(f"### Land Cover: **{label}** (NLCD {code})")
+        lines.append(f"- {suitability}")
+    else:
+        lines.append("### Land Cover: Data not available")
+
+    # OSM landuse tags
+    if osm:
+        industrial = [o for o in osm if o["landuse"] in ("industrial", "commercial", "retail")]
+        if industrial:
+            names = [o.get("name", "") for o in industrial if o.get("name")]
+            lines.append(f"\n### OSM Zoning: **{industrial[0]['landuse'].title()}**")
+            if names:
+                lines.append(f"- Nearby: {', '.join(names[:3])}")
+            lines.append("- OpenStreetMap confirms industrial/commercial land use at or near this location.")
+        else:
+            types = list(set(o["landuse"] for o in osm))
+            lines.append(f"\n### OSM Landuse: {', '.join(types[:3])}")
+    else:
+        lines.append("\n_No OpenStreetMap landuse data mapped for this immediate area._")
+    lines.append("")
+
+    # 6. Environmental & Regulatory Risk
+    lines.append("## 6. Environmental & Regulatory Risk")
     lines.append("")
 
     # NAAQS NonAttainment
@@ -315,7 +365,7 @@ def generate_report(d):
         lines.append("")
 
     # 6. Gas
-    lines.append("## 6. Gas Infrastructure")
+    lines.append("## 7. Gas Infrastructure")
     gas = d.get("gas_pipelines", [])
     if gas:
         for g in gas[:2]:
@@ -325,7 +375,7 @@ def generate_report(d):
     lines.append("")
 
     # 6. Water
-    lines.append("## 7. Water Resources")
+    lines.append("## 8. Water Resources")
     water = d.get("water_facilities", [])
     if water:
         for w in water[:2]:
@@ -335,7 +385,7 @@ def generate_report(d):
     lines.append("")
 
     # 7. Transportation
-    lines.append("## 8. Transportation Access")
+    lines.append("## 9. Transportation Access")
     hw = d.get("highways", [])
     if hw:
         for h in hw[:2]:
@@ -349,7 +399,7 @@ def generate_report(d):
     lines.append("")
 
     # 8. Telecom
-    lines.append("## 9. Telecommunications")
+    lines.append("## 10. Telecommunications")
     fiber = d.get("fiber_routes", [])
     if fiber:
         for f_ in fiber[:2]:
@@ -362,7 +412,7 @@ def generate_report(d):
     lines.append("")
 
     # 9. Interconnection Queue
-    lines.append(f"## 10. Interconnection Queue ({d.get('state', 'N/A')})")
+    lines.append(f"## 11. Interconnection Queue ({d.get('state', 'N/A')})")
     queue = d.get("interconnection_queue", [])
     if queue:
         q_rows = [[q["technology"], q["stage"], str(q["count"]), f"{q['total_mw']:,.0f}"] for q in queue[:10]]
@@ -372,7 +422,7 @@ def generate_report(d):
     lines.append("")
 
     # 10. Nearby DCs
-    lines.append(f"## 11. Nearby Data Center Activity (within 50 km)")
+    lines.append(f"## 12. Nearby Data Center Activity (within 50 km)")
     dcs = d.get("nearby_dcs", [])
     if dcs:
         dc_rows = []
@@ -393,7 +443,7 @@ def generate_report(d):
     lines.append("")
 
     # 11. Scoring Summary
-    lines.append("## 12. Site Suitability Score")
+    lines.append("## 13. Site Suitability Score")
     scores = d.get("scores", {})
     score_rows = []
     weights = {

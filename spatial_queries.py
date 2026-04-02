@@ -474,6 +474,72 @@ def check_justice40(lat, lon):
         return None
 
 
+def check_land_cover(lat, lon):
+    """Query NLCD 2021 land cover classification via MRLC WMS."""
+    NLCD_CODES = {
+        11: ("Open Water", "water"), 12: ("Perennial Ice/Snow", "other"),
+        21: ("Developed, Open Space", "developed_low"),
+        22: ("Developed, Low Intensity", "developed_low"),
+        23: ("Developed, Medium Intensity", "developed_med"),
+        24: ("Developed, High Intensity", "developed_high"),
+        31: ("Barren Land", "barren"),
+        41: ("Deciduous Forest", "forest"), 42: ("Evergreen Forest", "forest"),
+        43: ("Mixed Forest", "forest"),
+        51: ("Dwarf Scrub", "scrub"), 52: ("Shrub/Scrub", "scrub"),
+        71: ("Grassland/Herbaceous", "grassland"),
+        81: ("Pasture/Hay", "agriculture"), 82: ("Cultivated Crops", "agriculture"),
+        90: ("Woody Wetlands", "wetland"), 95: ("Emergent Herbaceous Wetlands", "wetland"),
+    }
+    try:
+        url = (
+            f"https://www.mrlc.gov/geoserver/mrlc_display/wms?"
+            f"SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo"
+            f"&QUERY_LAYERS=NLCD_2021_Land_Cover_L48"
+            f"&LAYERS=NLCD_2021_Land_Cover_L48"
+            f"&INFO_FORMAT=application/json&FEATURE_COUNT=1"
+            f"&X=50&Y=50&WIDTH=101&HEIGHT=101&SRS=EPSG:4326"
+            f"&BBOX={lon-0.001},{lat-0.001},{lon+0.001},{lat+0.001}"
+        )
+        req = urllib.request.Request(url, headers={"User-Agent": "dc-site-analysis/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+        code = data["features"][0]["properties"]["PALETTE_INDEX"]
+        label, category = NLCD_CODES.get(code, (f"Unknown ({code})", "other"))
+        return {"nlcd_code": code, "nlcd_label": label, "category": category}
+    except Exception:
+        return None
+
+
+def check_osm_landuse(lat, lon, radius_m=200):
+    """Query OpenStreetMap for landuse tags near a point via Overpass API."""
+    query = f"""
+[out:json][timeout:10];
+(
+  way["landuse"](around:{radius_m},{lat},{lon});
+  relation["landuse"](around:{radius_m},{lat},{lon});
+);
+out tags;
+"""
+    try:
+        url = "https://overpass-api.de/api/interpreter"
+        data = urllib.parse.urlencode({"data": query}).encode()
+        req = urllib.request.Request(url, data=data, headers={"User-Agent": "dc-site-analysis/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            result = json.loads(resp.read())
+        elements = result.get("elements", [])
+        landuses = []
+        for el in elements:
+            tags = el.get("tags", {})
+            landuses.append({
+                "landuse": tags.get("landuse", ""),
+                "name": tags.get("name", ""),
+                "industrial": tags.get("industrial", ""),
+            })
+        return landuses
+    except Exception:
+        return []
+
+
 def check_seismic_hazard(lat, lon):
     """Query USGS Design Maps API for seismic hazard at a point."""
     try:
