@@ -169,7 +169,8 @@ def main():
     radius = args.radius_km
 
     transmission_lines = sq.find_nearest_transmission_lines(lat, lon, radius)
-    substations = sq.find_nearest_substations(lat, lon, radius)
+    substations = sq.find_nearest_substations(lat, lon, radius, limit=10)
+    planned_substations = sq.find_planned_substations(lat, lon, radius_km=150, limit=10)
     gas_pipelines = sq.find_nearest_gas_pipelines(lat, lon, 50)
     highways = sq.find_nearest_highways(lat, lon, radius)
     railroads = sq.find_nearest_railroads(lat, lon, radius)
@@ -223,6 +224,7 @@ def main():
         "target_mw": args.target_mw,
         "transmission_lines": transmission_lines,
         "substations": substations,
+        "planned_substations": planned_substations,
         "gas_pipelines": gas_pipelines,
         "highways": highways,
         "railroads": railroads,

@@ -120,6 +120,25 @@ def generate_report(d):
     lines.append(f"- **Score:** {_score_bar(grid.get('score', 0))} ({grid.get('score', 0)}/5)")
     lines.append("")
 
+    # Planned substation projects (grid pipeline)
+    planned = d.get("planned_substations", [])
+    if planned:
+        lines.append("### Planned Grid Buildout (within 150 km)")
+        lines.append("Substations with planned upgrades or new construction:")
+        lines.append("")
+        pp_rows = []
+        for s in planned:
+            pp_rows.append([
+                s.get("name", "N/A"),
+                s.get("current_kv", "N/A"),
+                s.get("planned_project", "")[:50],
+                s.get("planned_voltage", ""),
+                s.get("status", ""),
+                f"{s['dist_km']:.0f}",
+            ])
+        lines.append(_table(["Substation", "Current", "Planned Project", "Target kV", "Type", "Dist (km)"], pp_rows))
+    lines.append("")
+
     # 2. Utility & Rates
     lines.append("## 2. Utility & Rates")
     if territories:

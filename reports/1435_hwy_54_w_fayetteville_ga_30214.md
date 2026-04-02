@@ -32,6 +32,21 @@ _No data available._
 - **Confidence:** medium
 - **Score:** [+++++] (5/5)
 
+### Planned Grid Buildout (within 150 km)
+Substations with planned upgrades or new construction:
+
+| Substation | Current | Planned Project | Target kV | Type | Dist (km) |
+| --- | --- | --- | --- | --- | --- |
+| Dresden | 230.00 kV | Dresden - Talbot 500 kV | 500 kV | Exisiting | 37 |
+| Heard County | 500.00 kV | Heard County - Tenaska 500 kV | 500 kV | Existing | 45 |
+| Tenaska | 500.00 kV | Tenaska - Wansley 500 kV, Heard County - Tenaska 5 | 500 kV | Existing | 45 |
+| Wansley | 230.00 kV | Ashley Park - Wansley 500 kV, Tenaska - Wansley 50 | 500 kV | Existing | 47 |
+| Talbot County Energy | 230.00 kV | Dresden - Talbot 500 kV | 500 kV | Existing | 96 |
+| McGrau Ford | 500.00 kV | Mcgrau Ford - Middle Fork 500 kV | 500 kV | Existing | 100 |
+| Tazewell | 230.00 kV | Farley - Tazewell 500 kV | 500 kV | Existing | 120 |
+| Tiger Creek | 230.00 kV | Rockville - Tiger Creek 500 kV | 500 kV | Existing | 149 |
+
+
 ## 2. Utility & Rates
 _No service territory match found._
 - **Industrial Rate:** Not available

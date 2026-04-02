@@ -31,6 +31,16 @@ _No data available._
 - **Confidence:** medium
 - **Score:** [++++-] (4/5)
 
+### Planned Grid Buildout (within 150 km)
+Substations with planned upgrades or new construction:
+
+| Substation | Current | Planned Project | Target kV | Type | Dist (km) |
+| --- | --- | --- | --- | --- | --- |
+| Tonkawa | 345.00 kV | Tonkawa - Ranger Camp 345 kV Line Rebuild | 345 kV | Existing | 83 |
+| Ranger Camp | New | Ranger Camp – Cattleman 345 kV Double-Circuit Line | 345 kV | Existing | 106 |
+| Morgan Creek (Cattleman) | 345.00 kV | Cattleman – Longshore 345 kV Double-Circuit Line R | 345 kV | Existing | 106 |
+
+
 ## 2. Utility & Rates
 - **Utility:** AEP TEXAS NORTH COMPANY
 - **Control Area / ISO:** NOT AVAILABLE

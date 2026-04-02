@@ -34,6 +34,23 @@ Highest voltage line: 345.0 kV (345) at 10.8 km, owned by AMEREN ILLINOIS COMPAN
 - **Confidence:** medium
 - **Score:** [++++-] (4/5)
 
+### Planned Grid Buildout (within 150 km)
+Substations with planned upgrades or new construction:
+
+| Substation | Current | Planned Project | Target kV | Type | Dist (km) |
+| --- | --- | --- | --- | --- | --- |
+| Oreana | 345.00 kV | 26770-Clinton-Goose Creek | 345 kV | Existing | 6 |
+| Clinton Station | 345.00 kV | 26770-Clinton-Goose Creek, 26769-Clinton-Oreana | 345 kV | Existing | 34 |
+| Goose Creek | 345.00 kV | 26770-Clinton-Goose Creek | 345 kV | Existing | 38 |
+| Pana | 345.00 kV | Rebuild Kincaid - Pana 345 kV | 345 kV | Existing | 54 |
+| Kincaid Station | 345.00 kV | Rebuild Kincaid - Pana 345 kV | 345 kV | Existing | 58 |
+| Radbourn | New | Woodford County - Fargo & Radbourn | 345 kV | New build | 64 |
+| Brokaw | 345.00 kV | Central Illinois Grid Transformation Program | 345 kV | Existing | 64 |
+| Sidney | 345.00 kV | Central Illinois Grid Transformation Program | 345 kV | Existing | 76 |
+| Tazewell | 345.00 kV | Central Illinois Grid Transformation Program | 345 kV | Existing | 93 |
+| Paxton East | 138.00 kV | Central Illinois Grid Transformation Program | 345 kV | Existing | 97 |
+
+
 ## 2. Utility & Rates
 - **Utility:** SHELBY ELECTRIC COOP, INC
 - **Control Area / ISO:** MISO

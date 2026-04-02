@@ -32,6 +32,7 @@ _No data available._
 - **Confidence:** low
 - **Score:** [+----] (1/5)
 
+
 ## 2. Utility & Rates
 - **Utility:** NORTHWESTERN ENERGY LLC - (MT)
 - **Control Area / ISO:** NWMT
@@ -60,7 +61,7 @@ _No DC-specific state tax incentive data available._
 ### Land Cover: **Developed, High Intensity** (NLCD 24)
 - Excellent -- already developed, high-intensity land use. Likely zoned industrial/commercial.
 
-_No OpenStreetMap landuse data mapped for this immediate area._
+### OSM Landuse: brownfield
 
 ## 6. Environmental & Regulatory Risk
 

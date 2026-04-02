@@ -31,12 +31,32 @@ Highest voltage line: 345.0 kV (345) at 9.7 km, owned by CENTERPOINT ENERGY HOUS
 | Bellaire | Existing | 8.9 | 345.00 kV |
 | White Oak | Existing | 9.0 | 345.00 kV |
 | Jeanetta | Existing | 16.9 | 345.00 kV |
+| Addicks | Existing | 21.0 | 345.00 kV |
+| Roark | Existing | 21.4 | 138.00 kV |
+| Clodine | Existing | 26.2 | 138.00 kV |
 
 ### Grid Adequacy Assessment
 - **Estimated Capacity:** 600 MW
 - **Upgrade Required:** No
 - **Confidence:** medium
 - **Score:** [++++-] (4/5)
+
+### Planned Grid Buildout (within 150 km)
+Substations with planned upgrades or new construction:
+
+| Substation | Current | Planned Project | Target kV | Type | Dist (km) |
+| --- | --- | --- | --- | --- | --- |
+| Downtown | 138.00 kV | Hyde Park to Downtown Ckt.32A Upgrades | 345 kV | Existing | 1 |
+| Hyde Park | 69.00 kV | Hyde Park to Downtown Ckt.32A Upgrades | 345 kV | Existing | 2 |
+| Bellaire | 345.00 kV | Upgrade Bellaire to Jeanetta Ckt.64B to increase t | 345 kV | Existing | 9 |
+| White Oak | 345.00 kV | Upgrade 345kV Ckt 71 Addicks-White Oak to increase | 345 kV | Existing | 9 |
+| Jeanetta | 345.00 kV | Upgrade Bellaire to Jeanetta Ckt.64B to increase t | 345 kV | Existing | 17 |
+| Addicks | 345.00 kV | Upgrade 345kV Ckt 71 Addicks-White Oak to increase | 345 kV | Existing | 21 |
+| Roark | 138.00 kV | Jeanetta Auto Upgrades | 345 kV | Existing | 21 |
+| Clodine | 138.00 kV | Jeanetta Auto Upgrades | 345 kV | Existing | 26 |
+| Meadow | 345.00 kV | Upgrade Ckt.99A PH Robinson to Meadow | 345 kV | Existing | 35 |
+| W.A. Parish (138kV) | 345.00 kV | Upgrade Jeanetta to WA Parish, Upgrade Bellaire to | 345 kV | Existing | 40 |
+
 
 ## 2. Utility & Rates
 - **Utility:** SAN BERNARD ELECTRIC COOP, INC
@@ -62,8 +82,7 @@ _No DC-specific tariff identified for this state (TX)._
 ### Land Cover: **Developed, High Intensity** (NLCD 24)
 - Excellent -- already developed, high-intensity land use. Likely zoned industrial/commercial.
 
-### OSM Zoning: **Commercial**
-- OpenStreetMap confirms industrial/commercial land use at or near this location.
+_No OpenStreetMap landuse data mapped for this immediate area._
 
 ## 6. Environmental & Regulatory Risk
 

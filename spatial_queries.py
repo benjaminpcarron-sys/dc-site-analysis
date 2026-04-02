@@ -180,6 +180,54 @@ def find_nearest_substations(lat, lon, radius_km=30, limit=5):
     return results[:limit]
 
 
+def find_planned_substations(lat, lon, radius_km=150, limit=10):
+    """Find planned/under-construction substations from energy_analytics.duckdb."""
+    energy_db = os.environ.get(
+        "ENERGY_ANALYTICS_DB",
+        "/Users/bencarron/Projects/dc-site-mapper/data/energy_analytics.duckdb",
+    )
+    if not os.path.exists(energy_db):
+        return []
+    try:
+        edb = duckdb.connect(energy_db, read_only=True)
+        lat_deg = radius_km / 111.0
+        lon_deg = radius_km / (111.0 * max(0.1, math.cos(math.radians(lat))))
+        rows = edb.execute("""
+            SELECT substation_name, state_abbrev,
+                   current_max_voltage_kv, planned_project, planned_project_voltage,
+                   existing_or_new_substation, latitude, longitude
+            FROM planned_transmission_substations
+            WHERE latitude BETWEEN ? AND ?
+              AND longitude BETWEEN ? AND ?
+              AND planned_project IS NOT NULL
+        """, [lat - lat_deg, lat + lat_deg, lon - lon_deg, lon + lon_deg]).fetchall()
+        edb.close()
+        results = []
+        for r in rows:
+            if r[6] is None or r[7] is None:
+                continue
+            dist = 6371 * 2 * math.asin(math.sqrt(
+                math.sin(math.radians(float(r[6]) - lat) / 2) ** 2 +
+                math.cos(math.radians(lat)) * math.cos(math.radians(float(r[6]))) *
+                math.sin(math.radians(float(r[7]) - lon) / 2) ** 2
+            ))
+            if dist <= radius_km:
+                cur_kv = f"{r[2]} kV" if r[2] and float(r[2]) > 0 else "New"
+                results.append({
+                    "name": r[0],
+                    "state": r[1],
+                    "current_kv": cur_kv,
+                    "planned_project": r[3],
+                    "planned_voltage": f"{r[4]} kV" if r[4] else "N/A",
+                    "status": r[5] or "",
+                    "dist_km": round(dist, 1),
+                })
+        results.sort(key=lambda x: x["dist_km"])
+        return results[:limit]
+    except Exception:
+        return []
+
+
 def find_nearest_gas_pipelines(lat, lon, radius_km=50, limit=3):
     db = _get_db()
     pq = _parquet("gas_pipelines")
