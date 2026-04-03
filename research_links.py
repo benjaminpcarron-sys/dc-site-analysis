@@ -155,15 +155,6 @@ def generate_research_links(state, county, utility_name=None, address=None):
         "url": _halcyon_url(state, "data center", "interconnection"),
     })
 
-    # 3. Google: FERC site-search (backup)
-    ferc_q = f'site:ferc.gov "{utility_short}" "large load" OR "data center"'
-    links.append({
-        "category": "Federal (Google)",
-        "name": "FERC filings",
-        "description": "Federal interconnection filings, tariff amendments",
-        "url": f"https://www.google.com/search?q={urllib.parse.quote(ferc_q)}",
-    })
-
     # 4. RTO/ISO Queue
     rto_info = STATE_TO_RTO.get(state)
     if rto_info:
@@ -176,15 +167,23 @@ def generate_research_links(state, county, utility_name=None, address=None):
             "url": f"https://www.google.com/search?q={urllib.parse.quote(rto_q)}",
         })
 
-    # 5. State Environmental permits
+    # 5. Halcyon: Air permits / environmental
+    links.append({
+        "category": "Environmental (Halcyon)",
+        "name": f"Air permits + data center ({state})",
+        "description": "State EPA air permits, TCEQ filings, environmental reviews for data centers",
+        "url": _halcyon_url("air permit", "data center", state),
+    })
+
+    # 6. Google backup: State EPA permits (for agencies not in Halcyon)
     env_info = STATE_ENV.get(state)
     if env_info:
         env_name, _ = env_info
         env_q = f'"{env_name}" "{county_short}" "data center" OR "backup generator" permit'
         links.append({
-            "category": "Environmental",
+            "category": "Environmental (Google)",
             "name": f"{env_name} permits",
-            "description": "Air construction permits, NPDES permits, environmental reviews",
+            "description": "Backup: state environmental agency permit search",
             "url": f"https://www.google.com/search?q={urllib.parse.quote(env_q)}",
         })
 
