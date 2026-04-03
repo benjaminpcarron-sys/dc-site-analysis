@@ -172,28 +172,30 @@
 ## 5. Research Links
 
 **Federal:**
-- [FERC eLibrary: Ameren Illinois large load](https://elibrary.ferc.gov/eLibrary/search?q=%22Ameren%20Illinois%22%20%22large%20load%22) — Interconnection filings, tariff amendments
-- [FERC eLibrary: QueenAnne Realty](https://elibrary.ferc.gov/eLibrary/search?q=%22QueenAnne%20Realty%22) — Any federal filings by the developer
+- [FERC: Ameren Illinois large load filings](https://www.google.com/search?q=site%3Aferc.gov+%22Ameren+Illinois%22+%22large+load%22+OR+%22interconnection%22+OR+%22data+center%22) — Interconnection filings, tariff amendments
+- [FERC: QueenAnne Realty filings](https://www.google.com/search?q=site%3Aferc.gov+%22QueenAnne+Realty%22) — Any federal filings by the developer
 
 **Interconnection:**
-- [MISO Interconnection Queue](https://www.misoenergy.org/planning/generator-interconnection/GI_Queue/gi-interactive-queue/) — Search for Macon County / Decatur projects
+- [MISO queue: Macon County data center](https://www.google.com/search?q=%22MISO%22+interconnection+queue+%22Macon+County%22+data+center) — Interconnection requests and studies
+- [Ameren Illinois transmission planning](https://www.google.com/search?q=%22Ameren+Illinois%22+transmission+planning+%22Decatur%22+OR+%22Macon+County%22+data+center) — Transmission expansion plans
 
 **Regulatory:**
-- [Illinois Commerce Commission Docket Search](https://www.icc.illinois.gov/docket/search) — Search: "Ameren Illinois large load" or "data center"
+- [Illinois Commerce Commission: Ameren data center](https://www.google.com/search?q=%22Illinois+Commerce+Commission%22+%22Ameren+Illinois%22+%22data+center%22+OR+%22large+load%22+OR+%22tariff%22) — Rate cases, large load tariff filings
+- [Illinois Commerce Commission: QueenAnne Realty](https://www.google.com/search?q=%22Illinois+Commerce+Commission%22+%22QueenAnne+Realty%22) — Any state filings by the developer
 
 **Environmental:**
-- [Illinois EPA Permit Search](https://external.epa.illinois.gov/EPASearch/) — Air permits, NPDES, stormwater for Macon County
-- [EPA ECHO Facility Search](https://echo.epa.gov/facilities/facility-search) — Search Bridgestone-Firestone Decatur for historical compliance
+- [Illinois EPA: Macon County data center permits](https://www.google.com/search?q=%22Illinois+EPA%22+%22Macon+County%22+%22data+center%22+OR+%22backup+generator%22+permit) — Air permits, NPDES, stormwater
+- [EPA ECHO: Bridgestone-Firestone Decatur](https://www.google.com/search?q=site%3Aepa.gov+echo+%22Bridgestone%22+OR+%22Firestone%22+%22Decatur%22+Illinois) — Historical compliance at former industrial site
 
 **Local:**
-- [Macon County Building Permits](https://www.google.com/search?q=Macon+County+IL+building+permit+data+center)
-- [Macon County GIS / Zoning Map](https://www.google.com/search?q=Macon+County+IL+zoning+map+GIS+parcel)
-- [City of Decatur Planning](https://www.google.com/search?q=City+of+Decatur+Illinois+planning+commission+data+center)
-- [Decatur EDC](https://www.decaturedc.com) — Referenced in brochure for incentive information
+- [Macon County building permits data center](https://www.google.com/search?q=Macon+County+IL+building+permit+data+center)
+- [Macon County GIS zoning parcel viewer](https://www.google.com/search?q=Macon+County+IL+zoning+map+GIS+parcel+viewer)
+- [City of Decatur planning commission data center](https://www.google.com/search?q=City+of+Decatur+Illinois+planning+commission+data+center)
+- [Decatur EDC](https://www.google.com/search?q=Decatur+Economic+Development+Corporation+data+center+incentive) — Economic development incentives
 
 **Incentives:**
-- [IL Enterprise Zone Program](https://www.google.com/search?q=Illinois+enterprise+zone+data+center+incentive)
-- [IL EDGE Tax Credit](https://www.google.com/search?q=Illinois+EDGE+tax+credit+data+center)
+- [Illinois enterprise zone data center incentive](https://www.google.com/search?q=Illinois+enterprise+zone+data+center+incentive)
+- [Illinois EDGE tax credit data center](https://www.google.com/search?q=Illinois+EDGE+tax+credit+data+center)
 
 ---
 

@@ -119,96 +119,91 @@ def generate_research_links(state, county, utility_name=None, address=None):
     """Generate research links for a site's state/county/utility."""
     links = []
 
-    # 1. FERC eLibrary
-    ferc_query = f'"{utility_name or ""}" "large load"' if utility_name else f'"{state}" "data center" "interconnection"'
-    ferc_url = f"https://elibrary.ferc.gov/eLibrary/search?q={urllib.parse.quote(ferc_query)}"
+    # All links use Google site-targeted search to go directly to results
+    # instead of landing on empty search forms
+
+    utility_short = (utility_name or "").split(",")[0].strip()
+
+    # 1. FERC filings
+    ferc_q = f'site:ferc.gov "{utility_short}" "large load" OR "interconnection" OR "data center"'
     links.append({
         "category": "Federal",
-        "name": "FERC eLibrary",
+        "name": "FERC Filings",
         "description": "Federal interconnection filings, tariff amendments, large load agreements",
-        "url": ferc_url,
-        "search_terms": ferc_query,
+        "url": f"https://www.google.com/search?q={urllib.parse.quote(ferc_q)}",
     })
 
     # 2. RTO/ISO Queue
     rto_info = STATE_TO_RTO.get(state)
     if rto_info:
         rto_name, rto_url = rto_info
+        rto_q = f'"{rto_name}" interconnection queue "{county or state}" data center'
         links.append({
             "category": "Interconnection",
-            "name": f"{rto_name} Interconnection Queue",
-            "description": f"Generator and large load interconnection requests in {rto_name}",
-            "url": rto_url,
-            "search_terms": county or state,
+            "name": f"{rto_name} Queue / Filings",
+            "description": f"Interconnection requests and studies in {rto_name}",
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(rto_q)}",
         })
 
-    # 3. State PUC
+    # 3. State PUC filings
     puc_info = STATE_PUC.get(state)
     if puc_info:
-        puc_name, puc_url = puc_info
+        puc_name, _ = puc_info
+        puc_q = f'"{puc_name}" "{utility_short}" "data center" OR "large load" OR "tariff"'
         links.append({
             "category": "Regulatory",
-            "name": puc_name,
+            "name": f"{puc_name} Filings",
             "description": "Utility rate cases, large load tariff filings, service agreements",
-            "url": puc_url,
-            "search_terms": f"{utility_name or 'data center'} large load",
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(puc_q)}",
         })
 
-    # 4. State Environmental
+    # 4. State Environmental permits
     env_info = STATE_ENV.get(state)
     if env_info:
-        env_name, env_url = env_info
+        env_name, _ = env_info
+        env_q = f'"{env_name}" "{county or ""}" "data center" OR "backup generator" permit'
         links.append({
             "category": "Environmental",
-            "name": env_name,
+            "name": f"{env_name} Permits",
             "description": "Air construction permits, NPDES permits, environmental reviews",
-            "url": env_url,
-            "search_terms": f"{county or ''} data center",
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(env_q)}",
         })
 
-    # 5. County building permits (Google search)
+    # 5. County building permits
     county_name = county.replace(" County", "") if county else ""
     if county_name and state:
-        search_q = f"{county_name} County {state} building permit data center"
         links.append({
             "category": "Local",
             "name": f"{county_name} County Building Permits",
             "description": "Local building permits, conditional use permits, site plans",
-            "url": f"https://www.google.com/search?q={urllib.parse.quote(search_q)}",
-            "search_terms": search_q,
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(f'{county_name} County {state} building permit data center')}",
         })
 
-    # 6. County zoning / planning (Google search)
+    # 6. County zoning / GIS parcel viewer
     if county_name and state:
-        search_q = f"{county_name} County {state} zoning map GIS"
         links.append({
             "category": "Local",
             "name": f"{county_name} County Zoning / GIS",
             "description": "County zoning maps, land use plans, parcel viewer",
-            "url": f"https://www.google.com/search?q={urllib.parse.quote(search_q)}",
-            "search_terms": search_q,
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(f'{county_name} County {state} zoning map GIS parcel viewer')}",
         })
 
-    # 7. County planning commission agendas (Google search)
+    # 7. County planning commission agendas
     if county_name and state:
-        search_q = f"{county_name} County {state} planning commission agenda data center"
         links.append({
             "category": "Local",
             "name": f"{county_name} County Planning Commission",
-            "description": "Planning commission meeting agendas, CUP applications, public hearings",
-            "url": f"https://www.google.com/search?q={urllib.parse.quote(search_q)}",
-            "search_terms": search_q,
+            "description": "Planning commission agendas, CUP applications, public hearings",
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(f'{county_name} County {state} planning commission agenda data center')}",
         })
 
-    # 8. State economic development (for incentive applications)
+    # 8. State economic development
     if address:
-        search_q = f"{state} economic development data center incentive application"
         links.append({
             "category": "Incentives",
             "name": f"{state} Economic Development",
             "description": "State incentive programs, enterprise zones, tax abatement applications",
-            "url": f"https://www.google.com/search?q={urllib.parse.quote(search_q)}",
-            "search_terms": search_q,
+            "url": f"https://www.google.com/search?q={urllib.parse.quote(f'{state} economic development data center incentive')}",
         })
 
     return links

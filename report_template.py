@@ -472,10 +472,8 @@ def generate_report(d):
             cat = link.get("category", "")
             if cat != current_cat:
                 current_cat = cat
-                lines.append(f"**{cat}:**")
+                lines.append(f"\n**{cat}:**")
             lines.append(f"- [{link['name']}]({link['url']}) -- {link['description']}")
-            if link.get("search_terms"):
-                lines.append(f"  - Search: `{link['search_terms']}`")
         lines.append("")
 
     # 14. Scoring Summary
