@@ -242,3 +242,41 @@
 - The 2028-2031 Grid Plan (Docket 26-0051) should be reviewed for any Macon County-specific transmission investments
 
 **Gap:** Halcyon did not find specific Decatur-area large load dockets or QueenAnne Realty filings at the ICC. The Boxcar Study (CEII) would not be indexed by Halcyon since it's a bilateral utility study, not a public commission filing.
+
+### Supply-Demand Balance & Capacity Outlook (2027-2030)
+
+**Source:** Halcyon Query across 459 ICC documents matching "Ameren Illinois" + "capacity" + "load forecast" (7 documents cited)
+
+**Critical: Ameren Illinois does not own or operate generation.** Resource adequacy is managed by MISO and the Illinois Power Agency (IPA), not Ameren. This means power supply for a 274 MW data center depends entirely on MISO market availability, not Ameren's portfolio.
+
+**Peak Load Forecasts:**
+- Ameren IL provides 5-year load forecasts to the IPA annually (high/low/expected scenarios)
+- Peak load **decreased 15%** between 2012-2023, while customer count grew 1%
+- Under high switching scenarios, 80% residential and 99% small commercial switching to alternative suppliers projected
+
+**Generation Capacity:**
+- Capacity outlook increasingly relies on DERs (solar + storage, demand response)
+- Solar and wind interconnections growing meaningfully as of Oct 2025
+- DERs expected to shift/reduce load to defer new supply-side capacity
+
+**MISO Zone 4 (Ameren Illinois) Capacity Concerns:**
+- IPA has expressed concern about MISO Planning Resource Auction (PRA) price volatility
+- Small supply deficits can lead to significantly higher prices (vertical demand curve)
+- Coal plant retirements and changing MISO/FERC rules create uncertainty
+- Ameren IL's residential demand response: only 15.9 MW cleared in 2020 PRA
+
+**Climate and Reliable Grid Affordability Act (CRGA):**
+- Enacted January 2026 -- new statewide planning requirements for reliability during clean energy transition
+- 2025 statewide resource adequacy study evaluated long-term capacity conditions and retirement risks
+
+**Implications for Commerce Park 80 (274 MW):**
+- **Generation procurement is the #1 risk.** Ameren can't supply generation -- it must come from MISO market or bilateral PPAs. The Boxcar Study's explicit disclaimer confirms this.
+- Adding 274 MW of load in a territory where peak demand has been *declining* represents a massive step change. This will likely require new generation to be built or contracted.
+- MISO Zone 4 capacity auction volatility means energy costs are unpredictable
+- The CRGA may create new planning requirements that could benefit or complicate large load interconnections
+
+**Key ICC Dockets (with direct links):**
+1. [Docket 26-0051: Ameren 2028-2031 Grid Plan (Updated)](https://icc.illinois.gov/docket/P2026-0051/documents/378437) -- Resource adequacy framework, pp. 219-221
+2. [Docket 25-0893: Final 2026 IPA Electricity Procurement Plan](https://icc.illinois.gov/docket/P2025-0893/documents/378106) -- Load switching scenarios, pp. 26-28
+3. [Docket 24-0727: IPA 2025 Electricity Procurement Plan](https://icc.illinois.gov/docket/P2024-0727/documents/356134) -- 5-year load forecast methodology, pp. 23-24
+4. [Docket 22-0487: Ameren Multi-Year Grid Plan (2022)](https://icc.illinois.gov/docket/P2022-0487/documents/332988) -- Historical peak load decline, pp. 71-72
