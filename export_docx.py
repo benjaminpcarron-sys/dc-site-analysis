@@ -15,7 +15,7 @@ from docx import Document
 from docx.shared import Inches, Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml.ns import qn
+from docx.oxml.ns import qn, nsmap
 
 
 def _set_cell_shading(cell, color_hex):
@@ -193,10 +193,31 @@ def md_to_docx(md_path, output_path=None):
     return output_path
 
 
+def _add_hyperlink(paragraph, text, url):
+    """Add a clickable hyperlink to a paragraph."""
+    part = paragraph.part
+    r_id = part.relate_to(url, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink', is_external=True)
+    hyperlink = paragraph._element.makeelement(qn('w:hyperlink'), {qn('r:id'): r_id})
+    new_run = paragraph._element.makeelement(qn('w:r'), {})
+    rPr = paragraph._element.makeelement(qn('w:rPr'), {})
+    rStyle = paragraph._element.makeelement(qn('w:rStyle'), {qn('w:val'): 'Hyperlink'})
+    color = paragraph._element.makeelement(qn('w:color'), {qn('w:val'): '1F3864'})
+    underline = paragraph._element.makeelement(qn('w:u'), {qn('w:val'): 'single'})
+    sz = paragraph._element.makeelement(qn('w:sz'), {qn('w:val'): '20'})
+    rPr.append(rStyle)
+    rPr.append(color)
+    rPr.append(underline)
+    rPr.append(sz)
+    new_run.append(rPr)
+    new_run.text = text
+    hyperlink.append(new_run)
+    paragraph._element.append(hyperlink)
+
+
 def _add_formatted_runs(paragraph, text):
-    """Parse markdown bold/italic/code and add as formatted runs."""
-    # Split on **bold**, *italic*, `code` patterns
-    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)', text)
+    """Parse markdown bold/italic/code/links and add as formatted runs."""
+    # Split on **bold**, *italic*, `code`, [link](url) patterns
+    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))', text)
     for part in parts:
         if not part:
             continue
@@ -212,12 +233,9 @@ def _add_formatted_runs(paragraph, text):
             run.font.size = Pt(9)
             run.font.color.rgb = RGBColor(80, 80, 80)
         elif part.startswith('[') and '](' in part:
-            # Markdown link - just show the text
             m = re.match(r'\[([^\]]+)\]\(([^)]+)\)', part)
             if m:
-                run = paragraph.add_run(m.group(1))
-                run.font.color.rgb = RGBColor(31, 56, 100)
-                run.font.underline = True
+                _add_hyperlink(paragraph, m.group(1), m.group(2))
             else:
                 paragraph.add_run(part)
         else:
