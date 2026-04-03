@@ -171,10 +171,12 @@
 
 ## 5. Research Links
 
-**Regulatory Filings (Halcyon — free search across 6M+ energy dockets):**
-- [Halcyon Search](https://app.halcyon.io/search) — Search: `Ameren Illinois data center large load`
-- [Halcyon Search](https://app.halcyon.io/search) — Filter by Illinois Commerce Commission; keywords: `data center, large load, tariff`
-- [Halcyon Search](https://app.halcyon.io/search) — Search: `QueenAnne Realty` (developer filings)
+**Regulatory Filings (Halcyon — 6M+ energy dockets, direct search results):**
+- [Ameren Illinois + data center filings](https://app.halcyon.io/workspaces/preview?keyword=Ameren%20Illinois,data%20center) — PUC dockets, tariff filings, interconnection agreements
+- [Ameren Illinois + large load tariff](https://app.halcyon.io/workspaces/preview?keyword=Ameren%20Illinois,large%20load) — Large load tariff filings, rate schedules
+- [Illinois + data center + interconnection](https://app.halcyon.io/workspaces/preview?keyword=Illinois,data%20center,interconnection) — Interconnection studies, transmission planning
+- [QueenAnne Realty filings](https://app.halcyon.io/workspaces/preview?keyword=QueenAnne%20Realty) — Developer-specific filings
+- [Decatur + data center](https://app.halcyon.io/workspaces/preview?keyword=Decatur,data%20center) — Location-specific filings
 
 **Federal (Google):**
 - [FERC: Ameren Illinois filings](https://www.google.com/search?q=site%3Aferc.gov+%22Ameren+Illinois%22+%22large+load%22+OR+%22data+center%22)

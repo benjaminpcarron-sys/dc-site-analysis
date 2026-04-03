@@ -122,31 +122,38 @@ def generate_research_links(state, county, utility_name=None, address=None):
     utility_short = (utility_name or "").split(",")[0].strip()
     county_short = county.replace(" County", "") if county else ""
 
-    # Halcyon search (free, 6M+ regulatory filings) for federal + state regulatory
-    # Use for FERC, PUC, and utility filings -- much better than Google for dockets
-    halcyon_base = "https://app.halcyon.io/search"
+    # Halcyon deep-linkable search (free, 6M+ regulatory filings)
+    # URL pattern: /workspaces/preview?keyword=term1,term2 (comma-separated, "All of" by default)
+
+    def _halcyon_url(*keywords):
+        kw = ",".join(k for k in keywords if k)
+        return f"https://app.halcyon.io/workspaces/preview?keyword={urllib.parse.quote(kw, safe=',')}"
 
     # 1. Halcyon: Utility + data center filings
     if utility_short:
         links.append({
             "category": "Regulatory Filings (Halcyon)",
-            "name": f"{utility_short} — data center / large load filings",
+            "name": f"{utility_short} — data center filings",
             "description": "FERC + state PUC dockets, tariff filings, interconnection agreements",
-            "url": halcyon_base,
-            "note": f"Search: {utility_short} data center large load",
+            "url": _halcyon_url(utility_short, "data center"),
         })
 
-    # 2. Halcyon: State + data center filings
-    puc_info = STATE_PUC.get(state)
-    if puc_info:
-        puc_name, _ = puc_info
+    # 2. Halcyon: Utility + large load tariff
+    if utility_short:
         links.append({
             "category": "Regulatory Filings (Halcyon)",
-            "name": f"{puc_name} — data center dockets",
-            "description": "Rate cases, large load tariffs, service agreements",
-            "url": halcyon_base,
-            "note": f"Filter by commission: {puc_name}; keywords: data center, large load",
+            "name": f"{utility_short} — large load tariff",
+            "description": "Large load tariff filings, rate schedules, service agreements",
+            "url": _halcyon_url(utility_short, "large load"),
         })
+
+    # 3. Halcyon: State + data center + interconnection
+    links.append({
+        "category": "Regulatory Filings (Halcyon)",
+        "name": f"{state} — data center interconnection",
+        "description": "Interconnection studies, transmission planning, system impact studies",
+        "url": _halcyon_url(state, "data center", "interconnection"),
+    })
 
     # 3. Google: FERC site-search (backup)
     ferc_q = f'site:ferc.gov "{utility_short}" "large load" OR "data center"'
