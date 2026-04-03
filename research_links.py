@@ -119,52 +119,64 @@ def generate_research_links(state, county, utility_name=None, address=None):
     """Generate research links for a site's state/county/utility."""
     links = []
 
-    # All links use Google site-targeted search to go directly to results
-    # instead of landing on empty search forms
-
     utility_short = (utility_name or "").split(",")[0].strip()
+    county_short = county.replace(" County", "") if county else ""
 
-    # 1. FERC filings
-    ferc_q = f'site:ferc.gov "{utility_short}" "large load" OR "interconnection" OR "data center"'
+    # Halcyon search (free, 6M+ regulatory filings) for federal + state regulatory
+    # Use for FERC, PUC, and utility filings -- much better than Google for dockets
+    halcyon_base = "https://app.halcyon.io/search"
+
+    # 1. Halcyon: Utility + data center filings
+    if utility_short:
+        links.append({
+            "category": "Regulatory Filings (Halcyon)",
+            "name": f"{utility_short} — data center / large load filings",
+            "description": "FERC + state PUC dockets, tariff filings, interconnection agreements",
+            "url": halcyon_base,
+            "note": f"Search: {utility_short} data center large load",
+        })
+
+    # 2. Halcyon: State + data center filings
+    puc_info = STATE_PUC.get(state)
+    if puc_info:
+        puc_name, _ = puc_info
+        links.append({
+            "category": "Regulatory Filings (Halcyon)",
+            "name": f"{puc_name} — data center dockets",
+            "description": "Rate cases, large load tariffs, service agreements",
+            "url": halcyon_base,
+            "note": f"Filter by commission: {puc_name}; keywords: data center, large load",
+        })
+
+    # 3. Google: FERC site-search (backup)
+    ferc_q = f'site:ferc.gov "{utility_short}" "large load" OR "data center"'
     links.append({
-        "category": "Federal",
-        "name": "FERC Filings",
-        "description": "Federal interconnection filings, tariff amendments, large load agreements",
+        "category": "Federal (Google)",
+        "name": "FERC filings",
+        "description": "Federal interconnection filings, tariff amendments",
         "url": f"https://www.google.com/search?q={urllib.parse.quote(ferc_q)}",
     })
 
-    # 2. RTO/ISO Queue
+    # 4. RTO/ISO Queue
     rto_info = STATE_TO_RTO.get(state)
     if rto_info:
-        rto_name, rto_url = rto_info
-        rto_q = f'"{rto_name}" interconnection queue "{county or state}" data center'
+        rto_name, _ = rto_info
+        rto_q = f'"{rto_name}" interconnection queue "{county_short or state}" data center'
         links.append({
             "category": "Interconnection",
-            "name": f"{rto_name} Queue / Filings",
+            "name": f"{rto_name} queue / studies",
             "description": f"Interconnection requests and studies in {rto_name}",
             "url": f"https://www.google.com/search?q={urllib.parse.quote(rto_q)}",
         })
 
-    # 3. State PUC filings
-    puc_info = STATE_PUC.get(state)
-    if puc_info:
-        puc_name, _ = puc_info
-        puc_q = f'"{puc_name}" "{utility_short}" "data center" OR "large load" OR "tariff"'
-        links.append({
-            "category": "Regulatory",
-            "name": f"{puc_name} Filings",
-            "description": "Utility rate cases, large load tariff filings, service agreements",
-            "url": f"https://www.google.com/search?q={urllib.parse.quote(puc_q)}",
-        })
-
-    # 4. State Environmental permits
+    # 5. State Environmental permits
     env_info = STATE_ENV.get(state)
     if env_info:
         env_name, _ = env_info
-        env_q = f'"{env_name}" "{county or ""}" "data center" OR "backup generator" permit'
+        env_q = f'"{env_name}" "{county_short}" "data center" OR "backup generator" permit'
         links.append({
             "category": "Environmental",
-            "name": f"{env_name} Permits",
+            "name": f"{env_name} permits",
             "description": "Air construction permits, NPDES permits, environmental reviews",
             "url": f"https://www.google.com/search?q={urllib.parse.quote(env_q)}",
         })

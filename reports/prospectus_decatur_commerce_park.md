@@ -171,31 +171,32 @@
 
 ## 5. Research Links
 
-**Federal:**
-- [FERC: Ameren Illinois large load filings](https://www.google.com/search?q=site%3Aferc.gov+%22Ameren+Illinois%22+%22large+load%22+OR+%22interconnection%22+OR+%22data+center%22) — Interconnection filings, tariff amendments
-- [FERC: QueenAnne Realty filings](https://www.google.com/search?q=site%3Aferc.gov+%22QueenAnne+Realty%22) — Any federal filings by the developer
+**Regulatory Filings (Halcyon — free search across 6M+ energy dockets):**
+- [Halcyon Search](https://app.halcyon.io/search) — Search: `Ameren Illinois data center large load`
+- [Halcyon Search](https://app.halcyon.io/search) — Filter by Illinois Commerce Commission; keywords: `data center, large load, tariff`
+- [Halcyon Search](https://app.halcyon.io/search) — Search: `QueenAnne Realty` (developer filings)
+
+**Federal (Google):**
+- [FERC: Ameren Illinois filings](https://www.google.com/search?q=site%3Aferc.gov+%22Ameren+Illinois%22+%22large+load%22+OR+%22data+center%22)
+- [FERC: QueenAnne Realty filings](https://www.google.com/search?q=site%3Aferc.gov+%22QueenAnne+Realty%22)
 
 **Interconnection:**
-- [MISO queue: Macon County data center](https://www.google.com/search?q=%22MISO%22+interconnection+queue+%22Macon+County%22+data+center) — Interconnection requests and studies
-- [Ameren Illinois transmission planning](https://www.google.com/search?q=%22Ameren+Illinois%22+transmission+planning+%22Decatur%22+OR+%22Macon+County%22+data+center) — Transmission expansion plans
-
-**Regulatory:**
-- [Illinois Commerce Commission: Ameren data center](https://www.google.com/search?q=%22Illinois+Commerce+Commission%22+%22Ameren+Illinois%22+%22data+center%22+OR+%22large+load%22+OR+%22tariff%22) — Rate cases, large load tariff filings
-- [Illinois Commerce Commission: QueenAnne Realty](https://www.google.com/search?q=%22Illinois+Commerce+Commission%22+%22QueenAnne+Realty%22) — Any state filings by the developer
+- [MISO queue: Macon County](https://www.google.com/search?q=%22MISO%22+interconnection+queue+%22Macon+County%22+OR+%22Decatur%22+data+center)
+- [Ameren transmission planning Decatur](https://www.google.com/search?q=%22Ameren+Illinois%22+transmission+planning+%22Decatur%22+OR+%22Macon+County%22)
 
 **Environmental:**
-- [Illinois EPA: Macon County data center permits](https://www.google.com/search?q=%22Illinois+EPA%22+%22Macon+County%22+%22data+center%22+OR+%22backup+generator%22+permit) — Air permits, NPDES, stormwater
-- [EPA ECHO: Bridgestone-Firestone Decatur](https://www.google.com/search?q=site%3Aepa.gov+echo+%22Bridgestone%22+OR+%22Firestone%22+%22Decatur%22+Illinois) — Historical compliance at former industrial site
+- [Illinois EPA: Macon County permits](https://www.google.com/search?q=%22Illinois+EPA%22+%22Macon+County%22+%22data+center%22+OR+%22backup+generator%22+permit)
+- [EPA ECHO: Bridgestone-Firestone Decatur](https://www.google.com/search?q=site%3Aepa.gov+echo+%22Bridgestone%22+OR+%22Firestone%22+%22Decatur%22+Illinois) — Historical compliance at former site
 
 **Local:**
-- [Macon County building permits data center](https://www.google.com/search?q=Macon+County+IL+building+permit+data+center)
-- [Macon County GIS zoning parcel viewer](https://www.google.com/search?q=Macon+County+IL+zoning+map+GIS+parcel+viewer)
-- [City of Decatur planning commission data center](https://www.google.com/search?q=City+of+Decatur+Illinois+planning+commission+data+center)
-- [Decatur EDC](https://www.google.com/search?q=Decatur+Economic+Development+Corporation+data+center+incentive) — Economic development incentives
+- [Macon County building permits](https://www.google.com/search?q=Macon+County+IL+building+permit+data+center)
+- [Macon County GIS / parcel viewer](https://www.google.com/search?q=Macon+County+IL+zoning+map+GIS+parcel+viewer)
+- [City of Decatur planning commission](https://www.google.com/search?q=City+of+Decatur+Illinois+planning+commission+data+center)
+- [Decatur EDC incentives](https://www.google.com/search?q=Decatur+Economic+Development+Corporation+data+center+incentive)
 
 **Incentives:**
-- [Illinois enterprise zone data center incentive](https://www.google.com/search?q=Illinois+enterprise+zone+data+center+incentive)
-- [Illinois EDGE tax credit data center](https://www.google.com/search?q=Illinois+EDGE+tax+credit+data+center)
+- [Illinois enterprise zone incentive](https://www.google.com/search?q=Illinois+enterprise+zone+data+center+incentive)
+- [Illinois EDGE tax credit](https://www.google.com/search?q=Illinois+EDGE+tax+credit+data+center)
 
 ---
 

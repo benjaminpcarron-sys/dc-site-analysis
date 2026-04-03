@@ -474,6 +474,8 @@ def generate_report(d):
                 current_cat = cat
                 lines.append(f"\n**{cat}:**")
             lines.append(f"- [{link['name']}]({link['url']}) -- {link['description']}")
+            if link.get("note"):
+                lines.append(f"  - {link['note']}")
         lines.append("")
 
     # 14. Scoring Summary
