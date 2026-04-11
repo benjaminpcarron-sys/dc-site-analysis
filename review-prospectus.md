@@ -63,8 +63,39 @@ cd /Users/bencarron/Projects/dc-site-analysis
 python3 dc_site_report.py "EXTRACTED_ADDRESS" --target-mw EXTRACTED_MW
 ```
 
-### Step 3: Cross-Reference & Validate
-Compare prospectus claims against the site analysis findings. For each category, produce a validation assessment:
+### Step 3: Halcyon Regulatory Research (REQUIRED)
+Run three focused Halcyon queries via Chrome DevTools to find actual regulatory filings. This is a mandatory step -- the site analysis tool provides infrastructure data, but the regulatory context (tariffs, capacity outlook, generation plans) is essential for investment decisions.
+
+**Query 1: Large Load Tariff & Interconnection**
+Navigate to Halcyon with keywords `[utility name]` + `large load`, filtered by the state PUC commission.
+Query: "What are [utility]'s large load tariff provisions, data center interconnection requirements, and relevant docket numbers?"
+- Extract: MW thresholds, contract terms, billing minimums, exit fees, collateral requirements
+- Extract: Active docket numbers with direct ICC/PUC links
+
+**Query 2: Supply-Demand Balance & Capacity Outlook**
+Keywords `[utility]` + `capacity` + `load forecast`, filtered by state PUC.
+Query: "What is the expected supply demand balance and capacity outlook for [utility] service territory for [energization year range]?"
+- Extract: Peak demand forecasts, generation additions/retirements, resource adequacy concerns
+- Extract: Whether the utility owns generation or depends on RTO market
+- Extract: MISO/PJM capacity auction results for the relevant zone
+
+**Query 3: Resource Adequacy & Generation Plan**
+Keywords `[utility/state]` + `generation` + `resource plan`, filtered by state PUC.
+Query: "What did the [most recent] resource adequacy study find about capacity shortfalls in [RTO zone]?"
+- Extract: MW surplus/deficit projections for the energization timeframe
+- Extract: Historical capacity auction clearing prices (indicates scarcity)
+- Extract: Fossil fuel retirement schedules and replacement plans
+- Extract: IRP filing status and docket numbers
+
+**For each query:**
+1. Navigate to `https://app.halcyon.io/workspaces/preview?keyword=[terms]&keyword_strategy=ALL&publisher=[commission_id]`
+2. Click Query tab, type the question, apply suggested filters, click Run
+3. Wait ~15 seconds for the AI response
+4. Capture the answer text AND the cited document links (ICC/PUC docket URLs)
+5. Record document titles, docket numbers, filing dates, and page references
+
+### Step 4: Cross-Reference & Validate
+Compare prospectus claims against BOTH the site analysis findings AND the Halcyon regulatory research:
 
 **Power Infrastructure Validation:**
 - Does the claimed utility match our service territory data?
@@ -72,58 +103,70 @@ Compare prospectus claims against the site analysis findings. For each category,
 - Is the claimed substation in our planned substations database?
 - Is the grid adequate for the stated MW target?
 
+**Generation & Capacity Validation (from Halcyon):**
+- Does the utility own generation or depend on RTO market?
+- What is the capacity surplus/deficit outlook for the energization year?
+- Are there capacity shortfall warnings from NERC, MISO, or the state?
+- What generation retirements are scheduled in the region?
+- Has the zone experienced capacity auction price spikes?
+
 **Rate Validation:**
-- How does the claimed rate compare to EIA-861 industrial rates for the area?
-- Are rate escalation assumptions reasonable?
+- How does the claimed rate compare to EIA-861 industrial rates?
+- What do the Halcyon filings show about rate trajectory?
+- Are rate escalation assumptions reasonable given capacity outlook?
 
 **Cost Validation:**
-- How does the $/MW compare to the $8M/MW infrastructure benchmark and $30M/MW all-in benchmark from the database?
+- How does the $/MW compare to the $8M/MW infrastructure benchmark and $30M/MW all-in benchmark?
 - Are there red flags (too cheap = missing costs, too expensive = inflated)?
 
+**Tariff & Regulatory Validation (from Halcyon):**
+- Does the utility have a published large load tariff, or does it use bilateral agreements?
+- What are the actual MW thresholds, contract terms, and exit fees from the tariff filing?
+- Is there a moratorium risk?
+- Does the prospectus account for minimum billing, exit fees, collateral?
+
 **Environmental Validation:**
-- Is the site in a nonattainment zone? (affects generator permitting timeline)
-- Is it in a flood zone? (affects insurance and construction costs)
-- Is it in a Justice40 community? (affects community engagement requirements)
-- What's the seismic design category? (affects structural costs)
+- Nonattainment zone? Flood zone? Justice40? Seismic?
 
 **Zoning Validation:**
-- What does NLCD show for current land cover?
-- Does OSM confirm industrial/commercial zoning?
-- If prospectus says "zoned industrial" but NLCD shows cropland, flag the discrepancy timeline
-
-**Tariff Risk:**
-- What tariff provisions apply in this state/utility?
-- Does the prospectus account for minimum billing, exit fees, collateral?
-- Is there a moratorium risk?
+- NLCD land cover + OSM landuse tags
 
 **Market Context:**
-- How many other DC projects are within 50km?
-- Is this an established DC market or greenfield?
-- What's in the interconnection queue for this state?
+- Nearby DC projects within 50km
+- Interconnection queue for the state
 
-### Step 4: Generate Enhanced Report
+### Step 5: Generate Enhanced Report
 Produce a markdown report with these sections:
 
 1. **Prospectus Summary** - Structured extraction of all key claims
-2. **Site Analysis** - Full dc-site-analysis output
+2. **Site Analysis** - Full dc-site-analysis output (14 sections)
 3. **Validation Matrix** - Side-by-side comparison of claims vs. findings
    | Category | Prospectus Claims | Independent Findings | Status |
    |---|---|---|---|
-   | Utility | "Ameren Illinois" | AEP Ohio (service territory) | ⚠️ MISMATCH |
-   | Rate | "$0.045/kWh" | $0.067/kWh (EIA-861) | ⚠️ BELOW MARKET |
-   | Grid | "345kV at site" | 345kV at 10.8km | ✅ CONFIRMED |
+   | Utility | "Ameren Illinois" | Confirmed (HIFLD service territory) | ✅ |
+   | Grid capacity | "sufficient" | 345kV at 10.8km, Boxcar confirms 274 MW | ✅ |
+   | Generation | Not addressed | MISO Zone 4 deficit projected 2028-2029 | ⚠️ NOT DISCLOSED |
+   | Rate | Not stated | No published tariff; MISO market dependent | ⚠️ MISSING |
+4. **Regulatory Research Findings** (Halcyon appendix with docket links)
+   - Large load tariff analysis
+   - Supply-demand balance & capacity outlook
+   - Resource adequacy study findings
+5. **Red Flags** - Material discrepancies, missing information, unrealistic assumptions
+6. **Due Diligence Checklist** - Items requiring further verification
+7. **Research Links** - Halcyon deep links + Google for local/environmental
 
-4. **Red Flags** - Material discrepancies, missing information, or unrealistic assumptions
-5. **Due Diligence Checklist** - Items requiring further verification
-6. **Research Links** - Pre-built URLs for FERC, state PUC, county permits, etc.
-
-### Step 5: Save
-Save the enhanced report to:
-- `/Users/bencarron/Projects/dc-site-analysis/reports/prospectus_[project_name_slug].md`
+### Step 6: Export & Save
+- Save markdown to: `/Users/bencarron/Projects/dc-site-analysis/reports/prospectus_[project_name_slug].md`
+- Export Word doc: `python3 export_docx.py reports/[file].md -o [output_path]`
+- Save Word doc to the relevant client folder (e.g., Weiss Realty)
+- Commit and push to GitHub
 
 ## Notes
 - Always read the full PDF before extracting - don't assume structure
+- The Halcyon research step is REQUIRED -- the site analysis tool covers infrastructure and environmental data, but regulatory filings (tariffs, capacity outlook, generation plans) are only available through Halcyon
 - Flag financial projections you can't independently verify (IRR, lease rates) as "unverified - requires financial model review"
-- If the prospectus references specific permits or filings, include those document numbers in the research links section
-- Compare the $/MW to both the infrastructure-only benchmark ($8M/MW) and the all-in benchmark ($30M/MW) from the data_centers.csv analysis
-- If multiple sites are mentioned, run the analysis for each
+- If the prospectus references specific permits or filings, search for those docket numbers in Halcyon
+- Compare the $/MW to both the infrastructure-only benchmark ($8M/MW) and the all-in benchmark ($30M/MW)
+- For Halcyon queries: keep questions focused (one topic per query), use commission filters, and apply date filters when Halcyon suggests them
+- If Halcyon flags a "totality query," break it into smaller questions
+- Always capture the ICC/PUC docket URLs from Halcyon citations -- these are the primary source documents
