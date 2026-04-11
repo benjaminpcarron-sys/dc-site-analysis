@@ -151,9 +151,55 @@ Produce a markdown report with these sections:
    - Large load tariff analysis
    - Supply-demand balance & capacity outlook
    - Resource adequacy study findings
-5. **Red Flags** - Material discrepancies, missing information, unrealistic assumptions
-6. **Due Diligence Checklist** - Items requiring further verification
-7. **Research Links** - Halcyon deep links + Google for local/environmental
+5. **Stakeholder Engagement Map** (see Step 4b below)
+6. **Red Flags** - Material discrepancies, missing information, unrealistic assumptions
+7. **Due Diligence Checklist** - Items requiring further verification
+8. **Research Links** - Halcyon deep links + Google for local/environmental
+
+### Step 4b: Stakeholder Engagement Map (REQUIRED)
+Build a table of the specific people and organizations relevant to developing this site. Use multiple sources: prospectus documents (often name utility contacts), Halcyon filings (name commissioners, utility witnesses, intervenors), utility/government websites, and Google search.
+
+**For each stakeholder, find: Name, Title, Organization, Contact (email/phone/URL), and Why they matter.**
+
+Research in this order:
+
+**Tier 1: Deal-Critical**
+- **Utility Economic Development Rep** — The person who can initiate interconnection studies and rate negotiations. Check: utility website economic development page, prospectus attachments, Google `"[utility]" economic development contact [city]`
+- **Utility Transmission Planning** — The engineer who runs system impact studies. Check: named in any Boxcar/interconnection study provided, request from BD rep
+- **State PUC Commissioners** — Who votes on tariffs and rate cases. Check: state PUC website commissioners page, names in Halcyon docket orders
+- **City/County Economic Development Director** — Enterprise zones, tax incentives, political support. Check: county EDC website, Google `"[county]" economic development director`
+- **RTO Interconnection Contact** — MISO/PJM large load intake. Check: RTO website stakeholder contacts page
+
+**Tier 2: Permitting & Approvals**
+- **County Planning Director** — Zoning, CUP, site plan. Check: county government website planning department
+- **State EPA Air Permit Reviewer** — Backup generator permits. Check: state EPA website, names in Halcyon permit filings
+- **City Building Official** — Building permits. Check: city government website
+
+**Tier 3: Infrastructure Partners**
+- **Fiber/dark fiber providers** — DC connectivity. Check: Google `"dark fiber" OR "fiber provider" [city] [state]`
+- **Water utility** — Cooling water. Check: municipal water department
+- **Gas utility** — Generator fuel. Check: gas utility website (may be same as electric utility)
+
+**Tier 4: Political & Community**
+- **State legislator (district)** — Legislative support. Check: state legislature website, find by address
+- **Mayor / City Manager** — Local political support. Check: city government website
+- **County Board Chair** — County approvals. Check: county government website
+
+Format as a table in the report:
+```
+| Tier | Role | Name | Organization | Contact | Notes |
+|------|------|------|-------------|---------|-------|
+| 1 | Utility BD | Holly Klausing | Ameren Economic Dev | hklausing@ameren.com / 217-371-4496 | Named in Ameren infrastructure doc |
+| 1 | PUC Commissioner | [name] | Illinois Commerce Commission | [URL] | Chair of relevant docket |
+```
+
+Sources to mine for names:
+1. **The prospectus documents themselves** — developers often include utility contact info
+2. **Halcyon query results** — testimony authors, docket participants, order signatories are the decision-makers
+3. **Utility website** — economic development / large customer pages
+4. **State PUC website** — commissioner bios, staff directory
+5. **County/city government websites** — staff directories, department pages
+6. **Google** — `"[title]" "[organization]" [city]` for specific roles
 
 ### Step 6: Export & Save
 - Save markdown to: `/Users/bencarron/Projects/dc-site-analysis/reports/prospectus_[project_name_slug].md`

@@ -301,3 +301,50 @@
 1. [Docket 25-1075: ICC Report (Dec 2025)](https://icc.illinois.gov/docket/P2025-1075/documents/374230) — REAP resource adequacy gap identification, pp. 102-104, 123-124
 2. [Docket 24-0727: Final 2025 IPA Electricity Procurement Plan](https://icc.illinois.gov/docket/P2024-0727/documents/360580) — MISO Zone 4 capacity projections, pp. 55-57
 3. [Docket 24-0088: Goggin Testimony on Zone 4 Capacity](https://icc.illinois.gov/docket/P2024-0088/documents/360014) — 2022-2023 capacity shortfall at $236.66/MW-day, pp. 37-39
+
+---
+
+## Appendix: Stakeholder Engagement Map
+
+### Tier 1: Deal-Critical
+
+| Role | Name | Organization | Contact | Notes |
+|------|------|-------------|---------|-------|
+| Utility Economic Dev | Eric Whitfield | Ameren Illinois Economic Dev | JWhitfield@ameren.com / 314-422-7549 | Director of Economic Development; Ameren ASAP pilot site in Decatur |
+| Utility BD (local) | Holly Klausing | Ameren Economic Dev | hklausing@ameren.com / 217-371-4496 | Named in Ameren Infrastructure doc for Commerce Park |
+| ICC Chairman | Doug P. Scott | Illinois Commerce Commission | icc.illinois.gov / 217-782-7295 | Confirmed Feb 2025 to 5-year term |
+| ICC Commissioners | Carrigan, McCabe, Reddick, Paradis | Illinois Commerce Commission | icc.illinois.gov/about/commissioners | 5 commissioners total |
+| EDC President | Nicole Bateman | EDC of Decatur & Macon County | nbateman@decaturedc.com / 217-422-9520 | Named in JLL brochure; EDC has property spotlight page for 2500 N 22nd |
+| MISO Large Load | Stakeholder Relations | MISO | Help@misoenergy.org / 866-296-6476 | Large load page: misoenergy.org/planning/large-loads |
+
+### Tier 2: Permitting & Approvals
+
+| Role | Name | Organization | Contact | Notes |
+|------|------|-------------|---------|-------|
+| County Planning Dir | Amy McKinney | Macon County Planning & Zoning | amckinney@maconcounty.illinois.gov / 217-424-1466 | Interim Director; handles zoning, floodplain, stormwater |
+| City Manager | Melissa Hon | City of Decatur | 217-424-2700 | Appointed Feb 2026; site plan approval required |
+| Mayor | Julie Moore Wolfe | City of Decatur | decaturil.gov / 217-424-2700 | Political support for large projects |
+
+### Tier 3: Infrastructure Partners
+
+| Role | Name | Organization | Contact | Notes |
+|------|------|-------------|---------|-------|
+| Fiber (citywide) | — | SiFi Networks (Decatur FiberCity) | sifinetworks.com | Building citywide open-access fiber to every premises |
+| Dark fiber (enterprise) | — | Lumen Technologies | lumen.com/dark-fiber | Enterprise dark fiber nationally |
+| Dark fiber (wholesale) | — | Stratus Networks | stratusnet.com | Decatur Central Office at 150 W North St |
+| Fiber (local) | — | Conxxus | conxxus.com | Local fiber ISP |
+
+### Tier 4: Political & Community
+
+| Role | Name | Organization | Contact | Notes |
+|------|------|-------------|---------|-------|
+| County Board Chair | Kevin Greenfield | Macon County Board | maconcounty.illinois.gov | Term expires Nov 2028 |
+| State Rep (96th) | Sue Scherer (D) | IL General Assembly | staterepsue@gmail.com / 217-877-9636 | Decatur office: 1353 E Mound Rd, Suite 203 |
+| State Senator (48th) | Doris Turner (D) | IL General Assembly | senatordoristurner.com / 217-706-5311 | Decatur office: 1210 S Jasper St |
+
+### Key Engagement Notes
+- **Ameren ASAP pilot site**: Ameren recently launched the Site Acceleration Program with one of three pilots in Decatur -- strong conversation opener with Whitfield
+- **EDC already marketing this site**: The Decatur EDC has a dedicated property spotlight page for 2500 N 22nd St at decaturedc.com/property-spotlights/2500north22/
+- **Holly Klausing** (Ameren BD) was named in the prospectus infrastructure doc -- she is the existing relationship
+- **SiFi Networks citywide fiber** is a significant infrastructure advantage not mentioned in the prospectus
+- **Confirm jurisdiction**: Verify whether 2500 N 22nd is within city limits (City of Decatur zoning) or unincorporated Macon County (county P&Z)
