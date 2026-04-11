@@ -280,3 +280,24 @@
 2. [Docket 25-0893: Final 2026 IPA Electricity Procurement Plan](https://icc.illinois.gov/docket/P2025-0893/documents/378106) -- Load switching scenarios, pp. 26-28
 3. [Docket 24-0727: IPA 2025 Electricity Procurement Plan](https://icc.illinois.gov/docket/P2024-0727/documents/356134) -- 5-year load forecast methodology, pp. 23-24
 4. [Docket 22-0487: Ameren Multi-Year Grid Plan (2022)](https://icc.illinois.gov/docket/P2022-0487/documents/332988) -- Historical peak load decline, pp. 71-72
+
+### MISO Zone 4 Resource Adequacy Study Findings
+
+**Source:** Halcyon Query across ICC documents, 2025 date filter (3 documents cited)
+
+**The 2025 Draft REAP identifies the MISO Zone 4 resource adequacy gap as urgent.** Illinois may require new capacity procurement mechanisms.
+
+**Key findings:**
+
+- **NERC LTRA (2023):** MISO projected to have **insufficient resources region-wide starting in the 2028-2029 delivery year** to meet load and target reserve margins
+- **2024-2025 delivery year:** MISO PRA showed sufficient capacity in Zone 4 (central + southern IL)
+- **2025-2026 delivery year:** MISO-OMS survey projects capacity could range from a **1.1 GW surplus to a 2.7 GW deficit**, depending on pace of new resource additions
+- **2022-2023 capacity auction:** Zone 4 experienced a capacity shortfall -- prices reached **$236.66/MW-day**. Zone 4 **imported over 2,300 MW of its nearly 10,000 MW need** (23% import dependency)
+- **CEJA retirements:** ICC supporting RTO reforms to plan for fossil fuel retirements. Proactive transmission planning being assessed to mitigate emissions leakage
+
+**This means:** Commerce Park 80's proposed January 2028 energization coincides exactly with when NERC projects MISO will have **insufficient resources**. A 274 MW new load in an already import-dependent zone during a capacity shortfall period represents significant generation procurement risk.
+
+**ICC Dockets (with direct links):**
+1. [Docket 25-1075: ICC Report (Dec 2025)](https://icc.illinois.gov/docket/P2025-1075/documents/374230) — REAP resource adequacy gap identification, pp. 102-104, 123-124
+2. [Docket 24-0727: Final 2025 IPA Electricity Procurement Plan](https://icc.illinois.gov/docket/P2024-0727/documents/360580) — MISO Zone 4 capacity projections, pp. 55-57
+3. [Docket 24-0088: Goggin Testimony on Zone 4 Capacity](https://icc.illinois.gov/docket/P2024-0088/documents/360014) — 2022-2023 capacity shortfall at $236.66/MW-day, pp. 37-39
