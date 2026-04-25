@@ -218,8 +218,8 @@
       ],
       "expected_overall_score": 3.35,
       "score_tolerance": 0.5,
-      "expected_feasibility": 0.24,
-      "feasibility_tolerance": 0.12,
+      "expected_feasibility": 0.31,
+      "feasibility_tolerance": 0.07,
       "must_trigger_killers": [
         "regulatory_interconnection_pause"
       ],

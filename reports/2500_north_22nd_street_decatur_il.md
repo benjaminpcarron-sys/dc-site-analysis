@@ -2,15 +2,17 @@
 **Address:** 2500 North 22nd Street, Decatur, IL
 **Coordinates:** 39.873057 N, -88.926192 W
 **State:** IL | **County:** Macon County
-**Report Date:** 2026-04-02
-**Target Capacity:** 500 MW
+**Report Date:** 2026-04-25
+**Target Capacity:** 274 MW
+
+![Site Map](2500_north_22nd_street_decatur_il_map.png)
+*DC Site Mapper — infrastructure layers for 2500 North 22nd Street, Decatur, IL*
 
 ---
 
 ## Executive Summary
-**Overall Site Rating: 3.3 / 5.0 (Moderate)**
+**Overall Site Rating: 3.5 / 5.0 (Moderate)** *(legacy weighted score)*
 
-Highest voltage line: 345.0 kV (345) at 10.8 km, owned by AMEREN ILLINOIS COMPANY. Estimated grid capacity without major upgrades: ~500 MW. Connecting substations: OREANA to TAP170250.
  Utility service territory: **SHELBY ELECTRIC COOP, INC** (SHELBY ELECTRIC COOP, INC).
 
 ## 1. Power Infrastructure
@@ -29,10 +31,11 @@ Highest voltage line: 345.0 kV (345) at 10.8 km, owned by AMEREN ILLINOIS COMPAN
 | Oreana | Existing | 5.7 | 345.00 kV |
 
 ### Grid Adequacy Assessment
-- **Estimated Capacity:** 500 MW
-- **Upgrade Required:** No
-- **Confidence:** medium
-- **Score:** [++++-] (4/5)
+- **Rough HV-line capacity proxy:** 500 MW
+  *Voltage-class heuristic only (nearest line kV × typical feeder multiplier); not a host-utility capacity study. Scoring uses the qualitative outlook above, not this number.*
+- **Upgrade Required (heuristic):** No
+- **Confidence (HV proximity):** medium
+- **Scorecard Grid Access:** [+++++] (5/5) -- derived from grid_outlook + HV proximity (not from the HV-line MW proxy above).
 
 ### Planned Grid Buildout (within 150 km)
 Substations with planned upgrades or new construction:
@@ -75,7 +78,8 @@ _No DC-specific tariff identified for this state (IL)._
 ### Land Cover: **Developed, Medium Intensity** (NLCD 23)
 - Good -- developed area, medium intensity. May be zoned commercial or mixed-use.
 
-_No OpenStreetMap landuse data mapped for this immediate area._
+### OSM Zoning: **Industrial**
+- OpenStreetMap confirms industrial/commercial land use at or near this location.
 
 ## 6. Environmental & Regulatory Risk
 
@@ -101,13 +105,15 @@ Site is in a federally designated disadvantaged community. Regulatory agencies m
 ### Climate & Land Cost
 - **Cooling Degree Days:** 1,089 (Moderate)
 - **Avg Farmland Value:** $9,200/acre (USDA state average; DC-zoned land typically 3-10x)
-- **Est. Land Cost (150 acres at ~5x farmland):** $7M
+- **Est. Land Cost (82 acres at ~5x farmland):** $4M
 
 ## 7. Gas Infrastructure
 _No gas pipelines found within 50 km._
 
 ## 8. Water Resources
 _No water facilities found within 30 km._
+
+*Water facility proximity is a civic-infrastructure proxy -- HIFLD does not expose facility capacity. Process-water availability at DC scale (tens of MGD) requires a separate allocation/discharge study.*
 
 ## 9. Transportation Access
 _No interstate/US highways found within 30 km._
@@ -136,33 +142,33 @@ _No data center projects found within 50 km._
 ## 13. Research Links
 Pre-built search links for deeper due diligence:
 
-**Federal:**
-- [FERC eLibrary](https://elibrary.ferc.gov/eLibrary/search?q=%22SHELBY%20ELECTRIC%20COOP%2C%20INC%22%20%22large%20load%22) -- Federal interconnection filings, tariff amendments, large load agreements
-  - Search: `"SHELBY ELECTRIC COOP, INC" "large load"`
+
+**Regulatory Filings (Halcyon):**
+- [SHELBY ELECTRIC COOP — data center filings](https://app.halcyon.io/workspaces/preview?keyword=SHELBY%20ELECTRIC%20COOP,data%20center) -- FERC + state PUC dockets, tariff filings, interconnection agreements
+- [SHELBY ELECTRIC COOP — large load tariff](https://app.halcyon.io/workspaces/preview?keyword=SHELBY%20ELECTRIC%20COOP,large%20load) -- Large load tariff filings, rate schedules, service agreements
+- [IL — data center interconnection](https://app.halcyon.io/workspaces/preview?keyword=IL,data%20center,interconnection) -- Interconnection studies, transmission planning, system impact studies
+
 **Interconnection:**
-- [MISO/PJM Interconnection Queue](https://www.misoenergy.org/planning/generator-interconnection/GI_Queue/gi-interactive-queue/) -- Generator and large load interconnection requests in MISO/PJM
-  - Search: `Macon County`
-**Regulatory:**
-- [Illinois Commerce Commission](https://www.icc.illinois.gov/docket/search) -- Utility rate cases, large load tariff filings, service agreements
-  - Search: `SHELBY ELECTRIC COOP, INC large load`
-**Environmental:**
-- [Illinois EPA](https://external.epa.illinois.gov/EPASearch/) -- Air construction permits, NPDES permits, environmental reviews
-  - Search: `Macon County data center`
+- [MISO/PJM queue / studies](https://www.google.com/search?q=%22MISO/PJM%22%20interconnection%20queue%20%22Macon%22%20data%20center) -- Interconnection requests and studies in MISO/PJM
+
+**Environmental (Halcyon):**
+- [Air permits + data center (IL)](https://app.halcyon.io/workspaces/preview?keyword=air%20permit,data%20center,IL) -- State EPA air permits, TCEQ filings, environmental reviews for data centers
+
+**Environmental (Google):**
+- [Illinois EPA permits](https://www.google.com/search?q=%22Illinois%20EPA%22%20%22Macon%22%20%22data%20center%22%20OR%20%22backup%20generator%22%20permit) -- Backup: state environmental agency permit search
+
 **Local:**
 - [Macon County Building Permits](https://www.google.com/search?q=Macon%20County%20IL%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans
-  - Search: `Macon County IL building permit data center`
-- [Macon County Zoning / GIS](https://www.google.com/search?q=Macon%20County%20IL%20zoning%20map%20GIS) -- County zoning maps, land use plans, parcel viewer
-  - Search: `Macon County IL zoning map GIS`
-- [Macon County Planning Commission](https://www.google.com/search?q=Macon%20County%20IL%20planning%20commission%20agenda%20data%20center) -- Planning commission meeting agendas, CUP applications, public hearings
-  - Search: `Macon County IL planning commission agenda data center`
+- [Macon County Zoning / GIS](https://www.google.com/search?q=Macon%20County%20IL%20zoning%20map%20GIS%20parcel%20viewer) -- County zoning maps, land use plans, parcel viewer
+- [Macon County Planning Commission](https://www.google.com/search?q=Macon%20County%20IL%20planning%20commission%20agenda%20data%20center) -- Planning commission agendas, CUP applications, public hearings
+
 **Incentives:**
-- [IL Economic Development](https://www.google.com/search?q=IL%20economic%20development%20data%20center%20incentive%20application) -- State incentive programs, enterprise zones, tax abatement applications
-  - Search: `IL economic development data center incentive application`
+- [IL Economic Development](https://www.google.com/search?q=IL%20economic%20development%20data%20center%20incentive) -- State incentive programs, enterprise zones, tax abatement applications
 
 ## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
-| Grid Access | [++++-] | 4/5 | 20% |
+| Grid Access | [+++++] | 5/5 | 20% |
 | Utility Rate | [+++--] | 3/5 | 15% |
 | Environmental | [++++-] | 4/5 | 15% |
 | Fiber/Telecom | [++---] | 2/5 | 10% |
@@ -172,7 +178,7 @@ Pre-built search links for deeper due diligence:
 | DC Tariff Risk | [+++--] | 3/5 | 15% |
 
 
-**Weighted Total: 3.3 / 5.0**
+**Weighted Total: 3.5 / 5.0**
 
 ---
 *Generated by dc-site-analysis. Data sources: HIFLD, NTAD, EPA, OSM, EIA-861, demand_ledger.*

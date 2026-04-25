@@ -3,7 +3,7 @@
 import re
 from datetime import date
 
-from scoring import CLUSTER_OPPORTUNITY_BOOST
+CLUSTER_OPPORTUNITY_BOOST = 0.12  # kept for report formatting backward compat
 
 
 def _table(headers, rows):
@@ -34,6 +34,183 @@ def _score_bar(score):
     filled = "+" * score
     empty = "-" * (5 - score)
     return f"[{filled}{empty}]"
+
+
+def _render_feasibility_by_tenant(feas_all: dict) -> list[str]:
+    """Render the multi-tenant executive-summary block.
+
+    Replaces the previous single-tenant 'Risk-Adjusted Feasibility: X' line
+    with: (a) plain-English description of each tenant tier, (b) a 3-row
+    feasibility table, (c) the grid outlook + power path anchors (tenant-
+    independent), and (d) a deal-killer table with P-by-tenant columns + an
+    interpretive paragraph for any killer where the spec/hyp spread is large.
+    """
+    out: list[str] = []
+    by_tenant = feas_all.get("by_tenant", {})
+    descriptions = feas_all.get("tenant_descriptions", {})
+    opportunity = feas_all.get("opportunity", 0.0)
+    triggered = feas_all.get("triggered_killers", [])
+    catalog = feas_all.get("killer_catalog_size", 0)
+
+    out.append("")
+    out.append("### Feasibility by Tenant Profile")
+    out.append("")
+    out.append(
+        "The same site has materially different economics depending on who "
+        "is building. Each tier below reflects a real difference in counterparty "
+        "credit, financial runway, and ability to negotiate around published "
+        "tariffs. The opportunity number is identical across tiers (it depends "
+        "on site fundamentals, not the buyer); only the deal-killer probabilities "
+        "scale by tenant."
+    )
+    out.append("")
+
+    rows = []
+    for t in ("speculative", "anchored", "hyperscaler"):
+        bt = by_tenant.get(t)
+        if not bt:
+            continue
+        rows.append([
+            t.capitalize(),
+            f"{bt['feasibility']:.2f}",
+            bt["rating"],
+            f"Opp {opportunity:.2f} × (1 − Risk {bt['combined_risk']:.2f})",
+        ])
+    out.append(_table(["Tenant", "Feasibility", "Rating", "Math"], rows))
+
+    out.append("**Who each tier is, in counterparty terms:**")
+    out.append("")
+    for t in ("speculative", "anchored", "hyperscaler"):
+        desc = descriptions.get(t)
+        if desc:
+            out.append(f"- **{t.capitalize()}** -- {desc}")
+    out.append("")
+
+    pp = feas_all.get("power_path") or {}
+    outlook = pp.get("outlook") or {}
+    verdict = outlook.get("verdict")
+    if verdict:
+        out.append(f"**Grid Outlook: {verdict.title()}** *(tenant-independent)*  ")
+        supply_ev = outlook.get("supply_signals") or []
+        demand_ev = outlook.get("demand_signals") or []
+        if supply_ev:
+            out.append("Supply anchors:")
+            for ev in supply_ev:
+                out.append(f"  - {ev}")
+        if demand_ev:
+            out.append("Demand pressure / gaps:")
+            for ev in demand_ev:
+                out.append(f"  - {ev}")
+        if not supply_ev and not demand_ev:
+            out.append("  - No strong supply or demand signals observed (thin data).")
+        out.append("")
+
+    paths = pp.get("paths") or []
+    supply_evidence_text = "\n".join(outlook.get("supply_signals") or [])
+    if paths:
+        path_labels = ", ".join(p["label"] for p in paths)
+        out.append(f"**Power Path Anchors:** {path_labels}")
+        for p in paths:
+            ev = p["evidence"]
+            if ev and ev in supply_evidence_text:
+                # Already shown verbatim under Supply anchors; just label.
+                out.append(f"  - *{p['label']}* (see supply anchor above)")
+            else:
+                out.append(f"  - *{p['label']}*: {ev}")
+        out.append("")
+    elif verdict == "doubtful":
+        out.append("**Power Path Anchors:** *none identified* -- no brownfield, no cluster-grid, no BTM gas.")
+        out.append("")
+
+    boost_ev = feas_all.get("opportunity_boost_evidence")
+    if boost_ev:
+        import re as _re
+        # Strip the "(+X.XX opportunity)" magnitude suffix before checking
+        # whether the underlying evidence already appeared in supply anchors.
+        magnitude_match = _re.search(r"\(\+([0-9.]+)\s*opportunity\)", boost_ev)
+        magnitude = f"+{magnitude_match.group(1)} opportunity" if magnitude_match else "boost applied"
+        core = _re.sub(r"\s*\(\+[0-9.]+\s*opportunity\)\s*", "", boost_ev).strip()
+        if core and core in supply_evidence_text:
+            out.append(f"*Opportunity boost:* {magnitude} (from supply anchor above).")
+        else:
+            out.append(f"*Opportunity boost:* {boost_ev}")
+        out.append("")
+
+    if triggered:
+        out.append(f"**Deal-Killers Triggered ({len(triggered)} of {catalog}):**")
+        killer_rows = [
+            [
+                tk["name"],
+                tk["category"],
+                f"{tk['p_by_tenant']['speculative']:.2f}",
+                f"{tk['p_by_tenant']['anchored']:.2f}",
+                f"{tk['p_by_tenant']['hyperscaler']:.2f}",
+                tk["evidence"],
+            ]
+            for tk in triggered
+        ]
+        out.append(_table(
+            ["Factor", "Category", "Spec P", "Anc P", "Hyp P", "Evidence"],
+            killer_rows,
+        ))
+
+        # Where tenant scaling is materially divergent (>=3x spread between
+        # speculative and hyperscaler), surface a one-line interpretation so
+        # readers know WHY the gap exists. Coarse threshold avoids cluttering
+        # the report when scaling is uniform or near-uniform.
+        gap_notes: list[str] = []
+        for tk in triggered:
+            spec = tk["p_by_tenant"]["speculative"]
+            hyp = tk["p_by_tenant"]["hyperscaler"]
+            if spec >= 0.05 and hyp > 0 and spec / max(hyp, 0.01) >= 3.0:
+                gap_notes.append(
+                    f"- **{tk['name']}**: P drops {spec:.2f} -> {hyp:.2f} from spec to hyperscaler "
+                    f"(scaling {tk['tenant_scaling']['speculative']:.2f} -> "
+                    f"{tk['tenant_scaling']['hyperscaler']:.2f}). "
+                    f"{_tenant_gap_rationale(tk['name'])}"
+                )
+        if gap_notes:
+            out.append("**Why the tenant gap on these killers:**")
+            out.append("")
+            out.extend(gap_notes)
+            out.append("")
+        out.append("*P(kill) values are seed estimates; see `scoring.py` and `docs/screen_methodology/p_values_audit.md`.*")
+    else:
+        out.append("*No deal-killers triggered. Feasibility reflects opportunity factors alone.*")
+
+    return out
+
+
+def _tenant_gap_rationale(killer_name: str) -> str:
+    """Plain-English explanation for why a killer's P scales steeply by tenant.
+
+    Only reached when the spec-vs-hyperscaler spread is >=3x. Returns a short
+    sentence appropriate for a footnote-style annotation.
+    """
+    rationales = {
+        "onerous_tariff_deposit": (
+            "Multi-million-dollar collateral / multi-year LOC requirements that "
+            "cripple a merchant developer are parent-financed for an IG-credit "
+            "hyperscaler -- the deposit is real either way, but only one tier can "
+            "absorb it without disturbing capital structure."
+        ),
+        "regulatory_interconnection_pause": (
+            "Hyperscaler planning horizons absorb 12-24 month interconnection "
+            "delays as routine; merchant developers underwrite to a 24-month "
+            "build window and cancel when slippage approaches that limit."
+        ),
+        "high_industrial_rate": (
+            "Hyperscalers negotiate bilateral utility contracts (special-load "
+            "tariffs, RECs-bundled deals) that materially diverge from the "
+            "published industrial rate; speculative buyers pay the published rate."
+        ),
+        "utility_moratorium": (
+            "Tariff-level moratoriums are structural, not tenant-dependent -- "
+            "if scaling is firing here it's small, but hyperscalers have slightly "
+            "more political/regulatory engagement to track lift timing."
+        ),
+    }
+    return rationales.get(killer_name, "Tenant-scaling reflects credit and runway differentials.")
 
 
 def generate_report(d):

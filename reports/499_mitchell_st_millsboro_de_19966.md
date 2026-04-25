@@ -4,7 +4,6 @@
 **State:** DE | **County:** Sussex County
 **Report Date:** 2026-04-25
 **Target Capacity:** 500 MW
-**Tenant Profile:** speculative *(scales deal-killer probabilities; see scoring.py)*
 
 ![Site Map](499_mitchell_st_millsboro_de_19966_map.png)
 *DC Site Mapper — infrastructure layers for 499 Mitchell St, Millsboro, DE 19966*
@@ -14,27 +13,38 @@
 ## Executive Summary
 **Overall Site Rating: 3.4 / 5.0 (Moderate)** *(legacy weighted score)*
 
-**Risk-Adjusted Feasibility: 0.31 / 1.00 (Challenging)**  
-Opportunity 0.69 × (1 − Combined Risk 0.55) = 0.31  *(tenant: speculative)*
+### Feasibility by Tenant Profile
 
-**Grid Outlook: Promising**  
+The same site has materially different economics depending on who is building. Each tier below reflects a real difference in counterparty credit, financial runway, and ability to negotiate around published tariffs. The opportunity number is identical across tiers (it depends on site fundamentals, not the buyer); only the deal-killer probabilities scale by tenant.
+
+| Tenant | Feasibility | Rating | Math |
+| --- | --- | --- | --- |
+| Speculative | 0.31 | Challenging | Opp 0.69 × (1 − Risk 0.55) |
+| Anchored | 0.42 | Moderate | Opp 0.69 × (1 − Risk 0.39) |
+| Hyperscaler | 0.50 | Moderate | Opp 0.69 × (1 − Risk 0.28) |
+
+**Who each tier is, in counterparty terms:**
+
+- **Speculative** -- Merchant developer building on spec, no named anchor tenant or investment-grade lease commitment. Constrained by tariff collateral, cannot wait through indefinite interconnection pauses, must close at published industrial rates, cannot finance behind-the-meter generation.
+- **Anchored** -- Pre-leased to a named DC operator with investment-grade credit (CoreSite, Equinix, Digital Realty, QTS, etc.). Can absorb deposit requirements, has runway for moderate schedule slips, negotiates rates but at the second tier (not bespoke utility contracts).
+- **Hyperscaler** -- Tier-1 hyperscaler (FAANG-tier IG credit) developing for own use. Negotiates around published tariffs via bilateral utility contracts, absorbs deposits via parent guarantees, can finance behind-the-meter generation, plans on horizons that absorb 12-24 month interconnection delays.
+
+**Grid Outlook: Promising** *(tenant-independent)*  
 Supply anchors:
   - brownfield: Indian River Power Plant (785 MW former, 230/138 kV) 0.8 km away [direct, fit=1.57] -- switchyard + HV ties repurposable
 
 **Power Path Anchors:** brownfield
-  - *brownfield*: Indian River Power Plant (785 MW former, 230/138 kV) 0.8 km away [direct, fit=1.57] -- switchyard + HV ties repurposable
+  - *brownfield* (see supply anchor above)
 
-*Opportunity boost:* Indian River Power Plant (785 MW former, 230/138 kV) 0.8 km away [direct, fit=1.57] -- switchyard + HV ties repurposable (+0.12 opportunity)
+*Opportunity boost:* +0.12 opportunity (from supply anchor above).
 
 **Deal-Killers Triggered (1 of 8):**
-| Factor | Category | P(kill) | Evidence |
-| --- | --- | --- | --- |
-| regulatory_interconnection_pause | regulatory | 0.55 | Delmarva Power: DE PSC 25-0826 active interconnection pause (expected lift 2026-12-31, ~8.2 months out) |
+| Factor | Category | Spec P | Anc P | Hyp P | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| regulatory_interconnection_pause | regulatory | 0.55 | 0.39 | 0.28 | Delmarva Power: DE PSC 25-0826 active interconnection pause (expected lift 2026-12-31, ~8.2 months out) |
 
+*P(kill) values are seed estimates; see `scoring.py` and `docs/screen_methodology/p_values_audit.md`.*
 
-*P(kill) values are seed estimates; see `scoring.py` for calibration hooks.*
-
-Highest voltage line: 230.0 kV (220-287) at 3.6 km, owned by DELMARVA POWER. Estimated grid capacity without major upgrades: ~200 MW. Connecting substations: UNKNOWN128221 to UNKNOWN128222. Target of 500.0 MW exceeds estimated capacity by 300.0 MW -- significant grid upgrades will be required.
  Utility service territory: **DELMARVA POWER** (EXELON).
 
 ## 1. Power Infrastructure

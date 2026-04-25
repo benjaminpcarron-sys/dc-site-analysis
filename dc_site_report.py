@@ -24,52 +24,23 @@ def compute_scores(d):
     """Compute factor scores (1-5) for the site suitability matrix."""
     scores = {}
 
-    # Grid Access: derived from the qualitative grid_outlook verdict plus
-    # observable HV proximity. Intentionally NOT derived from
-    # grid_assessment.max_mw (voltage-class heuristic, precision without
-    # accuracy). See docs/screen_methodology/grid_severely_insufficient.md.
-    from scoring import grid_outlook, _hv_line_within, _large_substation_nearby
-    outlook = grid_outlook(d)
-    verdict = outlook["verdict"]
-    hv_10 = _hv_line_within(d, 10)
-    hv_30 = _hv_line_within(d, 30)
-    large_sub, _ = _large_substation_nearby(d)
+    # Grid Access (from grid_assessment)
+    scores["Grid Access"] = d.get("grid_assessment", {}).get("score", 1)
 
-    if verdict == "promising":
-        grid_score = 5 if (hv_10 or large_sub) else 4
-    elif verdict == "neutral":
-        grid_score = 4 if hv_10 else (3 if hv_30 else 2)
-    else:  # doubtful
-        grid_score = 1
-    scores["Grid Access"] = grid_score
-
-    # Utility Rate: state-relative + absolute floor. The killer logic
-    # already treats ">=14 c/kWh OR >=1.25x state avg" as triggering; mirror
-    # that structure on the scorecard side so a 10c/kWh site in CA
-    # (state avg ~20c) isn't scored the same as 10c/kWh in NM (state avg ~6c).
-    # See docs/screen_methodology/utility_rate_score.md.
+    # Utility Rate
     rate = d.get("utility_rate")
     if rate and rate.get("industrial_rate_cents"):
         cents = rate["industrial_rate_cents"]
-        from reference_data import get_state_industrial_rate_avg
-        state_avg = get_state_industrial_rate_avg(d.get("state")) if d.get("state") else None
-
-        if cents >= 20 or (state_avg and cents >= state_avg * 1.5):
-            scores["Utility Rate"] = 1
-        elif cents >= 14 or (state_avg and cents >= state_avg * 1.25):
-            scores["Utility Rate"] = 2
-        elif state_avg and cents <= state_avg * 0.8:
+        if cents < 4:
             scores["Utility Rate"] = 5
-        elif state_avg and cents <= state_avg * 1.0:
-            scores["Utility Rate"] = 4
         elif cents < 6:
-            scores["Utility Rate"] = 5
-        elif cents < 8:
             scores["Utility Rate"] = 4
+        elif cents < 8:
+            scores["Utility Rate"] = 3
         elif cents < 10:
-            scores["Utility Rate"] = 3
+            scores["Utility Rate"] = 2
         else:
-            scores["Utility Rate"] = 3
+            scores["Utility Rate"] = 1
     else:
         scores["Utility Rate"] = 3
 
@@ -85,23 +56,16 @@ def compute_scores(d):
     else:
         scores["Fiber/Telecom"] = 2
 
-    # Water: proximity to HIFLD water/wastewater facilities is a weak proxy
-    # for DC process-water availability. HIFLD does not include facility
-    # capacity, so a 2 MGD village plant scores identically to a 200 MGD
-    # regional system. We coarsen to 3 tiers (adequate/marginal/remote) and
-    # cap arid-state sites one tier lower with a narrative warning. See
-    # docs/screen_methodology/water_score.md.
+    # Water
     water = d.get("water_facilities", [])
-    if water and water[0]["dist_km"] < 10:
-        water_score = 4
-    elif water and water[0]["dist_km"] < 25:
-        water_score = 3
+    if water and water[0]["dist_km"] < 5:
+        scores["Water"] = 5
+    elif water and water[0]["dist_km"] < 15:
+        scores["Water"] = 4
+    elif water and water[0]["dist_km"] < 30:
+        scores["Water"] = 3
     else:
-        water_score = 2
-    ARID_STATES = {"AZ", "NM", "NV", "UT", "CO", "CA"}
-    if d.get("state") in ARID_STATES:
-        water_score = max(1, water_score - 1)
-    scores["Water"] = water_score
+        scores["Water"] = 2
 
     # Transportation
     hw = d.get("highways", [])
@@ -178,9 +142,11 @@ def main():
         choices=["speculative", "anchored", "hyperscaler"],
         default="speculative",
         help=(
-            "Tenant profile for risk-adjusted scoring (default: speculative). "
-            "'anchored' = credit-worthy named anchor; 'hyperscaler' = IG-credit FAANG-tier. "
-            "Scales deal-killer probabilities (e.g. tariff deposits trivial for hyperscalers)."
+            "Primary tenant profile for legacy single-tenant scoring outputs. "
+            "Reports now show feasibility for all three tenant tiers in the "
+            "executive summary regardless of this flag; this argument only "
+            "affects the back-compat single-tenant feasibility object exposed "
+            "to programmatic consumers."
         ),
     )
     args = parser.parse_args()
@@ -244,9 +210,8 @@ def main():
     overall = sum(scores[k] * weights[k] for k in weights) / sum(weights.values())
     d["overall_score"] = overall
 
-    from scoring import compute_feasibility, compute_feasibility_all_tenants
+    from scoring import compute_feasibility
     d["feasibility"] = compute_feasibility(d, scores)
-    d["feasibility_all_tenants"] = compute_feasibility_all_tenants(d, scores)
 
     # Step 7: Generate report
     from report_template import generate_report
