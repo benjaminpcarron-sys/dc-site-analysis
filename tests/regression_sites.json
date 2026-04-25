@@ -1,0 +1,263 @@
+{
+  "_doc": "Pinned regression sites. Each site asserts: (a) geocoder hits the expected state, (b) listed elements have non-null coverage, (c) the overall score lands within tolerance, (d) the feasibility score lands within tolerance, (e) declared deal-killer signals are present/absent as expected. The 'tenant_profile' field (speculative|anchored|hyperscaler) reflects the actual or likely tenant type and conditions deal-killer probabilities. 'expected_outcome' (built|announced|unbuilt|shelved) is calibration metadata -- update docs/EFFICACY_SCORECARD.md when anchor outcomes change. Update intentionally; never to silence a real regression.",
+  "sites": [
+    {
+      "id": "decatur_il",
+      "address": "2500 North 22nd Street, Decatur, IL 62526",
+      "target_mw": 274,
+      "tenant_profile": "speculative",
+      "expected_outcome": "announced",
+      "expected_state": "IL",
+      "expected_county": "Macon County",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "tax_incentives",
+        "cooling_degree_days",
+        "land_value_per_acre",
+        "research_links",
+        "grid_assessment"
+      ],
+      "expected_overall_score": 3.5,
+      "score_tolerance": 0.5,
+      "expected_feasibility": 0.57,
+      "feasibility_tolerance": 0.1,
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "onerous_tariff_deposit",
+        "power_outlook_doubtful",
+        "flood_zone_av",
+        "severe_nonattainment",
+        "high_industrial_rate"
+      ],
+      "notes": "Active prospectus review (QueenAnne Realty). Pinned as speculative because developer, not anchor, initiated. Feasibility 'Strong' reflects adequate grid + tax + rate with only low-p Justice40 background risk."
+    },
+    {
+      "id": "abilene_tx",
+      "address": "5502 Spinks Rd, Abilene, TX 79601",
+      "target_mw": 500,
+      "tenant_profile": "hyperscaler",
+      "expected_outcome": "announced",
+      "expected_state": "TX",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "tax_incentives",
+        "cooling_degree_days",
+        "research_links"
+      ],
+      "expected_overall_score": 3.3,
+      "score_tolerance": 0.5,
+      "expected_feasibility": 0.54,
+      "feasibility_tolerance": 0.1,
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "onerous_tariff_deposit",
+        "flood_zone_av",
+        "high_industrial_rate"
+      ],
+      "notes": "ERCOT site, Stargate/OpenAI announcement. Hyperscaler profile. Strong rate + grid + tax; only Justice40 fires as background friction."
+    },
+    {
+      "id": "new_albany_oh",
+      "address": "1101 Beech Rd SW, New Albany, OH 43054",
+      "target_mw": 500,
+      "tenant_profile": "hyperscaler",
+      "expected_outcome": "built",
+      "expected_state": "OH",
+      "expected_county": "Licking County",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "dc_tariffs",
+        "tax_incentives",
+        "research_links",
+        "nearby_dcs"
+      ],
+      "expected_overall_score": 3.2,
+      "score_tolerance": 0.5,
+      "deal_killer_signals": {
+        "dc_tariffs.deposit_onerous": true,
+        "dc_tariffs.deposit_severity": "onerous",
+        "dc_tariffs.utility_name": "AEP Ohio"
+      },
+      "expected_feasibility": 0.69,
+      "feasibility_tolerance": 0.1,
+      "must_trigger_killers": [
+        "onerous_tariff_deposit"
+      ],
+      "must_not_trigger_killers": [
+        "power_outlook_doubtful"
+      ],
+      "notes": "The calibration anchor. New Albany is a built hyperscaler cluster (Meta, Amazon, Google, etc.). Legacy tool rated this 'Poor (0.07)' which contradicted reality -- triggered the 2026-04-20 recalibration: (a) cluster + brownfield-aware grid outlook (no killer fires); (b) hyperscaler tenant scaling so onerous_tariff_deposit (AEP Ohio Schedule DCT) drops 0.30 -> 0.045. 2026-04-24 (scorecard pass): Grid Access now derives from grid_outlook = promising (large AEP substation within 10 km + cluster), so opportunity reflects the same reality the killer side already encoded. Result: hyperscaler feasibility ~0.69 Good -- consistent with the site being actively under construction by tier-1 hyperscalers. The honest math now gives the same answer the world is giving."
+    },
+    {
+      "id": "ashburn_va",
+      "address": "21450 Beaumeade Cir, Ashburn, VA 20147",
+      "target_mw": 500,
+      "tenant_profile": "hyperscaler",
+      "expected_outcome": "built",
+      "expected_state": "VA",
+      "expected_county": "Loudoun County",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "tax_incentives",
+        "research_links",
+        "nearby_dcs",
+        "grid_assessment"
+      ],
+      "expected_overall_score": 3.5,
+      "score_tolerance": 0.7,
+      "expected_feasibility": 0.70,
+      "feasibility_tolerance": 0.1,
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "power_outlook_doubtful",
+        "flood_zone_av",
+        "severe_nonattainment"
+      ],
+      "notes": "Ashburn/Loudoun: largest DC market on earth (~127 existing DCs within 50 km). After 2026-04-24 screen review: cluster hub tier (>=1 GW built within 30 km) awards +0.20 opportunity (vs +0.12 before); marginal_nonattainment + justice40 retired as killers (narrative only). Net: feasibility ~0.70 Strong (was 0.60). Serves as the ceiling anchor for the scoring band."
+    },
+    {
+      "id": "altoona_ia",
+      "address": "Altoona, IA 50009",
+      "target_mw": 500,
+      "tenant_profile": "hyperscaler",
+      "expected_outcome": "built",
+      "expected_state": "IA",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "tax_incentives",
+        "research_links",
+        "nearby_dcs"
+      ],
+      "expected_overall_score": 3.3,
+      "score_tolerance": 0.7,
+      "expected_feasibility": 0.68,
+      "feasibility_tolerance": 0.1,
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "onerous_tariff_deposit",
+        "power_outlook_doubtful",
+        "flood_zone_av"
+      ],
+      "notes": "Meta's Iowa anchor cluster. 15 nearby DCs (cluster signal on), adequate MidAmerican grid headroom, Iowa DC sales-tax exemption. High feasibility (0.68) consistent with multiple built phases. Calibration ceiling for Midwest cluster."
+    },
+    {
+      "id": "council_bluffs_ia",
+      "address": "Council Bluffs, IA 51501",
+      "target_mw": 500,
+      "tenant_profile": "hyperscaler",
+      "expected_outcome": "built",
+      "expected_state": "IA",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "tax_incentives",
+        "research_links",
+        "nearby_dcs"
+      ],
+      "expected_overall_score": 3.3,
+      "score_tolerance": 0.7,
+      "expected_feasibility": 0.68,
+      "feasibility_tolerance": 0.1,
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "onerous_tariff_deposit",
+        "power_outlook_doubtful",
+        "flood_zone_av"
+      ],
+      "notes": "Google's Iowa cluster (Council Bluffs). 22 nearby DCs + MidAmerican grid + IA tax incentives. Mirror anchor to Altoona for Midwest hyperscaler build-out calibration."
+    },
+    {
+      "id": "the_dalles_or",
+      "address": "The Dalles, OR 97058",
+      "target_mw": 500,
+      "tenant_profile": "hyperscaler",
+      "expected_outcome": "built",
+      "expected_state": "OR",
+      "must_cover": [
+        "transmission_lines",
+        "research_links",
+        "grid_assessment"
+      ],
+      "known_gaps": {
+        "service_territories": "D5: HIFLD service territory dataset missing PacifiCorp/BPA for OR"
+      },
+      "expected_overall_score": 3.0,
+      "score_tolerance": 0.7,
+      "expected_feasibility": 0.52,
+      "feasibility_tolerance": 0.1,
+      "must_trigger_killers": [
+        "high_seismic"
+      ],
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "power_outlook_doubtful",
+        "flood_zone_av"
+      ],
+      "notes": "Google's original Oregon cluster. Demonstrates that SDC-D seismic alone isn't a deal-killer (P=0.08 after calibration). Only 3 nearby DCs so cluster signal is off -- feasibility 0.52 Moderate relies on BPA HV line + large substation presence (power_outlook_doubtful does not trigger)."
+    },
+    {
+      "id": "millsboro_de",
+      "address": "499 Mitchell St, Millsboro, DE 19966",
+      "target_mw": 500,
+      "tenant_profile": "speculative",
+      "expected_outcome": "unbuilt",
+      "expected_state": "DE",
+      "expected_county": "Sussex County",
+      "must_cover": [
+        "transmission_lines",
+        "service_territories",
+        "tax_incentives",
+        "research_links",
+        "regulatory_moratoriums",
+        "brownfield_interconnection"
+      ],
+      "expected_overall_score": 3.35,
+      "score_tolerance": 0.5,
+      "expected_feasibility": 0.24,
+      "feasibility_tolerance": 0.12,
+      "must_trigger_killers": [
+        "regulatory_interconnection_pause"
+      ],
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "onerous_tariff_deposit",
+        "power_outlook_doubtful"
+      ],
+      "deal_killer_signals": {
+        "brownfield_interconnection.id": "indian_river_de",
+        "regulatory_moratoriums.docket": "DE PSC 25-0826"
+      },
+      "notes": "Rewritten 2026-04-20 (rev. after user-flagged Millsboro report showing Indian River substation). This site was the forcing function for three model additions: (1) RETIRED_GENERATION_SITES registry detects the 785 MW Indian River Power Plant 0.8 km away, suppressing grid_severely_insufficient since the switchyard + HV ties are repurposable; (2) REGULATORY_MORATORIUMS registry detects DE PSC 25-0826 (Delmarva interconnection pause, lifting late 2026) which is the TRUE primary risk; (3) moratorium killer split into utility_moratorium (tariff-level, P=0.90) vs regulatory_interconnection_pause (docket-level with defined lift, P=0.55, tenant-scaled). Expected: speculative tenant ~0.24 Challenging (matches revised Millsboro report's 'Viable with Conditions' framing despite Poor on legacy scale). Hyperscaler tenant scores ~0.39 Moderate. Use this site to test both brownfield and moratorium detection. 2026-04-24: overall_score raised 2.75 -> 3.35 because Grid Access scorecard factor now derives from grid_outlook (promising via Indian River brownfield) instead of max_mw heuristic; brownfield was previously visible to the killer suppression but invisible to the legacy scorecard."
+    },
+    {
+      "id": "hurt_ranch_nm",
+      "address": "Hurt Ranch, Hidalgo County, NM",
+      "target_mw": 214,
+      "tenant_profile": "speculative",
+      "expected_outcome": "unbuilt",
+      "expected_state": "NM",
+      "expected_county": "Hidalgo County",
+      "must_cover": [
+        "transmission_lines",
+        "research_links"
+      ],
+      "expected_overall_score": 2.4,
+      "score_tolerance": 0.5,
+      "expected_feasibility": 0.45,
+      "feasibility_tolerance": 0.15,
+      "must_not_trigger_killers": [
+        "utility_moratorium",
+        "onerous_tariff_deposit",
+        "flood_zone_av",
+        "severe_nonattainment",
+        "high_industrial_rate"
+      ],
+      "notes": "Remote SW anchor. After 2026-04-24 grid-methodology rewrite: the site has no local supply anchor (no brownfield, no planned substation within 25 km, no >=230 kV substation within 10 km) but DOES have a 115 kV line 14 km away and the Southline 345 kV project at Hidalgo substation 42.7 km out. grid_outlook verdict = NEUTRAL (has HV access but no anchor). power_outlook_doubtful does NOT fire -- the old critical-tier P=0.75 was precisely the kind of false precision this rewrite retired (max_mw is a voltage-class heuristic, not a capacity study). Feasibility rose from ~0.10 to ~0.45 because we stopped penalizing 'ambiguous' as 'bad.' The narrative still surfaces that this is a thinly-served area; reading a neutral-outlook site is a diligence prompt, not a kill. If a future signal (e.g. a labeled backtest showing neutral-verdict NM/rural sites cancel at high rates) warrants a soft penalty for neutral, that's a separate decision."
+    }
+  ]
+}

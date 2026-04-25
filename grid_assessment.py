@@ -1,4 +1,21 @@
-"""Grid adequacy assessment based on nearby transmission infrastructure."""
+"""Grid adequacy assessment based on nearby transmission infrastructure.
+
+IMPORTANT -- both ``max_mw`` and the 1-5 ``score`` emitted here are
+voltage-class heuristics, NOT measurements of host-utility deliverable
+capacity. They are kept because reports render them as a rough proxy, but
+they are deliberately NOT consumed by either:
+
+  * the feasibility killer catalog (see ``scoring.grid_outlook`` and
+    ``scoring.power_outlook_doubtful``), or
+  * the scorecard Grid Access factor (now derived from ``grid_outlook`` in
+    ``dc_site_report.compute_scores``).
+
+Retaining them without letting them drive math was the 2026-04-24 resolution
+to "precision without accuracy" feedback -- the narrative still describes
+"highest voltage line at X km" because that's useful context, but no scoring
+decision hangs on the fake MW number. See
+docs/screen_methodology/grid_severely_insufficient.md.
+"""
 
 VOLT_TIERS = [
     ("735 AND ABOVE", 1500, 10),
@@ -15,7 +32,11 @@ VOLT_TIERS = [
 def assess_grid(transmission_lines, substations, target_mw=None):
     """Assess grid adequacy based on nearby transmission and substations.
 
-    Returns dict with: max_mw, confidence, narrative, upgrade_needed, score (1-5)
+    Returns dict with: max_mw, confidence, narrative, upgrade_needed, score (1-5).
+
+    Both ``max_mw`` and ``score`` are heuristic-only (see module docstring).
+    They appear in reports as a proxy, but Grid Access in the scorecard and
+    the feasibility killer catalog use ``scoring.grid_outlook`` instead.
     """
     if not transmission_lines:
         return {

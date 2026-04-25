@@ -391,29 +391,61 @@ def find_nearest_cell_towers(lat, lon, radius_km=30, limit=3):
         return []
 
 
-def find_service_territory(lat, lon):
-    """Find utility service territory containing the point."""
+STATE_UTILITY_FALLBACK = {
+    # Dominant IOU per state, used only when HIFLD electric retail service
+    # territory parquet returns zero hits for a point. Expand as the regression
+    # harness surfaces more gaps. Each entry mirrors the HIFLD output schema
+    # with ``source`` so the report can distinguish fallback from parcel-level
+    # match.
+    "DE": [
+        {
+            "id": -1,
+            "name": "DELMARVA POWER",
+            "state": "DE",
+            "type": "INVESTOR OWNED",
+            "control_area": "PJM",
+            "holding_company": "EXELON",
+            "customers": 320000,
+            "source": "state_fallback: HIFLD coverage gap for DE",
+        },
+    ],
+}
+
+
+def find_service_territory(lat, lon, state=None):
+    """Find utility service territory containing the point.
+
+    When HIFLD returns no polygons containing the point and ``state`` is in
+    ``STATE_UTILITY_FALLBACK``, returns the state's default IOU so downstream
+    elements (dc_tariffs, utility_rate) can still execute. This keeps
+    HIFLD-gap states (initially DE) from silently scoring default-3 on tariff
+    risk just because the service-territory polygon is missing.
+    """
     db = _get_db()
     pq = _parquet("service_territories")
-    if not os.path.exists(pq):
-        return []
-    sql = f"""
-        SELECT id, NAME, STATE, TYPE, CNTRL_AREA, HOLDING_CO, CUSTOMERS
-        FROM read_parquet('{pq}')
-        WHERE bbox_min_lon <= {lon} AND bbox_max_lon >= {lon}
-          AND bbox_min_lat <= {lat} AND bbox_max_lat >= {lat}
-          AND ST_Contains(
-              ST_GeomFromWKB(geom_wkb),
-              ST_Point({lon}, {lat})
-          )
-        LIMIT 3
-    """
-    try:
-        rows = db.execute(sql).fetchall()
-        cols = ["id", "name", "state", "type", "control_area", "holding_company", "customers"]
-        return [dict(zip(cols, r)) for r in rows]
-    except Exception:
-        return []
+    if os.path.exists(pq):
+        sql = f"""
+            SELECT id, NAME, STATE, TYPE, CNTRL_AREA, HOLDING_CO, CUSTOMERS
+            FROM read_parquet('{pq}')
+            WHERE bbox_min_lon <= {lon} AND bbox_max_lon >= {lon}
+              AND bbox_min_lat <= {lat} AND bbox_max_lat >= {lat}
+              AND ST_Contains(
+                  ST_GeomFromWKB(geom_wkb),
+                  ST_Point({lon}, {lat})
+              )
+            LIMIT 3
+        """
+        try:
+            rows = db.execute(sql).fetchall()
+            cols = ["id", "name", "state", "type", "control_area", "holding_company", "customers"]
+            if rows:
+                return [dict(zip(cols, r)) for r in rows]
+        except Exception:
+            pass
+
+    if state and state in STATE_UTILITY_FALLBACK:
+        return [dict(t) for t in STATE_UTILITY_FALLBACK[state]]
+    return []
 
 
 # ── Environmental Queries ──────────────────────────────────────────────

@@ -32,6 +32,8 @@ DC_TARIFFS = [
         "collateral_desc": "50% of total minimum charges for full term if credit below A-/A3. Load study fees: 25-50MW $10K, 50-100MW $50K, 100+MW $100K.",
         "exit_fee_desc": "3 years of minimum charges; available only after year 5 post-ramp",
         "deposit_onerous": True,
+        "deposit_severity": "onerous",
+        "deposit_severity_rationale": "50% collateral on 12-yr minimum bills is ~6-year forward revenue at risk for below-IG credit; prohibitive for merchants, negotiable for anchors.",
         "moratorium": False,
         "status": "effective",
         "notes": "PUCO approved Jul 9, 2025. Prior moratorium (Mar 2023 - Jul 2025) now lifted. Ramp: Yr1 50%, Yr2 65%, Yr3 80%, Yr4 90%.",
@@ -112,6 +114,8 @@ DC_TARIFFS = [
         "collateral_desc": "Customer-funded 1.4 GW energy storage",
         "exit_fee_desc": "Up to 10 years of minimum billing demand for early termination",
         "deposit_onerous": True,
+        "deposit_severity": "prohibitive",
+        "deposit_severity_rationale": "1.4 GW customer-funded BESS + 10-yr min-bill exit fee implies $1B+ upfront capital + decade of revenue risk. Only ultra-anchored hyperscalers (Meta/Google) could plausibly underwrite.",
         "moratorium": False,
         "status": "approved",
         "notes": "MPSC approved Dec 18, 2025 (Oracle subsidiary). MPSC directed DTE to file general large load tariff within 90 days.",
@@ -160,6 +164,8 @@ DC_TARIFFS = [
         "collateral_desc": "Full cost of transmission, generation, distribution upgrades",
         "exit_fee_desc": None,
         "deposit_onerous": True,
+        "deposit_severity": "prohibitive",
+        "deposit_severity_rationale": "Full upgrade cost passthrough with no cap + moratorium shows legislature treats large-load DCs as externalities to be fully internalized.",
         "moratorium": True,
         "status": "proposed",
         "notes": "De facto moratorium: will not serve new large loads until PSC approves tariff. Earthjustice complaint filed Nov 2025. 11 DC developers in active talks (Feb 2026). Up to 1,400 MW LOIs.",
@@ -278,8 +284,17 @@ DC_TARIFFS = [
     },
 ]
 
+# Per-state DC tax incentives. Each entry SHOULD include `data_vintage` so
+# stale research is never silently scored. When a state is absent, the current
+# coverage gap is that `get_state_incentives` returns None, which the scorer
+# treats as "no incentive" -- not "unknown". See EFFICACY_SCORECARD.md D20.
+#
+# Data vintage: March 2026 for all entries below unless otherwise noted. Any
+# entry updated after that date should bump its own `data_vintage`.
+_INCENTIVES_VINTAGE = "2026-03"
+
 STATE_TAX_INCENTIVES = {
-    "VA": {"sales_tax": True, "property_tax": True, "income_tax": False, "investment_threshold_m": 150, "job_requirement": 50, "duration_years": 10, "summary": "Sales & use tax exemption on computer equipment & cooling. Localities offer property tax abatement. Virginia is the #1 US DC market."},
+    "VA": {"sales_tax": True, "property_tax": True, "income_tax": False, "investment_threshold_m": 150, "job_requirement": 50, "duration_years": 10, "summary": "Sales & use tax exemption on computer equipment & cooling. Localities offer property tax abatement. Virginia is the #1 US DC market.", "data_vintage": _INCENTIVES_VINTAGE},
     "TX": {"sales_tax": True, "property_tax": True, "income_tax": False, "investment_threshold_m": 200, "job_requirement": 20, "duration_years": 10, "summary": "Ch. 313/Ch. 403 property tax abatement. Sales tax exemption on equipment. No state income tax."},
     "GA": {"sales_tax": True, "property_tax": True, "income_tax": True, "investment_threshold_m": 100, "job_requirement": 25, "duration_years": 20, "summary": "Sales tax exemption on DC equipment (>$100M investment). Investment tax credit. County-level property tax abatements."},
     "NC": {"sales_tax": True, "property_tax": True, "income_tax": True, "investment_threshold_m": 75, "job_requirement": 20, "duration_years": 10, "summary": "Sales tax refund on qualifying DC purchases. Property tax exemption via local incentives. Investment tax credit available."},
@@ -310,7 +325,23 @@ STATE_TAX_INCENTIVES = {
     "MN": {"sales_tax": True, "property_tax": False, "income_tax": True, "investment_threshold_m": 30, "job_requirement": 10, "duration_years": 10, "summary": "Sales tax exemption on DC equipment. Minnesota Job Creation Fund. DEED business incentives."},
     "MI": {"sales_tax": True, "property_tax": True, "income_tax": True, "investment_threshold_m": 100, "job_requirement": 25, "duration_years": 15, "summary": "Sales tax exemption on DC equipment. PA 198 property tax abatement. Michigan Business Development Program."},
     "ID": {"sales_tax": True, "property_tax": True, "income_tax": True, "investment_threshold_m": 10, "job_requirement": 20, "duration_years": 15, "summary": "Sales tax exemption on DC equipment. Property tax exemption (via county). Tax reimbursement incentive."},
+    # --- Added 2026-04-20 after D20 regression-harness finding (Millsboro DE) ---
+    "DE": {"sales_tax": True, "property_tax": False, "income_tax": False, "investment_threshold_m": None, "job_requirement": None, "duration_years": None, "summary": "No state sales tax (de facto exemption on DC equipment). No state-level DC-specific program; property tax abatements are negotiated at county level (Sussex/Kent). New Castle County DC activity limited.", "data_vintage": "2026-04"},
 }
+
+
+def _vintage(entry):
+    """Backfill data_vintage for entries that pre-date the field addition."""
+    if entry is None:
+        return None
+    if "data_vintage" not in entry:
+        entry["data_vintage"] = _INCENTIVES_VINTAGE
+    return entry
+
+
+# One-pass vintage backfill so existing entries don't each need touching.
+for _st, _entry in list(STATE_TAX_INCENTIVES.items()):
+    _vintage(_entry)
 
 
 # Annual Cooling Degree Days by state (base 65°F, 30-year NOAA normals)
@@ -374,3 +405,256 @@ def get_dc_tariffs(state, utility_name=None):
 def get_state_incentives(state):
     """Return tax incentive info for a state, or None."""
     return STATE_TAX_INCENTIVES.get(state)
+
+
+# ---------------------------------------------------------------------------
+# Regulatory interconnection moratoriums
+# ---------------------------------------------------------------------------
+#
+# Captures utility-or-state-level interconnection pauses that exist as PSC/PUC
+# docket actions rather than as tariff provisions. Critical distinction from
+# DC_TARIFFS[*].moratorium: those are long-term tariff features; these are
+# temporary regulatory holds with clearer lift timelines.
+#
+# Each entry uniquely identifies a utility and describes the docket-level
+# action; add a 'county' filter only if the moratorium is geographically scoped
+# (rare). Expire entries by setting status="lifted" when the hold is released
+# -- keep the history so the regression harness can backtest decisions.
+#
+# Data vintage: 2026-04 unless otherwise noted.
+
+REGULATORY_MORATORIUMS = [
+    {
+        "state": "DE",
+        "utility_name": "Delmarva Power",
+        "utility_aliases": ["Delmarva Power & Light", "Delmarva Power and Light", "DPL"],
+        "docket": "DE PSC 25-0826",
+        "scope": "All new large-load interconnections >=25 MW in Delmarva Power DE territory.",
+        "status": "active",
+        "filed_date": "2025-09-03",
+        "expected_lift_date": "2026-12-31",  # commission decision late 2026
+        "evidence_url": "https://depsc.delaware.gov/2025/10/14/delaware-psc-opens-docket-for-large-load-tariff-pauses-interconnections/",
+        "notes": "Docket opened Sep 2025. Delmarva final tariff filing due Apr 27, 2026; hearing examiner ruling summer 2026; commission decision late 2026. No 500 MW facility can enter the interconnection queue until this lifts. Surfaced via Millsboro DE regression site.",
+        "data_vintage": "2026-04",
+    },
+]
+
+
+def get_regulatory_moratoriums(state, utility_name=None):
+    """Return active regulatory moratoriums matching a state/utility, or []. Lifted entries are excluded."""
+    results = []
+    for m in REGULATORY_MORATORIUMS:
+        if m.get("status") != "active":
+            continue
+        if m["state"] != state:
+            continue
+        if utility_name:
+            names = [m["utility_name"].lower()] + [a.lower() for a in m.get("utility_aliases", [])]
+            ul = utility_name.lower()
+            if not any(ul in n or n in ul for n in names):
+                continue
+        results.append(m)
+    return results
+
+
+# ---------------------------------------------------------------------------
+# Retired / brownfield generation sites (candidate DC interconnection anchors)
+# ---------------------------------------------------------------------------
+#
+# Retired fossil/nuclear plants frequently have intact switchyards, high-voltage
+# transmission ties, and large industrial-zoned parcels -- the three hardest
+# things to reproduce for a greenfield DC site. A site within a few km of such
+# a retired plant can reuse that interconnection capacity, which fundamentally
+# changes the grid-adequacy analysis (HIFLD's transmission cache doesn't know
+# the plant is offline, and has no concept of "repurposable capacity").
+#
+# Selection criteria for inclusion:
+#   * former_mw >= 100 (material to DC-scale loads)
+#   * retired_date <= current year + 5 (i.e. already offline or near-term)
+#   * switchyard still physically in place (not demolished)
+#
+# Seed list is deliberately short. Expand as new sites surface in
+# demand_ledger or site-specific research. Each entry should document the
+# evidence URL.
+
+RETIRED_GENERATION_SITES = [
+    {
+        "id": "indian_river_de",
+        "name": "Indian River Power Plant",
+        "operator": "NRG Energy (Indian River Power LLC)",
+        "state": "DE",
+        "county": "Sussex County",
+        "lat": 38.5852,
+        "lon": -75.2834,
+        "former_mw": 785,
+        "voltage_classes": ["230", "138"],
+        "fuel": "coal",
+        "retired_date": "2025-02",
+        "acreage": 1200,
+        "evidence_url": "https://www.gem.wiki/Indian_River_power_station",
+        "notes": "4 coal units retired Feb 2025; 16 MW oil peaker decommissioning Jun 2025. 230 kV + 138 kV switchyard remains. Also proposed interconnection point for US Wind (~1,710 MW offshore) -- co-development opportunity. Partial flood exposure.",
+        "data_vintage": "2026-04",
+    },
+    {
+        "id": "homer_city_pa",
+        "name": "Homer City Generating Station",
+        "operator": "Homer City Redevelopment",
+        "state": "PA",
+        "county": "Indiana County",
+        "lat": 40.5167,
+        "lon": -79.1950,
+        "former_mw": 1884,
+        "voltage_classes": ["500", "345", "230"],
+        "fuel": "coal",
+        "retired_date": "2023-07",
+        "acreage": 1900,
+        "evidence_url": "https://www.gem.wiki/Homer_City_Generating_Station",
+        "notes": "Announced 2025 redevelopment as natural gas + data center campus (Kiewit + Knighthead). 4.5 GW gas planned. Exemplar of retired-coal -> DC conversion.",
+        "data_vintage": "2026-04",
+    },
+    {
+        "id": "conemaugh_pa",
+        "name": "Conemaugh Generating Station",
+        "operator": "NRG Energy",
+        "state": "PA",
+        "county": "Indiana County",
+        "lat": 40.3850,
+        "lon": -79.0650,
+        "former_mw": 1711,
+        "voltage_classes": ["500", "345"],
+        "fuel": "coal",
+        "retired_date": "2028-12",  # announced retirement
+        "acreage": 1500,
+        "evidence_url": "https://www.gem.wiki/Conemaugh_Generating_Station",
+        "notes": "Announced 2028 retirement. Large 500 kV switchyard. Early-stage candidate for DC redevelopment.",
+        "data_vintage": "2026-04",
+    },
+    {
+        "id": "brandon_shores_md",
+        "name": "Brandon Shores Generating Station",
+        "operator": "Talen Energy",
+        "state": "MD",
+        "county": "Anne Arundel County",
+        "lat": 39.1775,
+        "lon": -76.5333,
+        "former_mw": 1295,
+        "voltage_classes": ["230"],
+        "fuel": "coal",
+        "retired_date": "2028-06",  # announced retirement
+        "acreage": 600,
+        "evidence_url": "https://www.gem.wiki/Brandon_Shores_Generating_Station",
+        "notes": "Retirement deferred to mid-2028 under RMR agreement. MD PSC concerns about reliability. Switchyard + BGE territory.",
+        "data_vintage": "2026-04",
+    },
+    # 2026-04-24 expansion: per docs/screen_methodology/brownfield_interconnection.md,
+    # 10 km radius + tiered opportunity boost. Added 4 confirmed retirements
+    # with documented SIS or ROW reuse potential.
+    {
+        "id": "yates_ga",
+        "name": "Plant Yates",
+        "operator": "Georgia Power (Southern Company)",
+        "state": "GA",
+        "county": "Coweta County",
+        "lat": 33.4514,
+        "lon": -84.8911,
+        "former_mw": 1250,
+        "voltage_classes": ["500", "230"],
+        "fuel": "coal",
+        "retired_date": "2015-04",
+        "acreage": 1700,
+        "evidence_url": "https://www.gem.wiki/Plant_Yates",
+        "notes": "Fully retired 2015. Switchyard retained; Southern has announced several gas reuse studies. Close to Atlanta metro DC demand.",
+        "data_vintage": "2026-04",
+    },
+    {
+        "id": "cheswick_pa",
+        "name": "Cheswick Generating Station",
+        "operator": "GenOn Energy (retired)",
+        "state": "PA",
+        "county": "Allegheny County",
+        "lat": 40.5500,
+        "lon": -79.7933,
+        "former_mw": 637,
+        "voltage_classes": ["230"],
+        "fuel": "coal",
+        "retired_date": "2022-04",
+        "acreage": 100,
+        "evidence_url": "https://www.gem.wiki/Cheswick_power_station",
+        "notes": "Small-footprint retired coal within PJM. 230 kV interconnection retained. Candidate for adjacent-ROW DC (<=10 km).",
+        "data_vintage": "2026-04",
+    },
+    {
+        "id": "san_juan_nm",
+        "name": "San Juan Generating Station",
+        "operator": "PNM (retired)",
+        "state": "NM",
+        "county": "San Juan County",
+        "lat": 36.8047,
+        "lon": -108.4497,
+        "former_mw": 1683,
+        "voltage_classes": ["345", "230", "115"],
+        "fuel": "coal",
+        "retired_date": "2022-09",
+        "acreage": 1750,
+        "evidence_url": "https://www.gem.wiki/San_Juan_Generating_Station",
+        "notes": "Four Corners-region. Retired Sept 2022. 345/230 kV switchyard, adjacent to Four Corners plant. Regional hyperscaler candidate.",
+        "data_vintage": "2026-04",
+    },
+    {
+        "id": "dave_johnston_wy",
+        "name": "Dave Johnston Power Plant",
+        "operator": "PacifiCorp",
+        "state": "WY",
+        "county": "Converse County",
+        "lat": 42.8328,
+        "lon": -105.7839,
+        "former_mw": 762,
+        "voltage_classes": ["230"],
+        "fuel": "coal",
+        "retired_date": "2028-12",  # announced retirement
+        "acreage": 540,
+        "evidence_url": "https://www.pacificorp.com/about/newsroom/news-releases.html",
+        "notes": "PacifiCorp IRP retirement 2028. 230 kV switchyard. Remote but sits on PacifiCorp backbone.",
+        "data_vintage": "2026-04",
+    },
+]
+
+
+def get_retired_generation_sites(state=None):
+    """Return retired generation sites, optionally filtered by state."""
+    if state is None:
+        return list(RETIRED_GENERATION_SITES)
+    return [s for s in RETIRED_GENERATION_SITES if s.get("state") == state]
+
+
+# ---------------------------------------------------------------------------
+# State industrial retail rate averages (EIA Form 861, 2024 annual, cents/kWh)
+# ---------------------------------------------------------------------------
+#
+# Used by _trigger_high_rate / _p_high_rate to compute state-relative rate
+# thresholds. Source: EIA electric-power monthly state-level industrial rate
+# averages, 2024 annual. Only states where we currently have coverage are
+# seeded; unknown states fall back to the absolute 14 c/kWh floor.
+#
+# Values are rounded to 0.1 c/kWh. Refresh annually.
+
+STATE_INDUSTRIAL_RATE_AVG_CENTS = {
+    "AL": 6.9, "AR": 7.5, "AZ": 7.4, "CA": 19.8, "CO": 8.8,
+    "CT": 14.5, "DE": 9.6, "FL": 9.2, "GA": 7.7, "IA": 7.1,
+    "ID": 6.9, "IL": 8.9, "IN": 8.9, "KS": 9.2, "KY": 7.4,
+    "LA": 7.3, "MA": 16.2, "MD": 9.8, "ME": 12.5, "MI": 9.3,
+    "MN": 9.4, "MO": 8.5, "MS": 7.9, "MT": 7.2, "NC": 7.8,
+    "ND": 8.3, "NE": 7.9, "NH": 15.1, "NJ": 13.8, "NM": 8.1,
+    "NV": 8.2, "NY": 9.2, "OH": 8.2, "OK": 6.7, "OR": 8.7,
+    "PA": 8.9, "RI": 15.3, "SC": 7.1, "SD": 8.1, "TN": 7.3,
+    "TX": 8.3, "UT": 7.1, "VA": 8.9, "VT": 12.5, "WA": 6.7,
+    "WI": 9.2, "WV": 8.8, "WY": 7.1,
+}
+
+
+def get_state_industrial_rate_avg(state):
+    """Return the EIA 2024 industrial rate average (cents/kWh) for a state,
+    or None if not seeded."""
+    if state is None:
+        return None
+    return STATE_INDUSTRIAL_RATE_AVG_CENTS.get(state.upper())

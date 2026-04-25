@@ -2,8 +2,11 @@
 **Address:** 2500 North 22nd Street, Decatur, IL 62526
 **Coordinates:** 39.873057 N, -88.926192 W
 **State:** IL | **County:** Macon County
-**Report Date:** 2026-04-03
+**Report Date:** 2026-04-20
 **Target Capacity:** 274 MW
+
+![Site Map](2500_north_22nd_street_decatur_il_62526_map.png)
+*DC Site Mapper — infrastructure layers for 2500 North 22nd Street, Decatur, IL 62526*
 
 ---
 
@@ -75,7 +78,8 @@ _No DC-specific tariff identified for this state (IL)._
 ### Land Cover: **Developed, Medium Intensity** (NLCD 23)
 - Good -- developed area, medium intensity. May be zoned commercial or mixed-use.
 
-_No OpenStreetMap landuse data mapped for this immediate area._
+### OSM Zoning: **Industrial**
+- OpenStreetMap confirms industrial/commercial land use at or near this location.
 
 ## 6. Environmental & Regulatory Risk
 
@@ -137,17 +141,19 @@ _No data center projects found within 50 km._
 Pre-built search links for deeper due diligence:
 
 
-**Federal:**
-- [FERC Filings](https://www.google.com/search?q=site%3Aferc.gov%20%22SHELBY%20ELECTRIC%20COOP%22%20%22large%20load%22%20OR%20%22interconnection%22%20OR%20%22data%20center%22) -- Federal interconnection filings, tariff amendments, large load agreements
+**Regulatory Filings (Halcyon):**
+- [SHELBY ELECTRIC COOP — data center filings](https://app.halcyon.io/workspaces/preview?keyword=SHELBY%20ELECTRIC%20COOP,data%20center) -- FERC + state PUC dockets, tariff filings, interconnection agreements
+- [SHELBY ELECTRIC COOP — large load tariff](https://app.halcyon.io/workspaces/preview?keyword=SHELBY%20ELECTRIC%20COOP,large%20load) -- Large load tariff filings, rate schedules, service agreements
+- [IL — data center interconnection](https://app.halcyon.io/workspaces/preview?keyword=IL,data%20center,interconnection) -- Interconnection studies, transmission planning, system impact studies
 
 **Interconnection:**
-- [MISO/PJM Queue / Filings](https://www.google.com/search?q=%22MISO/PJM%22%20interconnection%20queue%20%22Macon%20County%22%20data%20center) -- Interconnection requests and studies in MISO/PJM
+- [MISO/PJM queue / studies](https://www.google.com/search?q=%22MISO/PJM%22%20interconnection%20queue%20%22Macon%22%20data%20center) -- Interconnection requests and studies in MISO/PJM
 
-**Regulatory:**
-- [Illinois Commerce Commission Filings](https://www.google.com/search?q=%22Illinois%20Commerce%20Commission%22%20%22SHELBY%20ELECTRIC%20COOP%22%20%22data%20center%22%20OR%20%22large%20load%22%20OR%20%22tariff%22) -- Utility rate cases, large load tariff filings, service agreements
+**Environmental (Halcyon):**
+- [Air permits + data center (IL)](https://app.halcyon.io/workspaces/preview?keyword=air%20permit,data%20center,IL) -- State EPA air permits, TCEQ filings, environmental reviews for data centers
 
-**Environmental:**
-- [Illinois EPA Permits](https://www.google.com/search?q=%22Illinois%20EPA%22%20%22Macon%20County%22%20%22data%20center%22%20OR%20%22backup%20generator%22%20permit) -- Air construction permits, NPDES permits, environmental reviews
+**Environmental (Google):**
+- [Illinois EPA permits](https://www.google.com/search?q=%22Illinois%20EPA%22%20%22Macon%22%20%22data%20center%22%20OR%20%22backup%20generator%22%20permit) -- Backup: state environmental agency permit search
 
 **Local:**
 - [Macon County Building Permits](https://www.google.com/search?q=Macon%20County%20IL%20building%20permit%20data%20center) -- Local building permits, conditional use permits, site plans

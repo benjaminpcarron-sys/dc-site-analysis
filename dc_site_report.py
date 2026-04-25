@@ -24,23 +24,52 @@ def compute_scores(d):
     """Compute factor scores (1-5) for the site suitability matrix."""
     scores = {}
 
-    # Grid Access (from grid_assessment)
-    scores["Grid Access"] = d.get("grid_assessment", {}).get("score", 1)
+    # Grid Access: derived from the qualitative grid_outlook verdict plus
+    # observable HV proximity. Intentionally NOT derived from
+    # grid_assessment.max_mw (voltage-class heuristic, precision without
+    # accuracy). See docs/screen_methodology/grid_severely_insufficient.md.
+    from scoring import grid_outlook, _hv_line_within, _large_substation_nearby
+    outlook = grid_outlook(d)
+    verdict = outlook["verdict"]
+    hv_10 = _hv_line_within(d, 10)
+    hv_30 = _hv_line_within(d, 30)
+    large_sub, _ = _large_substation_nearby(d)
 
-    # Utility Rate
+    if verdict == "promising":
+        grid_score = 5 if (hv_10 or large_sub) else 4
+    elif verdict == "neutral":
+        grid_score = 4 if hv_10 else (3 if hv_30 else 2)
+    else:  # doubtful
+        grid_score = 1
+    scores["Grid Access"] = grid_score
+
+    # Utility Rate: state-relative + absolute floor. The killer logic
+    # already treats ">=14 c/kWh OR >=1.25x state avg" as triggering; mirror
+    # that structure on the scorecard side so a 10c/kWh site in CA
+    # (state avg ~20c) isn't scored the same as 10c/kWh in NM (state avg ~6c).
+    # See docs/screen_methodology/utility_rate_score.md.
     rate = d.get("utility_rate")
     if rate and rate.get("industrial_rate_cents"):
         cents = rate["industrial_rate_cents"]
-        if cents < 4:
-            scores["Utility Rate"] = 5
-        elif cents < 6:
-            scores["Utility Rate"] = 4
-        elif cents < 8:
-            scores["Utility Rate"] = 3
-        elif cents < 10:
-            scores["Utility Rate"] = 2
-        else:
+        from reference_data import get_state_industrial_rate_avg
+        state_avg = get_state_industrial_rate_avg(d.get("state")) if d.get("state") else None
+
+        if cents >= 20 or (state_avg and cents >= state_avg * 1.5):
             scores["Utility Rate"] = 1
+        elif cents >= 14 or (state_avg and cents >= state_avg * 1.25):
+            scores["Utility Rate"] = 2
+        elif state_avg and cents <= state_avg * 0.8:
+            scores["Utility Rate"] = 5
+        elif state_avg and cents <= state_avg * 1.0:
+            scores["Utility Rate"] = 4
+        elif cents < 6:
+            scores["Utility Rate"] = 5
+        elif cents < 8:
+            scores["Utility Rate"] = 4
+        elif cents < 10:
+            scores["Utility Rate"] = 3
+        else:
+            scores["Utility Rate"] = 3
     else:
         scores["Utility Rate"] = 3
 
@@ -56,16 +85,23 @@ def compute_scores(d):
     else:
         scores["Fiber/Telecom"] = 2
 
-    # Water
+    # Water: proximity to HIFLD water/wastewater facilities is a weak proxy
+    # for DC process-water availability. HIFLD does not include facility
+    # capacity, so a 2 MGD village plant scores identically to a 200 MGD
+    # regional system. We coarsen to 3 tiers (adequate/marginal/remote) and
+    # cap arid-state sites one tier lower with a narrative warning. See
+    # docs/screen_methodology/water_score.md.
     water = d.get("water_facilities", [])
-    if water and water[0]["dist_km"] < 5:
-        scores["Water"] = 5
-    elif water and water[0]["dist_km"] < 15:
-        scores["Water"] = 4
-    elif water and water[0]["dist_km"] < 30:
-        scores["Water"] = 3
+    if water and water[0]["dist_km"] < 10:
+        water_score = 4
+    elif water and water[0]["dist_km"] < 25:
+        water_score = 3
     else:
-        scores["Water"] = 2
+        water_score = 2
+    ARID_STATES = {"AZ", "NM", "NV", "UT", "CO", "CA"}
+    if d.get("state") in ARID_STATES:
+        water_score = max(1, water_score - 1)
+    scores["Water"] = water_score
 
     # Transportation
     hw = d.get("highways", [])
@@ -136,6 +172,17 @@ def main():
     parser.add_argument("--prepare-cache", action="store_true", help="Build spatial cache from GeoJSON")
     parser.add_argument("--force-cache", action="store_true", help="Force rebuild of spatial cache")
     parser.add_argument("--radius-km", type=float, default=30, help="Search radius in km (default: 30)")
+    parser.add_argument("--no-map", action="store_true", help="Skip map screenshot capture")
+    parser.add_argument(
+        "--tenant",
+        choices=["speculative", "anchored", "hyperscaler"],
+        default="speculative",
+        help=(
+            "Tenant profile for risk-adjusted scoring (default: speculative). "
+            "'anchored' = credit-worthy named anchor; 'hyperscaler' = IG-credit FAANG-tier. "
+            "Scales deal-killer probabilities (e.g. tariff deposits trivial for hyperscalers)."
+        ),
+    )
     args = parser.parse_args()
 
     if args.prepare_cache or args.force_cache:
@@ -163,58 +210,10 @@ def main():
     state = geo.get("state")
     print(f"{lat:.6f}, {lon:.6f} ({state})")
 
-    # Step 2: Spatial queries
-    print("Running spatial queries ...", end=" ", flush=True)
-    import spatial_queries as sq
-    radius = args.radius_km
+    # Step 2-5: Run the pipeline (spatial, environmental, data, reference, grid).
+    # Each element is independently timed and its provenance recorded in d["_meta"].
+    from pipeline import default_registry, run_pipeline, coverage_summary
 
-    transmission_lines = sq.find_nearest_transmission_lines(lat, lon, radius)
-    substations = sq.find_nearest_substations(lat, lon, radius, limit=10)
-    planned_substations = sq.find_planned_substations(lat, lon, radius_km=150, limit=10)
-    gas_pipelines = sq.find_nearest_gas_pipelines(lat, lon, 50)
-    highways = sq.find_nearest_highways(lat, lon, radius)
-    railroads = sq.find_nearest_railroads(lat, lon, radius)
-    water_facilities = sq.find_nearest_water(lat, lon, radius)
-    fiber_routes = sq.find_nearest_fiber(lat, lon, radius)
-    cell_towers = sq.find_nearest_cell_towers(lat, lon, radius)
-    service_territories = sq.find_service_territory(lat, lon)
-    print("done")
-
-    # Step 2b: Environmental queries
-    print("Running environmental queries ...", end=" ", flush=True)
-    nonattainment_zones = sq.check_nonattainment_zone(lat, lon)
-    flood_zones = sq.check_flood_zone(lat, lon)
-    justice40 = sq.check_justice40(lat, lon)
-    seismic = sq.check_seismic_hazard(lat, lon)
-    land_cover = sq.check_land_cover(lat, lon)
-    osm_landuse = sq.check_osm_landuse(lat, lon)
-    print("done")
-
-    # Step 3: Data queries
-    print("Running data queries ...", end=" ", flush=True)
-    from data_queries import get_utility_rate, get_interconnection_queue, get_nearby_dc_projects, get_grid_energy_mix
-
-    utility_name = service_territories[0]["name"] if service_territories else None
-    utility_rate = get_utility_rate(utility_name, state)
-    interconnection_queue = get_interconnection_queue(state)
-    nearby_dcs = get_nearby_dc_projects(lat, lon, 50)
-    grid_energy_mix = get_grid_energy_mix(state) if state else None
-    print("done")
-
-    # Step 4: Reference data
-    from reference_data import get_dc_tariffs, get_state_incentives, get_cooling_degree_days, get_land_value
-    from research_links import generate_research_links
-    dc_tariffs = get_dc_tariffs(state, utility_name) if state else []
-    tax_incentives = get_state_incentives(state) if state else None
-    cooling_dd = get_cooling_degree_days(state) if state else None
-    land_value = get_land_value(state) if state else None
-    research_links = generate_research_links(state, geo.get("county", ""), utility_name, args.address) if state else []
-
-    # Step 5: Grid assessment
-    from grid_assessment import assess_grid
-    grid_assessment = assess_grid(transmission_lines, substations, args.target_mw)
-
-    # Step 6: Assemble results
     d = {
         "address": args.address,
         "lat": lat,
@@ -222,35 +221,21 @@ def main():
         "state": state,
         "county": geo.get("county", ""),
         "target_mw": args.target_mw,
-        "transmission_lines": transmission_lines,
-        "substations": substations,
-        "planned_substations": planned_substations,
-        "gas_pipelines": gas_pipelines,
-        "highways": highways,
-        "railroads": railroads,
-        "water_facilities": water_facilities,
-        "fiber_routes": fiber_routes,
-        "cell_towers": cell_towers,
-        "service_territories": service_territories,
-        "utility_rate": utility_rate,
-        "interconnection_queue": interconnection_queue,
-        "nearby_dcs": nearby_dcs,
-        "dc_tariffs": dc_tariffs,
-        "tax_incentives": tax_incentives,
-        "grid_assessment": grid_assessment,
-        "grid_energy_mix": grid_energy_mix,
-        "nonattainment_zones": nonattainment_zones,
-        "flood_zones": flood_zones,
-        "justice40": justice40,
-        "seismic": seismic,
-        "land_cover": land_cover,
-        "osm_landuse": osm_landuse,
-        "cooling_degree_days": cooling_dd,
-        "land_value_per_acre": land_value,
-        "research_links": research_links,
+        "tenant_profile": args.tenant,
     }
 
-    # Step 7: Score
+    print("Running pipeline ...", end=" ", flush=True)
+    registry = default_registry(radius_km=args.radius_km)
+    run_pipeline(d, registry)
+    summary = coverage_summary(d)
+    print(
+        f"done ({summary['covered']}/{summary['total']} covered, "
+        f"{summary['missing']} missing, {summary['errored']} errored)"
+    )
+
+    # Step 6: Score -- legacy weighted average is kept for backward compat;
+    # feasibility is the new risk-adjusted headline metric (see scoring.py and
+    # docs/EFFICACY_SCORECARD.md).
     scores = compute_scores(d)
     d["scores"] = scores
     weights = {"Grid Access": 20, "Utility Rate": 15, "Environmental": 15,
@@ -259,7 +244,11 @@ def main():
     overall = sum(scores[k] * weights[k] for k in weights) / sum(weights.values())
     d["overall_score"] = overall
 
-    # Step 8: Generate report
+    from scoring import compute_feasibility, compute_feasibility_all_tenants
+    d["feasibility"] = compute_feasibility(d, scores)
+    d["feasibility_all_tenants"] = compute_feasibility_all_tenants(d, scores)
+
+    # Step 7: Generate report
     from report_template import generate_report
     report = generate_report(d)
 
@@ -280,6 +269,18 @@ def main():
         with open(args.output, "w") as f:
             f.write(report)
         print(f"Also saved to {args.output}")
+
+    # Step 9: Capture map screenshot from DC Site Mapper (if available)
+    if not args.no_map:
+        map_path = os.path.join(reports_dir, f"{slug}_map.png")
+        try:
+            from capture_map import capture_map
+            print("Capturing map screenshot ...", end=" ", flush=True)
+            capture_map(lat, lon, map_path, zoom=12.5)
+            print(f"Map saved to {map_path}")
+        except Exception as e:
+            print(f"Map capture skipped: {e}")
+            print("  (Ensure DC Site Mapper is running: cd ../dc-site-mapper && docker compose up -d)")
 
 
 if __name__ == "__main__":
