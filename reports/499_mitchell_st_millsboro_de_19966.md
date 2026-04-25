@@ -11,39 +11,7 @@
 ---
 
 ## Executive Summary
-**Overall Site Rating: 3.4 / 5.0 (Moderate)** *(legacy weighted score)*
-
-### Feasibility by Tenant Profile
-
-The same site has materially different economics depending on who is building. Each tier below reflects a real difference in counterparty credit, financial runway, and ability to negotiate around published tariffs. The opportunity number is identical across tiers (it depends on site fundamentals, not the buyer); only the deal-killer probabilities scale by tenant.
-
-| Tenant | Feasibility | Rating | Math |
-| --- | --- | --- | --- |
-| Speculative | 0.31 | Challenging | Opp 0.69 × (1 − Risk 0.55) |
-| Anchored | 0.42 | Moderate | Opp 0.69 × (1 − Risk 0.39) |
-| Hyperscaler | 0.50 | Moderate | Opp 0.69 × (1 − Risk 0.28) |
-
-**Who each tier is, in counterparty terms:**
-
-- **Speculative** -- Merchant developer building on spec, no named anchor tenant or investment-grade lease commitment. Constrained by tariff collateral, cannot wait through indefinite interconnection pauses, must close at published industrial rates, cannot finance behind-the-meter generation.
-- **Anchored** -- Pre-leased to a named DC operator with investment-grade credit (CoreSite, Equinix, Digital Realty, QTS, etc.). Can absorb deposit requirements, has runway for moderate schedule slips, negotiates rates but at the second tier (not bespoke utility contracts).
-- **Hyperscaler** -- Tier-1 hyperscaler (FAANG-tier IG credit) developing for own use. Negotiates around published tariffs via bilateral utility contracts, absorbs deposits via parent guarantees, can finance behind-the-meter generation, plans on horizons that absorb 12-24 month interconnection delays.
-
-**Grid Outlook: Promising** *(tenant-independent)*  
-Supply anchors:
-  - brownfield: Indian River Power Plant (785 MW former, 230/138 kV) 0.8 km away [direct, fit=1.57] -- switchyard + HV ties repurposable
-
-**Power Path Anchors:** brownfield
-  - *brownfield* (see supply anchor above)
-
-*Opportunity boost:* +0.12 opportunity (from supply anchor above).
-
-**Deal-Killers Triggered (1 of 8):**
-| Factor | Category | Spec P | Anc P | Hyp P | Evidence |
-| --- | --- | --- | --- | --- | --- |
-| regulatory_interconnection_pause | regulatory | 0.55 | 0.39 | 0.28 | Delmarva Power: DE PSC 25-0826 active interconnection pause (expected lift 2026-12-31, ~8.2 months out) |
-
-*P(kill) values are seed estimates; see `scoring.py` and `docs/screen_methodology/p_values_audit.md`.*
+**Overall Site Rating: 2.8 / 5.0 (Challenging)** *(legacy weighted score)*
 
  Utility service territory: **DELMARVA POWER** (EXELON).
 
@@ -61,13 +29,11 @@ Supply anchors:
 _No data available._
 
 ### Grid Adequacy Assessment
-- **Grid Outlook (qualitative):** Promising
-  *promising outlook: brownfield: Indian River Power Plant (785 MW former, 230/138 kV) 0.8 km away [direct, fit=1.57] -- switchyard + HV ties repurposable*
 - **Rough HV-line capacity proxy:** 200 MW
   *Voltage-class heuristic only (nearest line kV × typical feeder multiplier); not a host-utility capacity study. Scoring uses the qualitative outlook above, not this number.*
 - **Upgrade Required (heuristic):** Yes
 - **Confidence (HV proximity):** medium
-- **Scorecard Grid Access:** [+++++] (5/5) -- derived from grid_outlook + HV proximity (not from the HV-line MW proxy above).
+- **Scorecard Grid Access:** [++---] (2/5) -- derived from grid_outlook + HV proximity (not from the HV-line MW proxy above).
 
 ### Planned Grid Buildout (within 150 km)
 Substations with planned upgrades or new construction:
@@ -123,7 +89,6 @@ FEMA NFHL query returned no results for this location.
 
 ### Environmental Justice: **Disadvantaged Community (Justice40)**
 Site is in a federally designated disadvantaged community. Regulatory agencies may require additional EJ analysis and community engagement.
-- CEJST disadvantaged tract overlap (categories not specified). Federal-nexus projects here may face expanded community-engagement obligations under the prevailing environmental-justice executive order framework; timelines are weakly correlated with NEPA EIS duration based on 2022-2025 cohort.
 - **Census Tract:** 10005050602
 - **Diesel PM Percentile:** 0.76
 - **PM2.5 Percentile:** 0.13
@@ -157,7 +122,62 @@ _No fiber routes found within 30 km._
 ## 11. Interconnection Queue (DE)
 _No interconnection queue data available._
 
-## 12. Nearby Data Center Activity (within 50 km)
+## 12. Nearby Generation (DE)
+| Plant | MW | Fuel | Utility | Status | County |
+| --- | --- | --- | --- | --- | --- |
+| Indian River Generating Statio | 19 | DFO | Indian River Operations I | OP (ret. 2026) | Sussex |
+
+
+**1 plants** totaling **19 MW** in DE.
+
+## 13. Capacity Auction Prices
+| Delivery Year | Auction | Clearing Price | Cleared MW | Zone |
+| --- | --- | --- | --- | --- |
+| 2028 | BRA | $333.44/MW-day | 134,478 | PJM RTO |
+| 2027 | BRA | $329.17/MW-day | 133,645 | PJM RTO |
+| 2026 | BRA | $269.92/MW-day | 133,731 | PJM RTO |
+| 2025 | BRA | $28.92/MW-day | 142,985 | PJM RTO |
+| 2024 | BRA | $34.13/MW-day | 149,568 | PJM RTO |
+| 2023 | BRA | $50.00/MW-day | 152,784 | PJM RTO |
+| 2022 | BRA | $140.00/MW-day | 156,318 | PJM RTO |
+| 2021 | BRA | $76.53/MW-day | 159,019 | PJM RTO |
+
+
+## 14. Planned Transmission Projects (DE)
+| Project | Owner | Voltage | Status | In-Service | Substations |
+| --- | --- | --- | --- | --- | --- |
+| Rebuild Cartanza - Milford 230 kV L | Delmarva Power & Lig | 230 kV | Planning | TBD | Catanza → Milford |
+| Rebuild Edge Moor - Linwood 230 kV | Delmarva Power & Lig | 230 kV | Planning | TBD | Edge Moor → Linwood |
+| Rebuild Milford to Steele 230 kV | Delmarva Power & Lig | 230 kV | Planning | TBD | Milford → Steele |
+| Reconductor Keeney to Steele 230 kV | Delmarva Power & Lig | 230 kV | Planning | TBD | Keeney → Steele |
+| Upgrade Silver Run - Hope Creek 230 | LS Power | 230 kV | Engineering, design, | 2029 | Silver Run → Hope Creek |
+
+
+## 15. Energy Market Prices
+### Natural Gas
+| Hub | Date | Price | Type |
+| --- | --- | --- | --- |
+| Henry Hub | 2024-12-01 | $3.01/MMBtu | spot |
+| Henry Hub | 2024-11-01 | $2.76/MMBtu | spot |
+| Henry Hub | 2024-10-01 | $2.30/MMBtu | spot |
+| Henry Hub | 2024-09-01 | $2.28/MMBtu | spot |
+| Henry Hub | 2024-08-01 | $2.05/MMBtu | spot |
+| Henry Hub | 2024-07-01 | $2.21/MMBtu | spot |
+
+### Wholesale Power
+| Year | Category | Avg Price | Unit |
+| --- | --- | --- | --- |
+| 2025 | ARR Credits | $-1.62 | usd_per_mwh |
+| 2025 | ARR Credits | $-0.02 | fraction_of_total |
+| 2025 | Administration | $0.01 | fraction_of_total |
+| 2025 | Administration | $0.68 | usd_per_mwh |
+| 2025 | Ancillary | $1.12 | usd_per_mwh |
+| 2025 | Ancillary | $0.01 | fraction_of_total |
+| 2025 | Balancing Congestion | $0.57 | usd_per_mwh |
+| 2025 | Balancing Congestion | $0.01 | fraction_of_total |
+
+
+## 16. Nearby Data Center Activity (within 50 km)
 _No data center projects found within 50 km._
 
 ## 13. Research Links
@@ -186,7 +206,7 @@ Pre-built search links for deeper due diligence:
 ## 14. Site Suitability Score
 | Factor | Score | Value | Weight |
 | --- | --- | --- | --- |
-| Grid Access | [+++++] | 5/5 | 20% |
+| Grid Access | [++---] | 2/5 | 20% |
 | Utility Rate | [+++--] | 3/5 | 15% |
 | Environmental | [++++-] | 4/5 | 15% |
 | Fiber/Telecom | [++---] | 2/5 | 10% |
@@ -196,7 +216,7 @@ Pre-built search links for deeper due diligence:
 | DC Tariff Risk | [+++--] | 3/5 | 15% |
 
 
-**Weighted Total: 3.4 / 5.0**
+**Weighted Total: 2.8 / 5.0**
 
 ---
 *Generated by dc-site-analysis. Data sources: HIFLD, NTAD, EPA, OSM, EIA-861, demand_ledger.*
