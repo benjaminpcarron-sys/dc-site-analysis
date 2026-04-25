@@ -122,10 +122,15 @@ def default_registry(radius_km: float = 30.0) -> list[Element]:
     """
     import spatial_queries as sq
     from data_queries import (
+        get_capacity_prices,
+        get_gas_prices,
         get_grid_energy_mix,
         get_interconnection_queue,
         get_nearby_dc_projects,
+        get_nearby_generators,
+        get_planned_transmission,
         get_utility_rate,
+        get_wholesale_power_costs,
     )
     from grid_assessment import assess_grid
     from reference_data import (
@@ -385,6 +390,43 @@ def default_registry(radius_km: float = 30.0) -> list[Element]:
             fn=lambda ctx: get_grid_energy_mix(ctx["state"]) if ctx.get("state") else None,
             output_key="grid_energy_mix",
             source="EIA generation_fuel_mix",
+            deps=["state"],
+        ),
+        Element(
+            name="nearby_generators",
+            fn=lambda ctx: get_nearby_generators(
+                ctx["state"], ctx.get("county", "").replace(" County", "").strip()
+            ) if ctx.get("state") else [],
+            output_key="nearby_generators",
+            source="EIA generators (energy_analytics.duckdb)",
+            deps=["state", "county"],
+        ),
+        Element(
+            name="capacity_prices",
+            fn=lambda ctx: get_capacity_prices(ctx["state"]) if ctx.get("state") else [],
+            output_key="capacity_prices",
+            source="RTO capacity auction prices (energy_analytics.duckdb)",
+            deps=["state"],
+        ),
+        Element(
+            name="planned_transmission",
+            fn=lambda ctx: get_planned_transmission(ctx["state"]) if ctx.get("state") else [],
+            output_key="planned_transmission",
+            source="Planned transmission projects (energy_analytics.duckdb)",
+            deps=["state"],
+        ),
+        Element(
+            name="gas_prices",
+            fn=lambda ctx: get_gas_prices(),
+            output_key="gas_prices",
+            source="Natural gas hub prices (energy_analytics.duckdb)",
+            deps=[],
+        ),
+        Element(
+            name="wholesale_power",
+            fn=lambda ctx: get_wholesale_power_costs(ctx["state"]) if ctx.get("state") else [],
+            output_key="wholesale_power",
+            source="ISO wholesale power costs (energy_analytics.duckdb)",
             deps=["state"],
         ),
         # --- Layer 3d: reference data ---------------------------------------

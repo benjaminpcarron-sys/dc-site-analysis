@@ -136,7 +136,74 @@ _No fiber routes found within 30 km._
 | gas_ct | under_construction | 2 | 609 |
 
 
-## 12. Nearby Data Center Activity (within 50 km)
+## 12. Nearby Generation (IL)
+| Plant | MW | Fuel | Utility | Status | County |
+| --- | --- | --- | --- | --- | --- |
+| Archer Daniels Midland Decatur | 105 | BIT | Archer Daniels Midland Co | OP | Macon |
+| Archer Daniels Midland Decatur | 75 | BIT | Archer Daniels Midland Co | OP | Macon |
+| Primient Decatur Plant Cogen | 65 | NG | Primary Products Ingredie | OP | Macon |
+| Archer Daniels Midland Decatur | 31 | BIT | Archer Daniels Midland Co | OP | Macon |
+| Archer Daniels Midland Decatur | 31 | BIT | Archer Daniels Midland Co | OP | Macon |
+| Archer Daniels Midland Decatur | 31 | BIT | Archer Daniels Midland Co | OP | Macon |
+| Archer Daniels Midland Decatur | 31 | BIT | Archer Daniels Midland Co | OP | Macon |
+| Archer Daniels Midland Decatur | 31 | BIT | Archer Daniels Midland Co | OP | Macon |
+
+
+**8 plants** totaling **400 MW** in IL.
+
+## 13. Capacity Auction Prices
+| Delivery Year | Auction | Clearing Price | Cleared MW | Zone |
+| --- | --- | --- | --- | --- |
+| 2028 | BRA | $333.44/MW-day | 134,478 | PJM RTO |
+| 2027 | BRA | $329.17/MW-day | 133,645 | PJM RTO |
+| 2026 | BRA | $269.92/MW-day | 133,731 | PJM RTO |
+| 2025 | BRA | $28.92/MW-day | 142,985 | PJM RTO |
+| 2024 | BRA | $34.13/MW-day | 149,568 | PJM RTO |
+| 2023 | BRA | $50.00/MW-day | 152,784 | PJM RTO |
+| 2022 | BRA | $140.00/MW-day | 156,318 | PJM RTO |
+| 2021 | BRA | $76.53/MW-day | 159,019 | PJM RTO |
+
+
+## 14. Planned Transmission Projects (IL)
+| Project | Owner | Voltage | Status | In-Service | Substations |
+| --- | --- | --- | --- | --- | --- |
+| LRTP 31: Sugar Creek - Collins |  | 765 kV | Planning | 2034 | Sugar Creek → Collins |
+| LRTP 40: Sub T - Woodford County -  |  | 765 kV | Planning | 2034 | Sub T → Reynolds |
+| Wilton - Dumont 765 kV Sag Mitigati | Commonwealth Edison | 765 kV | Planning | TBD | Wilton → Dumont |
+| Grain Belt Express | Invenergy | 600 kV | Permitting | 2028 | Not specified → Not specified |
+| SOO Green HVDC Link | Copenhagen Infrastru | 525 kV | Permitting | 2029 | Not specified → Not specified |
+| Byron - Nelson 345 kV Line | Commonwealth Edison | 345 kV | Planning | TBD | Byron → Nelson |
+| Byron - Wayne New 345 kV Line | Commonwealth Edison | 345 kV | Planning | TBD | Byron → Wayne (IL) |
+| Byron - Wayne Second 345 kV Line | Commonwealth Edison | 345 kV | Planning | TBD | Byron → Wayne (IL) |
+| Central Illinois Grid Transformatio | Ameren Transmission  | 345 kV | Permitting | 2029 | NA - Line Interconne → NA - Line Interconne |
+| Central Illinois Grid Transformatio | Ameren Transmission  | 345 kV | Permitting | 2029 | Meredosia → Crossbuck |
+
+
+## 15. Energy Market Prices
+### Natural Gas
+| Hub | Date | Price | Type |
+| --- | --- | --- | --- |
+| Henry Hub | 2024-12-01 | $3.01/MMBtu | spot |
+| Henry Hub | 2024-11-01 | $2.76/MMBtu | spot |
+| Henry Hub | 2024-10-01 | $2.30/MMBtu | spot |
+| Henry Hub | 2024-09-01 | $2.28/MMBtu | spot |
+| Henry Hub | 2024-08-01 | $2.05/MMBtu | spot |
+| Henry Hub | 2024-07-01 | $2.21/MMBtu | spot |
+
+### Wholesale Power
+| Year | Category | Avg Price | Unit |
+| --- | --- | --- | --- |
+| 2025 | ARR Credits | $-1.62 | usd_per_mwh |
+| 2025 | ARR Credits | $-0.02 | fraction_of_total |
+| 2025 | Administration | $0.01 | fraction_of_total |
+| 2025 | Administration | $0.68 | usd_per_mwh |
+| 2025 | Ancillary | $0.01 | fraction_of_total |
+| 2025 | Ancillary | $1.12 | usd_per_mwh |
+| 2025 | Balancing Congestion | $0.01 | fraction_of_total |
+| 2025 | Balancing Congestion | $0.57 | usd_per_mwh |
+
+
+## 16. Nearby Data Center Activity (within 50 km)
 _No data center projects found within 50 km._
 
 ## 13. Research Links

@@ -684,8 +684,85 @@ def generate_report(d):
         lines.append("_No interconnection queue data available._")
     lines.append("")
 
-    # 10. Nearby DCs
-    lines.append(f"## 12. Nearby Data Center Activity (within 50 km)")
+    # 10. Nearby Generators
+    generators = d.get("nearby_generators", [])
+    if generators:
+        lines.append(f"## 12. Nearby Generation ({d.get('state', 'N/A')})")
+        gen_rows = []
+        for g in generators[:12]:
+            mw = f"{g['nameplate_mw']:,.0f}" if g.get("nameplate_mw") else "N/A"
+            status = g.get("status", "")
+            ret = f" (ret. {g['retirement_year']})" if g.get("retirement_year") else ""
+            gen_rows.append([
+                (g.get("plant_name", "N/A"))[:30],
+                mw,
+                g.get("fuel_type", "N/A"),
+                g.get("utility", "")[:25],
+                f"{status}{ret}",
+                g.get("county", "")[:15],
+            ])
+        lines.append(_table(["Plant", "MW", "Fuel", "Utility", "Status", "County"], gen_rows))
+        total_gen = sum(float(g.get("nameplate_mw") or 0) for g in generators)
+        lines.append(f"\n**{len(generators)} plants** totaling **{total_gen:,.0f} MW** in {d.get('state', 'N/A')}.")
+        lines.append("")
+
+    # 11. Capacity Auction Prices
+    cap_prices = d.get("capacity_prices", [])
+    if cap_prices:
+        lines.append(f"## 13. Capacity Auction Prices")
+        cp_rows = []
+        for cp in cap_prices[:8]:
+            cp_rows.append([
+                str(cp.get("year", "")),
+                cp.get("auction", ""),
+                f"${cp.get('price_mw_day', 0):,.2f}/MW-day",
+                f"{cp.get('cleared_mw', 0):,.0f}",
+                cp.get("zone", ""),
+            ])
+        lines.append(_table(["Delivery Year", "Auction", "Clearing Price", "Cleared MW", "Zone"], cp_rows))
+        lines.append("")
+
+    # 12. Planned Transmission Projects
+    planned_tx = d.get("planned_transmission", [])
+    if planned_tx:
+        lines.append(f"## 14. Planned Transmission Projects ({d.get('state', 'N/A')})")
+        ptx_rows = []
+        for p in planned_tx[:10]:
+            kv = f"{p['voltage_kv']:,.0f} kV" if p.get("voltage_kv") else "N/A"
+            yr = str(p.get("in_service_year", "TBD")) if p.get("in_service_year") else "TBD"
+            subs = ""
+            if p.get("origin_sub"):
+                subs = p["origin_sub"][:20]
+                if p.get("dest_sub"):
+                    subs += f" → {p['dest_sub'][:20]}"
+            ptx_rows.append([
+                (p.get("project") or "")[:35],
+                (p.get("owner") or "")[:20],
+                kv,
+                (p.get("status") or "")[:20],
+                yr,
+                subs,
+            ])
+        lines.append(_table(["Project", "Owner", "Voltage", "Status", "In-Service", "Substations"], ptx_rows))
+        lines.append("")
+
+    # 13. Energy Market Prices
+    gas = d.get("gas_prices", [])
+    wholesale = d.get("wholesale_power", [])
+    if gas or wholesale:
+        lines.append("## 15. Energy Market Prices")
+        if gas:
+            lines.append("### Natural Gas")
+            gas_rows = [[g["hub"], g["date"], f"${g['price']:.2f}/MMBtu", g["type"]] for g in gas[:6]]
+            lines.append(_table(["Hub", "Date", "Price", "Type"], gas_rows))
+        if wholesale:
+            lines.append("### Wholesale Power")
+            wp_rows = [[str(w["year"]), w["category"], f"${w['avg_value']:.2f}", w["unit"]] for w in wholesale[:8]]
+            lines.append(_table(["Year", "Category", "Avg Price", "Unit"], wp_rows))
+        lines.append("")
+
+    # 14. Nearby DCs
+    lines.append(f"## 16. Nearby Data Center Activity (within 50 km)")
     dcs = d.get("nearby_dcs", [])
     if dcs:
         dc_rows = []

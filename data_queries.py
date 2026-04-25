@@ -258,3 +258,145 @@ def get_nearby_dc_projects(lat, lon, radius_km=50):
 
     results.sort(key=lambda x: x["dist_km"])
     return results
+
+
+def get_nearby_generators(state, county=None):
+    """Get power plants in the same state (and county if provided)."""
+    if not os.path.exists(ENERGY_DB):
+        return []
+    try:
+        db = duckdb.connect(ENERGY_DB, read_only=True)
+        if county:
+            county_clean = county.replace(" County", "").strip()
+            rows = db.execute("""
+                SELECT plant_name, nameplate_capacity_mw, summer_capacity_mw,
+                       fuel_type_primary, technology, prime_mover, status,
+                       utility_name, operating_year, retirement_year, county
+                FROM generators
+                WHERE state = ? AND (county = ? OR county LIKE ?)
+                  AND nameplate_capacity_mw > 10
+                ORDER BY nameplate_capacity_mw DESC
+                LIMIT 20
+            """, [state, county_clean, f"%{county_clean}%"]).fetchall()
+        else:
+            rows = db.execute("""
+                SELECT plant_name, nameplate_capacity_mw, summer_capacity_mw,
+                       fuel_type_primary, technology, prime_mover, status,
+                       utility_name, operating_year, retirement_year, county
+                FROM generators
+                WHERE state = ? AND nameplate_capacity_mw > 50
+                ORDER BY nameplate_capacity_mw DESC
+                LIMIT 20
+            """, [state]).fetchall()
+        db.close()
+        cols = ["plant_name", "nameplate_mw", "summer_mw", "fuel_type", "technology",
+                "prime_mover", "status", "utility", "operating_year", "retirement_year", "county"]
+        return [dict(zip(cols, r)) for r in rows]
+    except Exception:
+        return []
+
+
+def get_capacity_prices(state):
+    """Get capacity auction clearing prices for the relevant RTO zone."""
+    if not os.path.exists(ENERGY_DB):
+        return []
+    # Map state to likely capacity zone geography_id
+    STATE_TO_CAP_ZONE = {
+        "VA": 100, "MD": 100, "PA": 100, "NJ": 100, "DE": 100,  # PJM RTO
+        "OH": 100, "WV": 100, "IN": 100, "IL": 100, "MI": 100,  # PJM/MISO overlap
+        "NY": 12,  # NYISO
+    }
+    geo_id = STATE_TO_CAP_ZONE.get(state)
+    if not geo_id:
+        return []
+    try:
+        db = duckdb.connect(ENERGY_DB, read_only=True)
+        rows = db.execute("""
+            SELECT cp.delivery_year, cp.auction_type, cp.clearing_price, cp.cleared_mw,
+                   g.name as zone_name
+            FROM capacity_prices cp
+            JOIN geography g ON cp.geography_id = g.geography_id
+            WHERE cp.geography_id = ?
+            ORDER BY cp.delivery_year DESC
+            LIMIT 10
+        """, [geo_id]).fetchall()
+        db.close()
+        return [{"year": r[0], "auction": r[1], "price_mw_day": float(r[2]),
+                 "cleared_mw": float(r[3]), "zone": r[4]} for r in rows]
+    except Exception:
+        return []
+
+
+def get_planned_transmission(state):
+    """Get planned transmission projects intersecting a state."""
+    if not os.path.exists(ENERGY_DB):
+        return []
+    try:
+        db = duckdb.connect(ENERGY_DB, read_only=True)
+        rows = db.execute("""
+            SELECT project_name, owner, status, max_voltage_kv, capacity_mw,
+                   estimated_in_service_year, origin_substation, destination_substation,
+                   length_mi, states_intersected_abbrev,
+                   federal_permitting_simple_status, state_permitting_simple_status
+            FROM planned_transmission_projects
+            WHERE states_intersected_abbrev LIKE ?
+              AND status NOT IN ('Complete', 'Cancelled')
+            ORDER BY max_voltage_kv DESC NULLS LAST
+            LIMIT 15
+        """, [f"%{state}%"]).fetchall()
+        db.close()
+        cols = ["project", "owner", "status", "voltage_kv", "capacity_mw",
+                "in_service_year", "origin_sub", "dest_sub", "length_mi",
+                "states", "federal_permit", "state_permit"]
+        return [dict(zip(cols, r)) for r in rows]
+    except Exception:
+        return []
+
+
+def get_gas_prices():
+    """Get recent natural gas prices from Henry Hub and regional hubs."""
+    if not os.path.exists(ENERGY_DB):
+        return []
+    try:
+        db = duckdb.connect(ENERGY_DB, read_only=True)
+        rows = db.execute("""
+            SELECT h.hub_name, gp.date, gp.price, gp.price_type
+            FROM gas_prices gp
+            JOIN gas_hubs h ON gp.hub_id = h.hub_id
+            ORDER BY gp.date DESC
+            LIMIT 20
+        """).fetchall()
+        db.close()
+        return [{"hub": r[0], "date": str(r[1]), "price": float(r[2]),
+                 "type": r[3]} for r in rows]
+    except Exception:
+        return []
+
+
+def get_wholesale_power_costs(state):
+    """Get wholesale power costs for the relevant ISO."""
+    if not os.path.exists(ENERGY_DB):
+        return []
+    STATE_TO_ISO = {
+        "VA": "PJM", "MD": "PJM", "PA": "PJM", "NJ": "PJM", "DE": "PJM",
+        "OH": "PJM", "WV": "PJM", "NC": "PJM", "IN": "PJM", "IL": "PJM",
+        "MI": "PJM",
+    }
+    iso = STATE_TO_ISO.get(state)
+    if not iso:
+        return []
+    try:
+        db = duckdb.connect(ENERGY_DB, read_only=True)
+        rows = db.execute("""
+            SELECT year, category, AVG(value) as avg_value, unit
+            FROM wholesale_power_costs
+            WHERE iso_code = ?
+            GROUP BY year, category, unit
+            ORDER BY year DESC, category
+            LIMIT 20
+        """, [iso]).fetchall()
+        db.close()
+        return [{"year": r[0], "category": r[1], "avg_value": round(float(r[2]), 2),
+                 "unit": r[3]} for r in rows]
+    except Exception:
+        return []
